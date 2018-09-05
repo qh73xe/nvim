@@ -79,9 +79,6 @@ endif
 " デフォルト設定
 " -------------------------------------------------------
 "
-
-" error log
-
 " 以下にその他基本設定に関する記述を行う
 setlocal textwidth=80                                " 折り返し幅を80文字にする
 set tabstop=4 shiftwidth=4 softtabstop=4 expandtab   " インデントはスペース２つ
@@ -132,18 +129,8 @@ nmap <Leader><Leader> 0v$h
 nmap <Leader><Leader>w bvwh
 nmap <Leader><Leader>0 bvwh~
 
-" インサートモード時
-imap <C-j> <Down>
-imap <C-h> <Left>
-imap <C-l> <Right>
-
-" window 操作
-nnoremap <Leader><C-h> <C-w>h
-nnoremap <Leader><C-j> <C-w>j
-nnoremap <Leader><C-k> <C-w>k
-nnoremap <Leader><C-l> <C-w>l
-
 " ジャンプ時にはその単語を中心にする
+
 nmap n nzz
 nmap N Nzz
 nmap * *zz

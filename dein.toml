@@ -216,3 +216,26 @@ repo = 'majutsushi/tagbar'
 hook_add = '''
    nmap <Leader>t :TagbarToggle<CR>
 '''
+
+[[plugins]]
+repo = 'fuenor/im_control.vim'
+hook_add = '''
+  let IM_CtrlMode = 1
+  inoremap <silent> <C-j> <C-r>=IMState('FixMode')<CR>
+  function! IMCtrl(cmd)
+    let cmd = a:cmd
+    if cmd == 'On'
+      let res = system('ibus engine kkc')
+    elseif cmd == 'Off'
+      let res = system('ibus engine xkb:jp::jpn')
+    endif
+    return ''
+  endfunction
+  set timeout timeoutlen=3000 ttimeoutlen=100 
+
+  set formatoptions+=mM  "日本語(マルチバイト文字)行の連結時には空白を入力しない。
+  set display+=lastline "画面最後の行をできる限り表示する。
+'''
+
+[[plugins]]
+repo = 'qh73xe/nvim-trans'
