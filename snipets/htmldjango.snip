@@ -1,0 +1,57 @@
+snippet comment
+abbr    {# ${0:#:comment} #}
+alias com
+  {# ${0:#:comment} #}
+
+
+snippet commenthtml
+abbr    <!-- ${0:comment} -->
+  <!-- ${0:comment} -->
+
+
+snippet angularTag
+alias ang
+  {% verbatim %} {{${0:angularHTML}}} {% endverbatim %}
+
+snippet glyphicon
+  <span class="${1:glyphicon}" aria-hidden="true"></span>
+
+snippet row
+  <div class="row"> ${0:contents} </div>
+
+snippet col
+  <div class="col-md-${1:size}">${2:contents}</div>
+
+snippet img
+   <img src="${1:src}" alt="${2:alt}" class="img-thumbnail">
+
+snippet form
+  <form>
+    <button type="submit" class="btn btn-default">Submit</button>
+  </form>
+
+snippet form-group
+  <div class="form-group">
+    <label for="${1:id}">${2:contents}</label>
+    <input type="${3:type}" class="form-control" id="${1:id}" placeholder="${2:contents}">
+  </div>
+
+snippet textarea
+  <textarea class="form-control" rows="${1:row}"></textarea>
+
+snippet checkBot
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" value="">
+      ${1:contents}
+    </label>
+  </div>
+
+snippet radio
+   <div class="radio">
+     <label>
+       <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+       ${1:contents}
+     </label>
+   </div>
+

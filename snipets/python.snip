@@ -1,0 +1,22 @@
+# ===================================
+# python snipet[]
+# ===================================
+
+snippet headline
+abbr    |SNIPET| if main:
+alias head
+options head
+    # -*- coding: utf-8 -*
+    """
+    ${0:#:README}
+    """
+
+snippet ifmain
+abbr    |SNIPET| if main:
+    if __name__ == "__main__":
+
+snippet open
+abbr    |SNIPET| OPEN
+    with open({0:#FILENAME}) as f:
+        for line in f:
+           print(line)

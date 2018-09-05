@@ -1,0 +1,218 @@
+# --------------------------------------
+# 暗黒プラグイン
+# --------------------------------------
+[[plugins]]  # プラグイン管理
+repo = 'Shougo/dein.vim'
+
+
+[[plugins]]
+repo = 'Shougo/neomru.vim'
+
+[[plugins]]  # vim 操作インターフェース
+depends = ['neomru.vim']
+repo = 'Shougo/denite.nvim'
+
+
+[[plugins]]  # 非同期処理
+repo = 'Shougo/vimproc.vim'
+build = 'make'
+
+
+[[plugins]] # カーソル位置のコンテキストに合わせてftを切り替える
+repo = 'osyo-manga/vim-precious'
+depends = ['context_filetype.vim']
+
+
+[[plugins]]  # カーソル位置のコンテキストの filetype を判定する
+repo = 'Shougo/context_filetype.vim'
+hook_add = '''
+let g:context_filetype#filetypes = {
+  \ 'toml': [
+  \   {
+  \     'filetype':'vim',
+  \     'start': '\v^hook_(add|source|post_source)\s\=\s'."'+$",
+  \     'end': "\v^'{3}$"
+  \   },
+  \ ],
+  \ 'html': [
+  \   {
+  \     'filetype': 'javascript',
+  \     'start': '<script>',
+  \     'end':   '</script>'
+  \   },
+  \   {
+  \     'filetype': 'css',
+  \     'start': '<style type="text/css">',
+  \     'end': '</style>'
+  \   },
+  \ ],
+  \ 'htmldjango': [
+  \   {
+  \     'filetype': 'javascript',
+  \     'start': '<script>',
+  \     'end':   '</script>'
+  \   },
+  \   {
+  \     'filetype': 'css',
+  \     'start': '<style type="text/css">',
+  \     'end': '</style>'
+  \   },
+  \ ],
+  \ 'python': [
+  \   {
+  \     'filetype': 'rst',
+  \     'start': '""".*\.$',
+  \     'end': '^\s*"""$'
+  \   }
+  \ ],
+  \}
+let g:context_filetype#search_offset = 100
+'''
+
+
+[[plugins]] # スニペットの基本セット
+repo = 'Shougo/neosnippet-snippets'
+
+[[plugins]]  # スニペットの利用
+repo = 'Shougo/neosnippet.vim'
+depends = ['neosnippet-snippets', 'context_filetype.vim']
+hook_add = '''
+    imap <C-k> <Plug>(neosnippet_expand_or_jump)
+    smap <C-k> "<Plug>(neosnippet_expand_or_jump)
+    xmap <C-k> <Plug>(neosnippet_expand_target)
+    smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+    \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+   if has('conceal')
+     set conceallevel=2 concealcursor=niv
+   endif
+  let g:neosnippet#enable_snipmate_compatibility = 1
+  let g:neosnippet#snippets_directory=g:ECT_DIR . '/snipets/'
+'''
+
+
+[[plugins]]  # 補完関係
+repo = 'Shougo/deoplete.nvim'
+hook_add = '''
+ let g:deoplete#enable_at_startup = 1
+ let g:deoplete#auto_complete_delay = 0
+ let g:deoplete#auto_complete_start_length = 1
+ let g:deoplete#enable_camel_case = 0
+ let g:deoplete#enable_ignore_case = 0
+ let g:deoplete#enable_refresh_always = 1
+ let g:deoplete#enable_smart_case = 1
+ let g:deoplete#file#enable_buffer_path = 1
+ let g:deoplete#max_list = 10000
+ inoremap <expr><tab> pumvisible() ? "\<C-n>" : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
+'''
+
+[[plugins]] # カッコ関係
+repo = 'kana/vim-smartinput'
+
+[[plugins]] # 囲み挙動の制御
+repo = 'rhysd/vim-operator-surround'
+hook_add = '''
+  map <silent>sa <Plug>(operator-surround-append)
+  map <silent>sd <Plug>(operator-surround-delete)
+  map <silent>sr <Plug>(operator-surround-replace)
+  nmap <Leader><Leader>w bvwhsa
+'''
+
+# --------------------------------------
+# 検索
+# --------------------------------------
+[[plugins]]
+repo = 'kana/vim-operator-user'
+
+[[plugins]]
+repo = 'kana/vim-textobj-user'
+
+[[plugins]]
+repo = 'kana/vim-textobj-function'
+
+[[plugins]]
+repo = 'osyo-manga/vim-operator-search'
+depends = ['vim-operator-user', 'vim-textobj-function', 'vim-textobj-user']
+hook_add = '''
+  nmap <Space>/ <Plug>(operator-search)if
+'''
+
+[[plugins]]
+repo = 'osyo-manga/vim-over'
+hook_add = '''
+  " 全体置換
+  nnoremap <silent> <Space>o :OverCommandLine<CR>%s//g<Left><Left>
+  " 選択範囲置換
+  vnoremap <silent> <Space>o :OverCommandLine<CR>s//g<Left><Left>
+  " カーソルしたの単語置換
+  nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
+'''
+
+# --------------------------------------
+# 見た目
+# --------------------------------------
+[[plugins]]  # Colour Shceme
+repo = 'jacoborus/tender.vim'
+depends = ['vim-airline']
+hook_add = '''
+  let g:airline_theme = 'tender'
+'''
+
+[[plugins]]  # Power line
+repo = 'vim-airline/vim-airline'
+depends = ['tagbar', 'vim-fugitive']
+hook_add = '''
+    source ~/.config/nvim/rc/airline.rc.vim
+'''
+
+
+[[plugins]]  # Indent
+repo = 'nathanaelkane/vim-indent-guides'
+hook_add = '''
+  augroup fileTypeIndent
+      autocmd!
+      autocmd BufNewFile,BufRead *.html setlocal tabstop=2 softtabstop=2 shiftwidth=2
+      autocmd BufNewFile,BufRead *.rst setlocal tabstop=3 softtabstop=3 shiftwidth=3
+      autocmd BufNewFile,BufRead *.js setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  augroup END
+  let g:indent_guides_enable_on_vim_startup = 1
+  let g:indent_guides_start_level = 2
+  let g:indent_guides_guide_size = 1
+  let g:indent_guides_auto_colors = 0
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=DarkGrey ctermbg=DarkGrey
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#73cef4 ctermbg=81
+'''
+
+[[plugins]] # vimからlookコマンドを使用する
+repo = 'ujihisa/neco-look'
+
+
+# ============================================
+# Terminal
+# ============================================
+[[plugins]]
+repo = 'kassio/neoterm'
+if = "has('nvim')"
+hook_add = '''
+  nnoremap <silent> ,rc :TREPLSendFile<cr>
+  nnoremap <silent> ,rl :TREPLSendLine<cr>
+  vnoremap <silent> ,rl :TREPLSendSelection<cr>
+  nnoremap <Space>@ :Ttoggle<CR>
+  autocmd MyAutoCmd FileType python nnoremap <buffer> <Space>@ :T jupyter-console<CR>
+'''
+
+# ============================================
+# Ctags
+# ============================================
+[[plugins]]
+repo = 'jsfaint/gen_tags.vim'
+hook_add = '''
+  let g:gen_tags#ctags_auto_gen = 1
+  let g:gen_tags#gtags_auto_gen = 1
+'''
+
+[[plugins]]
+repo = 'majutsushi/tagbar'
+hook_add = '''
+   nmap <Leader>t :TagbarToggle<CR>
+'''
