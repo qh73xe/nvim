@@ -57,13 +57,22 @@ hook_add = '''
   let g:context_filetype#search_offset = 100
 '''
 
+[[plugins]] # ft の動的変更
+repo = 'osyo-manga/vim-precious'
+depends = ['context_filetype.vim']
+
+[[plugins]] # git 表示
+repo = "airblade/vim-gitgutter"
+
+[[plugins]] # git 操作
+repo = "tpope/vim-fugitive"
+
 
 # ====================================================
 # 編集支援
 # ====================================================
 [[plugins]] # スニペットの基本セット
 repo = 'Shougo/neosnippet-snippets'
-
 
 [[plugins]]  # 補完
 repo = 'Shougo/deoplete.nvim'
@@ -106,13 +115,12 @@ hook_add = '''
 repo = 'jsfaint/gen_tags.vim'
 hook_add = '''
   let g:gen_tags#ctags_auto_gen = 1
-  let g:gen_tags#gtags_auto_gen = 1
 '''
 
 [[plugins]]
 repo = 'majutsushi/tagbar'
 hook_add = '''
-   nmap <Leader>t :TagbarToggle<CR>
+  nmap <Leader>t :TagbarToggle<CR>
 '''
 
 [[plugins]]
@@ -145,7 +153,6 @@ repo = 'qh73xe/nvim-trans'
 [[plugins]] # vimからlookコマンドを使用する
 repo = 'ujihisa/neco-look'
 
-
 # ====================================================
 # Text Object 管理
 # ====================================================
@@ -158,30 +165,6 @@ repo = 'kana/vim-textobj-user'
 [[plugins]]
 repo = 'kana/vim-textobj-function'
 
-# ====================================================
-# UI 制御
-# ====================================================
-[[plugins]]  # AIRLINE Theme
-repo = 'vim-airline/vim-airline-themes'
-
-[[plugins]]  # Indent 表示
-repo = 'nathanaelkane/vim-indent-guides'
-hook_add = '''
-  let g:indent_guides_enable_on_vim_startup = 1
-  let g:indent_guides_start_level = 2
-  let g:indent_guides_guide_size = 1
-  let g:indent_guides_auto_colors = 0
-  augroup fileTypeIndent
-    autocmd!
-    autocmd BufNewFile,BufRead *.html setlocal tabstop=2 softtabstop=2 shiftwidth=2
-    autocmd BufNewFile,BufRead *.rst setlocal tabstop=3 softtabstop=3 shiftwidth=3
-    autocmd BufNewFile,BufRead *.js setlocal tabstop=2 softtabstop=2 shiftwidth=2
-    autocmd BufNewFile,BufRead *.toml setlocal tabstop=2 softtabstop=2 shiftwidth=2
-    autocmd BufNewFile,BufRead *.vim setlocal tabstop=2 softtabstop=2 shiftwidth=2
-  augroup END
-  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=DarkGrey ctermbg=DarkGrey
-  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#73cef4 ctermbg=81
-'''
 
 # ============================================
 # file type / syntax の追加
@@ -193,3 +176,43 @@ on_ft = 'toml'
 [[plugins]]
 repo = 'mhartington/nvim-typescript'
 on_ft = ['typescript']
+
+# ====================================================
+# UI 制御
+# ====================================================
+[[plugins]]  # AIRLINE Theme
+repo = 'vim-airline/vim-airline-themes'
+
+[[plugins]]  # AIRLINE
+repo = 'vim-airline/vim-airline'
+depends = ['vim-airline-themes']
+hook_add = '''
+  set laststatus=2
+  let g:airline_powerline_fonts = 1
+'''
+
+[[plugins]] # Colour Shceme
+repo = 'jacoborus/tender.vim'
+hook_add = '''
+  set laststatus=2
+  set termguicolors
+  set background=dark
+  let g:airline_theme = 'tender'
+  au MyAutoCmd VimEnter * nested colorscheme tender
+'''
+
+[[plugins]]  # Indent 表示
+repo = 'nathanaelkane/vim-indent-guides'
+hook_add = '''
+  let g:indent_guides_enable_on_vim_startup = 1
+  let g:indent_guides_start_level = 2
+  let g:indent_guides_guide_size = 1
+  let g:indent_guides_auto_colors = 0
+  au MyAutoCmd FileType *.html nested setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  au MyAutoCmd FileType *.rst nested setlocal tabstop=3 softtabstop=3 shiftwidth=3
+  au MyAutoCmd FileType *.js nested setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  au MyAutoCmd FileType *.toml nested setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  au MyAutoCmd FileType *.vim nested setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  au MyAutoCmd VimEnter * nested :hi IndentGuidesOdd  guibg=DarkGrey ctermbg=DarkGrey
+  au MyAutoCmd VimEnter * nested :hi IndentGuidesEven guibg=#73cef4 ctermbg=81
+'''

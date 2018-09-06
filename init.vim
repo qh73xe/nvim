@@ -16,27 +16,27 @@ let s:rc_dir = g:ECT_DIR . 'rc/'          " 各プラグインに対する個別
 " 設定ファイル読み込み関数の定義
 " -------------------------------------------------
 function! Loadrc(filename)
-    let l:rc = a:filename . '.vim'
-    if filereadable(expand(a:filename))
-      if s:debackmode == 1
-        echo a:filename
-        TimerStart
-      endif
-      execute 'source' a:filename
-      if s:debackmode == 1
-        TimerEnd
-      endif
-    else
-      echo l:rc . ' is not exist'
+  let l:rc = a:filename . '.vim'
+  if filereadable(expand(a:filename))
+    if s:debackmode == 1
+      echo a:filename
+      TimerStart
     endif
+    execute 'source' a:filename
+    if s:debackmode == 1
+      TimerEnd
+    endif
+  else
+    echo l:rc . ' is not exist'
+  endif
 endfunction
 
 
 " 個別設定ファイル読み込み関数
 " -------------------------------------------------
 function! LoadRC(filename)
-    let l:rc = s:rc_dir . a:filename . '.vim'
-    call Loadrc(l:rc)
+  let l:rc = s:rc_dir . a:filename . '.vim'
+  call Loadrc(l:rc)
 endfunction
 
 
