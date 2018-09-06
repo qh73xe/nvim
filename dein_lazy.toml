@@ -12,16 +12,16 @@
 depends = ['neomru.vim']
 repo = 'Shougo/denite.nvim'
 
-[[plugins]]  # Terminal
-repo = 'kassio/neoterm'
-if = "has('nvim')"
-hook_add = '''
-  nnoremap <silent> ,rc :TREPLSendFile<cr>
-  nnoremap <silent> ,rl :TREPLSendLine<cr>
-  vnoremap <silent> ,rl :TREPLSendSelection<cr>
-  nnoremap <Space>@ :Ttoggle<CR>
-  nnoremap <buffer> <Space>@ :T ipython<CR>
-'''
+# [[plugins]]  # Terminal
+# repo = 'kassio/neoterm'
+# if = "has('nvim')"
+# hook_add = '''
+#   nnoremap <silent> ,rc :TREPLSendFile<cr>
+#   nnoremap <silent> ,rl :TREPLSendLine<cr>
+#   vnoremap <silent> ,rl :TREPLSendSelection<cr>
+#   nnoremap <Space>@ :Ttoggle<CR>
+#   nnoremap <buffer> <Space>@ :T ipython<CR>
+# '''
 
 [[plugins]] # 範囲検索
 repo = 'osyo-manga/vim-operator-search'
@@ -37,11 +37,14 @@ hook_add = '''
 repo = 'w0rp/ale'
 on_event = 'FileType'
 hook_add = """
+  let g:ale_fix_on_save = 1
+  let g:ale_completion_enabled = 1
   let g:ale_sign_column_always = 1
   let g:ale_open_list = 1
   let g:ale_linters = {
+  \   '*': ['remove_trailing_lines', 'trim_whitespace'],
   \   'javascript': ['eslint'],
-  \   'python': ['flake8', 'yapf', 'mypy', 'pycodestyle'],
+  \   'python': ['flake8', 'mypy', 'pycodestyle'],
   \   'yaml': ['yamllint'],
   \   'json': ['jq'],
   \   'sh': ['shellcheck'],
@@ -49,7 +52,13 @@ hook_add = """
   \   'html': [],
   \   'rst': ['alex', 'rstcheck', 'textlint'],
   \}
+  let g:ale_fixers = {
+  \   'python': ['yapf', 'isort'],
+  \}
   let g:airline#extensions#ale#enabled = 1
+  let g:ale_echo_msg_error_str = 'E'
+  let g:ale_echo_msg_warning_str = 'W'
+  let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
   nmap <silent><C-k> <Plug>(ale_previous_wrap)
   nmap <silent><C-j> <Plug>(ale_next_wrap)
 """
@@ -71,7 +80,7 @@ hook_add = '''
 # -------------------------------------------------------------
 [[plugins]]
 repo = 'zchee/deoplete-jedi'
-on_event = 'FileType'  # filetype が特定された時に読み込む
+on_event = 'FileType'
 on_ft = ['python']
 hook_add = '''
   set completeopt-=preview
@@ -79,15 +88,17 @@ hook_add = '''
 
 [[plugins]]
 repo = 'Vimjas/vim-python-pep8-indent'
+on_event = 'FileType'
 on_ft = ['python']
 
 [[plugins]]
-repo = 'jmcantrell/vim-virtualenv'
+repo = 'plytophogy/vim-virtualenv'
+on_event = 'FileType'
 on_ft = ['python']
 
 [[plugins]]  # rst
 repo = 'Rykka/riv.vim'
-on_event = 'FileType'  # filetype が特定された時に読み込む
+on_event = 'FileType'
 on_ft = ['rst', 'python']
 
 [[plugins]]  # rst

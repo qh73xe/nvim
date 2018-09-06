@@ -142,11 +142,10 @@ hook_add = '''
 repo = 'fuenor/im_control.vim'
 hook_add = '''
   set timeout timeoutlen=3000 ttimeoutlen=100 
-  set cmdheight=2
   set formatoptions+=mM
-  set display+=lastline
   set spelllang=en,cjk
   set ambiwidth=double
+
   let IM_CtrlMode = 1
   inoremap <silent> <C-j> <C-r>=IMState('FixMode')<CR>
   function! IMCtrl(cmd)
@@ -158,6 +157,7 @@ hook_add = '''
     endif
     return ''
   endfunction
+  set cmdheight=2
 '''
 
 # 英語支援
@@ -202,17 +202,28 @@ repo = 'vim-airline/vim-airline-themes'
 repo = 'vim-airline/vim-airline'
 depends = ['vim-airline-themes']
 hook_add = '''
-  set laststatus=2
   let g:airline_powerline_fonts = 1
+  let g:airline_mode_map = {
+  \ "__": '-',
+  \ "n": 'N', "i": 'I', "R": 'R', "c": 'C',
+  \ "v": 'V', "V": 'V', "s": 'S', "S": 'S', "": 'S'
+  \}
+  let g:airline_section_z = airline#section#create(
+  \ ['windowswap', '%3p%% ', 'linenr', ':%3v']
+  \)
+  let g:airline_theme = 'badwolf'
+  let g:airline#extensions#virtualenv#enabled = 1
+  let g:airline#extensions#hunks#enabled = 0
+  let g:airline#extensions#ale#enabled = 1
+  let g:airline#extensions#ale#error_symbol = 'E:'
+  let g:airline#extensions#ale#warning_symbol = 'W:'
 '''
 
 [[plugins]] # Colour Shceme
 repo = 'jacoborus/tender.vim'
 hook_add = '''
-  set laststatus=2
   set termguicolors
   set background=dark
-  let g:airline_theme = 'tender'
   au MyAutoCmd VimEnter * nested colorscheme tender
 '''
 
