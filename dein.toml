@@ -1,32 +1,15 @@
-# --------------------------------------
-# 暗黒プラグイン
-# --------------------------------------
+# ====================================================
+# ユーティリティ
+# ====================================================
 [[plugins]]  # プラグイン管理
 repo = 'Shougo/dein.vim'
-
 
 [[plugins]]
 repo = 'Shougo/neomru.vim'
 
-[[plugins]]  # vim 操作インターフェース
-depends = ['neomru.vim']
-repo = 'Shougo/denite.nvim'
-
-
 [[plugins]]  # 非同期処理
 repo = 'Shougo/vimproc.vim'
 build = 'make'
-
-
-[[plugins]] # ft の動的変更
-repo = 'osyo-manga/vim-precious'
-depends = ['context_filetype.vim']
-hook_add = '''
-  let g:precious_enable_switch_CursorMoved = { '*': 0, 'help': 1 }
-  autocmd MyAutoCmd InsertEnter * :PreciousSwitch
-  autocmd MyAutoCmd InsertLeave * :PreciousReset
-'''
-
 
 [[plugins]]  # カーソル位置のコンテキストの filetype を判定する
 repo = 'Shougo/context_filetype.vim'
@@ -75,26 +58,14 @@ hook_add = '''
 '''
 
 
+# ====================================================
+# 編集支援
+# ====================================================
 [[plugins]] # スニペットの基本セット
 repo = 'Shougo/neosnippet-snippets'
 
-[[plugins]]  # スニペットの利用
-repo = 'Shougo/neosnippet.vim'
-depends = ['neosnippet-snippets', 'context_filetype.vim']
-hook_add = '''
-  let g:neosnippet#enable_snipmate_compatibility = 1
-  let g:neosnippet#snippets_directory=g:ECT_DIR . '/snipets/'
-  if has('conceal')
-    set conceallevel=2 concealcursor=niv
-  endif
-  imap <C-k> <Plug>(neosnippet_expand_or_jump)
-  smap <C-k> "<Plug>(neosnippet_expand_or_jump)
-  xmap <C-k> <Plug>(neosnippet_expand_target)
-  smap <expr><TAB> neosnippet#expandable_or_jumpable() ?  "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-'''
 
-
-[[plugins]]  # 補完関係
+[[plugins]]  # 補完
 repo = 'Shougo/deoplete.nvim'
 hook_add = '''
   let g:deoplete#enable_at_startup = 1
@@ -109,10 +80,10 @@ hook_add = '''
   inoremap <expr><tab> pumvisible() ? "\<C-n>" : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
 '''
 
-[[plugins]] # カッコ関係
+[[plugins]] # カッコ制御
 repo = 'kana/vim-smartinput'
 
-[[plugins]] # 囲み挙動の制御
+[[plugins]] # 囲み制御
 repo = 'rhysd/vim-operator-surround'
 hook_add = '''
   map <silent>sa <Plug>(operator-surround-append)
@@ -121,9 +92,63 @@ hook_add = '''
   nmap <Leader><Leader>w bvwhsa
 '''
 
-# --------------------------------------
-# 検索
-# --------------------------------------
+[[plugins]] # 置換制御
+repo = 'osyo-manga/vim-over'
+hook_add = '''
+  nnoremap <silent> <Space>o :OverCommandLine<CR>%s//g<Left><Left>
+  vnoremap <silent> <Space>o :OverCommandLine<CR>s//g<Left><Left>
+  nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
+'''
+
+# Ctags
+# --------------------------------------------------
+[[plugins]]
+repo = 'jsfaint/gen_tags.vim'
+hook_add = '''
+  let g:gen_tags#ctags_auto_gen = 1
+  let g:gen_tags#gtags_auto_gen = 1
+'''
+
+[[plugins]]
+repo = 'majutsushi/tagbar'
+hook_add = '''
+   nmap <Leader>t :TagbarToggle<CR>
+'''
+
+[[plugins]]
+repo = 'fuenor/im_control.vim'
+hook_add = '''
+  set timeout timeoutlen=3000 ttimeoutlen=100 
+  set cmdheight=2
+  set formatoptions+=mM
+  set display+=lastline
+  set spelllang=en,cjk
+  set ambiwidth=double
+  let IM_CtrlMode = 1
+  inoremap <silent> <C-j> <C-r>=IMState('FixMode')<CR>
+  function! IMCtrl(cmd)
+    let cmd = a:cmd
+    if cmd == 'On'
+      let res = system('ibus engine kkc')
+    elseif cmd == 'Off'
+      let res = system('ibus engine xkb:jp::jpn')
+    endif
+    return ''
+  endfunction
+'''
+
+# 英語支援
+# --------------------------------------------------
+[[plugins]]
+repo = 'qh73xe/nvim-trans'
+
+[[plugins]] # vimからlookコマンドを使用する
+repo = 'ujihisa/neco-look'
+
+
+# ====================================================
+# Text Object 管理
+# ====================================================
 [[plugins]]
 repo = 'kana/vim-operator-user'
 
@@ -133,64 +158,13 @@ repo = 'kana/vim-textobj-user'
 [[plugins]]
 repo = 'kana/vim-textobj-function'
 
-[[plugins]]
-repo = 'osyo-manga/vim-operator-search'
-depends = ['vim-operator-user', 'vim-textobj-function', 'vim-textobj-user']
-hook_add = '''
-  nmap <Space>/ <Plug>(operator-search)if
-'''
-
-[[plugins]]
-repo = 'osyo-manga/vim-over'
-hook_add = '''
-  nnoremap <silent> <Space>o :OverCommandLine<CR>%s//g<Left><Left>
-  vnoremap <silent> <Space>o :OverCommandLine<CR>s//g<Left><Left>
-  nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
-'''
-
-# --------------------------------------
-# 見た目
-# --------------------------------------
-[[plugins]]  # Colour Shceme
-repo = 'jacoborus/tender.vim'
-depends = ['vim-airline']
-hook_add = '''
-  if has("termguicolors")
-    set termguicolors
-    set background=dark
-  endif
-  if has("termguicolors")
-    let g:airline_theme = 'tender'
-    au MyAutoCmd VimEnter * nested colorscheme tender
-  else
-    let g:airline_theme = 'desert'
-    au MyAutoCmd VimEnter * nested colorscheme desert
-  endif
-'''
-
-[[plugins]]  # AIRLINE
+# ====================================================
+# UI 制御
+# ====================================================
+[[plugins]]  # AIRLINE Theme
 repo = 'vim-airline/vim-airline-themes'
 
-[[plugins]]  # AIRLINE
-repo = 'vim-airline/vim-airline'
-depends = ['vim-airline_theme', 'vim-fugitive']
-hook_add = '''
-  let g:airline#extensions#tabline#enabled = 1
-  let g:airline#extensions#tabline#left_sep = ' '
-  let g:airline#extensions#tabline#left_alt_sep = '|'
-  if exists('g:nyaovim_version')
-    let g:airline_left_sep = ''
-    let g:airline_right_sep = ''
-  else
-    let g:airline_powerline_fonts = 1
-  endif
-  if !has('nvim')
-    let g:airline#extensions#whitespace#mixed_indent_algo = 2
-  endif
-'''
-
-
-[[plugins]]  # Indent
+[[plugins]]  # Indent 表示
 repo = 'nathanaelkane/vim-indent-guides'
 hook_add = '''
   let g:indent_guides_enable_on_vim_startup = 1
@@ -209,68 +183,13 @@ hook_add = '''
   autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#73cef4 ctermbg=81
 '''
 
-[[plugins]] # vimからlookコマンドを使用する
-repo = 'ujihisa/neco-look'
-
-
-# ============================================
-# Terminal
-# ============================================
-[[plugins]]
-repo = 'kassio/neoterm'
-if = "has('nvim')"
-hook_add = '''
-  nnoremap <silent> ,rc :TREPLSendFile<cr>
-  nnoremap <silent> ,rl :TREPLSendLine<cr>
-  vnoremap <silent> ,rl :TREPLSendSelection<cr>
-  nnoremap <Space>@ :Ttoggle<CR>
-  autocmd MyAutoCmd FileType python nnoremap <buffer> <Space>@ :T jupyter-console<CR>
-'''
-
-# ============================================
-# Ctags
-# ============================================
-[[plugins]]
-repo = 'jsfaint/gen_tags.vim'
-hook_add = '''
-  let g:gen_tags#ctags_auto_gen = 1
-  let g:gen_tags#gtags_auto_gen = 1
-'''
-
-[[plugins]]
-repo = 'majutsushi/tagbar'
-hook_add = '''
-   nmap <Leader>t :TagbarToggle<CR>
-'''
-
-[[plugins]]
-repo = 'fuenor/im_control.vim'
-hook_add = '''
-  set timeout timeoutlen=3000 ttimeoutlen=100 
-  set formatoptions+=mM
-  set display+=lastline
-  set spelllang=en,cjk
-  set ambiwidth=double
-
-  let IM_CtrlMode = 1
-  inoremap <silent> <C-j> <C-r>=IMState('FixMode')<CR>
-  function! IMCtrl(cmd)
-    let cmd = a:cmd
-    if cmd == 'On'
-      let res = system('ibus engine kkc')
-    elseif cmd == 'Off'
-      let res = system('ibus engine xkb:jp::jpn')
-    endif
-    return ''
-  endfunction
-'''
-
-[[plugins]]
-repo = 'qh73xe/nvim-trans'
-
 # ============================================
 # file type / syntax の追加
 # ============================================
 [[plugins]] # toml syntax
 repo = 'cespare/vim-toml'
 on_ft = 'toml'
+
+[[plugins]]
+repo = 'mhartington/nvim-typescript'
+on_ft = ['typescript']

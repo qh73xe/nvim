@@ -1,20 +1,63 @@
-# #############################################################
+# ====================================================
 # .config/nvim/dein_lazy.toml
-# #############################################################
+# ====================================================
 #
 # 遅延読み込み系プラグイン管理
 #
-# #############################################################
 
+# ====================================================
+# ユーティリティ
+# ====================================================
+[[plugins]]  # vim 操作インターフェース
+depends = ['neomru.vim']
+repo = 'Shougo/denite.nvim'
 
-# -------------------------------------------------------------
+[[plugins]]  # Terminal
+repo = 'kassio/neoterm'
+if = "has('nvim')"
+hook_add = '''
+  nnoremap <silent> ,rc :TREPLSendFile<cr>
+  nnoremap <silent> ,rl :TREPLSendLine<cr>
+  vnoremap <silent> ,rl :TREPLSendSelection<cr>
+  nnoremap <Space>@ :Ttoggle<CR>
+  autocmd MyAutoCmd FileType python nnoremap <buffer> <Space>@ :T jupyter-console<CR>
+'''
+
+[[plugins]] # ft の動的変更
+repo = 'osyo-manga/vim-precious'
+depends = ['context_filetype.vim']
+hook_add = '''
+  let g:precious_enable_switch_CursorMoved = { '*': 0, 'help': 1 }
+  autocmd MyAutoCmd InsertEnter * :PreciousSwitch
+  autocmd MyAutoCmd InsertLeave * :PreciousReset
+'''
+
+[[plugins]] # 範囲検索
+repo = 'osyo-manga/vim-operator-search'
+depends = ['vim-operator-user', 'vim-textobj-function', 'vim-textobj-user']
+hook_add = '''
+  nmap <Space>/ <Plug>(operator-search)if
+'''
+
+# ====================================================
 # 開発支援
-# -------------------------------------------------------------
+# ====================================================
+[[plugins]] # スニペット管理
+repo = 'Shougo/neosnippet.vim'
+depends = ['neosnippet-snippets', 'context_filetype.vim']
+hook_add = '''
+  let g:neosnippet#enable_snipmate_compatibility = 1
+  let g:neosnippet#snippets_directory=g:ECT_DIR . '/snipets/'
+  if has('conceal')
+    set conceallevel=2 concealcursor=niv
+  endif
+  imap <C-k> <Plug>(neosnippet_expand_or_jump)
+  smap <C-k> "<Plug>(neosnippet_expand_or_jump)
+  xmap <C-k> <Plug>(neosnippet_expand_target)
+  smap <expr><TAB> neosnippet#expandable_or_jumpable() ?  "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+'''
 
-# プログラミング全般
-# -------------------------------------------------------------
-[[plugins]]
-# https://github.com/w0rp/ale
+[[plugins]] # シンタッスクチェッカー
 repo = 'w0rp/ale'
 on_event = 'FileType'
 hook_add = """
@@ -121,12 +164,39 @@ hook_add = '''
 repo = 'othree/javascript-libraries-syntax.vim'
 on_event = 'FileType'
 on_ft = ['javascript', 'typescript']
-hook_add = """
+hook_add = '''
     let g:used_javascript_libs = 'jquery,angularjs,angularui,angularuirouter'
-"""
+'''
 
-[[plugins]]
-repo = 'mhartington/nvim-typescript'
-on_event = 'FileType'
-on_ft = ['typescript']
 
+# ====================================================
+# UI 制御
+# ====================================================
+[[plugins]]  # AIRLINE
+repo = 'vim-airline/vim-airline'
+depends = ['vim-airline-themes', 'im_control.vim']
+hook_add = '''
+  set laststatus=2
+  let g:airline_powerline_fonts = 1
+  let g:airline#extensions#tabline#enabled = 1
+  let g:airline#extensions#tabline#left_sep = ' '
+  let g:airline#extensions#tabline#left_alt_sep = '|'
+  let g:airline#extensions#whitespace#mixed_indent_algo = 2
+'''
+
+[[plugins]] # Colour Shceme
+repo = 'jacoborus/tender.vim'
+depends = ['vim-airline']
+hook_add = '''
+  if has("termguicolors")
+    set termguicolors
+    set background=dark
+  endif
+  if has("termguicolors")
+    let g:airline_theme = 'tender'
+    au MyAutoCmd VimEnter * nested colorscheme tender
+  else
+    let g:airline_theme = 'desert'
+    au MyAutoCmd VimEnter * nested colorscheme desert
+  endif
+'''
