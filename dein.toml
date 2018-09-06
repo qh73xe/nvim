@@ -18,15 +18,20 @@ repo = 'Shougo/vimproc.vim'
 build = 'make'
 
 
-[[plugins]] # カーソル位置のコンテキストに合わせてftを切り替える
+[[plugins]] # ft の動的変更
 repo = 'osyo-manga/vim-precious'
 depends = ['context_filetype.vim']
+hook_add = '''
+  let g:precious_enable_switch_CursorMoved = { '*': 0, 'help': 1 }
+  autocmd MyAutoCmd InsertEnter * :PreciousSwitch
+  autocmd MyAutoCmd InsertLeave * :PreciousReset
+'''
 
 
 [[plugins]]  # カーソル位置のコンテキストの filetype を判定する
 repo = 'Shougo/context_filetype.vim'
 hook_add = '''
-let g:context_filetype#filetypes = {
+  let g:context_filetype#filetypes = {
   \ 'toml': [
   \   {
   \     'filetype':'vim',
@@ -66,7 +71,7 @@ let g:context_filetype#filetypes = {
   \   }
   \ ],
   \}
-let g:context_filetype#search_offset = 100
+  let g:context_filetype#search_offset = 100
 '''
 
 
@@ -77,33 +82,31 @@ repo = 'Shougo/neosnippet-snippets'
 repo = 'Shougo/neosnippet.vim'
 depends = ['neosnippet-snippets', 'context_filetype.vim']
 hook_add = '''
-    imap <C-k> <Plug>(neosnippet_expand_or_jump)
-    smap <C-k> "<Plug>(neosnippet_expand_or_jump)
-    xmap <C-k> <Plug>(neosnippet_expand_target)
-    smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-    \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-   if has('conceal')
-     set conceallevel=2 concealcursor=niv
-   endif
   let g:neosnippet#enable_snipmate_compatibility = 1
   let g:neosnippet#snippets_directory=g:ECT_DIR . '/snipets/'
+  if has('conceal')
+    set conceallevel=2 concealcursor=niv
+  endif
+  imap <C-k> <Plug>(neosnippet_expand_or_jump)
+  smap <C-k> "<Plug>(neosnippet_expand_or_jump)
+  xmap <C-k> <Plug>(neosnippet_expand_target)
+  smap <expr><TAB> neosnippet#expandable_or_jumpable() ?  "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 '''
 
 
 [[plugins]]  # 補完関係
 repo = 'Shougo/deoplete.nvim'
 hook_add = '''
- let g:deoplete#enable_at_startup = 1
- let g:deoplete#auto_complete_delay = 0
- let g:deoplete#auto_complete_start_length = 1
- let g:deoplete#enable_camel_case = 0
- let g:deoplete#enable_ignore_case = 0
- let g:deoplete#enable_refresh_always = 1
- let g:deoplete#enable_smart_case = 1
- let g:deoplete#file#enable_buffer_path = 1
- let g:deoplete#max_list = 10000
- inoremap <expr><tab> pumvisible() ? "\<C-n>" : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
+  let g:deoplete#enable_at_startup = 1
+  let g:deoplete#auto_complete_delay = 0
+  let g:deoplete#auto_complete_start_length = 1
+  let g:deoplete#enable_camel_case = 0
+  let g:deoplete#enable_ignore_case = 0
+  let g:deoplete#enable_refresh_always = 1
+  let g:deoplete#enable_smart_case = 1
+  let g:deoplete#file#enable_buffer_path = 1
+  let g:deoplete#max_list = 10000
+  inoremap <expr><tab> pumvisible() ? "\<C-n>" : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
 '''
 
 [[plugins]] # カッコ関係
@@ -140,11 +143,8 @@ hook_add = '''
 [[plugins]]
 repo = 'osyo-manga/vim-over'
 hook_add = '''
-  " 全体置換
   nnoremap <silent> <Space>o :OverCommandLine<CR>%s//g<Left><Left>
-  " 選択範囲置換
   vnoremap <silent> <Space>o :OverCommandLine<CR>s//g<Left><Left>
-  " カーソルしたの単語置換
   nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
 '''
 
@@ -155,30 +155,56 @@ hook_add = '''
 repo = 'jacoborus/tender.vim'
 depends = ['vim-airline']
 hook_add = '''
-  let g:airline_theme = 'tender'
+  if has("termguicolors")
+    set termguicolors
+    set background=dark
+  endif
+  if has("termguicolors")
+    let g:airline_theme = 'tender'
+    au MyAutoCmd VimEnter * nested colorscheme tender
+  else
+    let g:airline_theme = 'desert'
+    au MyAutoCmd VimEnter * nested colorscheme desert
+  endif
 '''
 
-[[plugins]]  # Power line
+[[plugins]]  # AIRLINE
+repo = 'vim-airline/vim-airline-themes'
+
+[[plugins]]  # AIRLINE
 repo = 'vim-airline/vim-airline'
-depends = ['tagbar', 'vim-fugitive']
+depends = ['vim-airline_theme', 'vim-fugitive']
 hook_add = '''
-    source ~/.config/nvim/rc/airline.rc.vim
+  let g:airline#extensions#tabline#enabled = 1
+  let g:airline#extensions#tabline#left_sep = ' '
+  let g:airline#extensions#tabline#left_alt_sep = '|'
+  if exists('g:nyaovim_version')
+    let g:airline_left_sep = ''
+    let g:airline_right_sep = ''
+  else
+    let g:airline_powerline_fonts = 1
+  endif
+  if !has('nvim')
+    let g:airline#extensions#whitespace#mixed_indent_algo = 2
+  endif
 '''
 
 
 [[plugins]]  # Indent
 repo = 'nathanaelkane/vim-indent-guides'
 hook_add = '''
-  augroup fileTypeIndent
-      autocmd!
-      autocmd BufNewFile,BufRead *.html setlocal tabstop=2 softtabstop=2 shiftwidth=2
-      autocmd BufNewFile,BufRead *.rst setlocal tabstop=3 softtabstop=3 shiftwidth=3
-      autocmd BufNewFile,BufRead *.js setlocal tabstop=2 softtabstop=2 shiftwidth=2
-  augroup END
   let g:indent_guides_enable_on_vim_startup = 1
   let g:indent_guides_start_level = 2
   let g:indent_guides_guide_size = 1
   let g:indent_guides_auto_colors = 0
+  augroup fileTypeIndent
+    autocmd!
+    autocmd BufNewFile,BufRead *.html setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.rst setlocal tabstop=3 softtabstop=3 shiftwidth=3
+    autocmd BufNewFile,BufRead *.js setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.toml setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.vim setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  augroup END
   autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=DarkGrey ctermbg=DarkGrey
   autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#73cef4 ctermbg=81
 '''
@@ -220,6 +246,12 @@ hook_add = '''
 [[plugins]]
 repo = 'fuenor/im_control.vim'
 hook_add = '''
+  set timeout timeoutlen=3000 ttimeoutlen=100 
+  set formatoptions+=mM
+  set display+=lastline
+  set spelllang=en,cjk
+  set ambiwidth=double
+
   let IM_CtrlMode = 1
   inoremap <silent> <C-j> <C-r>=IMState('FixMode')<CR>
   function! IMCtrl(cmd)
@@ -231,11 +263,14 @@ hook_add = '''
     endif
     return ''
   endfunction
-  set timeout timeoutlen=3000 ttimeoutlen=100 
-
-  set formatoptions+=mM  "日本語(マルチバイト文字)行の連結時には空白を入力しない。
-  set display+=lastline "画面最後の行をできる限り表示する。
 '''
 
 [[plugins]]
 repo = 'qh73xe/nvim-trans'
+
+# ============================================
+# file type / syntax の追加
+# ============================================
+[[plugins]] # toml syntax
+repo = 'cespare/vim-toml'
+on_ft = 'toml'

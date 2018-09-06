@@ -1,13 +1,12 @@
-" =======================================================
+" =================================================
 " .config/nvim/init.vim
-" =======================================================
+" =================================================
 "
-" VIM (nvim) の基本設定及び, プラグイン管理設定について
-" 記述する
+" VIM (nvim) の基本設定及びを記述
 
-" -------------------------------------------------------
+" -------------------------------------------------
 " パス管理
-" -------------------------------------------------------
+" -------------------------------------------------
 let g:python3_host_prog = expand($PYENV_ROOT . '/shims/python3')
 let g:ECT_DIR = '$HOME/.config/nvim'      " Nvim 設定管理ディレクトリ
 let g:DEIN_DIR = '$HOME/.cache/dein'      " DEIN ディレクトリ
@@ -15,7 +14,7 @@ let s:rc_dir = g:ECT_DIR . 'rc/'          " 各プラグインに対する個別
 
 
 " 設定ファイル読み込み関数の定義
-" -------------------------------------------------------
+" -------------------------------------------------
 function! Loadrc(filename)
     let l:rc = a:filename . '.vim'
     if filereadable(expand(a:filename))
@@ -34,19 +33,19 @@ endfunction
 
 
 " 個別設定ファイル読み込み関数
-" -------------------------------------------------------
+" -------------------------------------------------
 function! LoadRC(filename)
     let l:rc = s:rc_dir . a:filename . '.vim'
     call Loadrc(l:rc)
 endfunction
 
 
-let mapleader = "\<Space>"           " リーダーボタンを Space key に変更
-" -------------------------------------------------------
+" -------------------------------------------------
 " Dein の設定
-" -------------------------------------------------------
+" -------------------------------------------------
 "
-" 以下にプラグイン管理プラグイン DEIN に関する設定を記述する
+" 以下にプラグイン管理プラグイン DEIN に関する
+" 設定を記述する
 syntax off
 if &compatible
   set nocompatible
@@ -75,50 +74,29 @@ if dein#check_install()
     call dein#install()
 endif
 
-" -------------------------------------------------------
+" -------------------------------------------------
 " デフォルト設定
-" -------------------------------------------------------
+" -------------------------------------------------
 "
 " 以下にその他基本設定に関する記述を行う
-setlocal textwidth=80                                " 折り返し幅を80文字にする
-set tabstop=4 shiftwidth=4 softtabstop=4 expandtab   " インデントはスペース２つ
-set ignorecase smartcase wrapscan incsearch hlsearch " 検索の設定
-set wrap                                             " window サイズによって表示行を変える
-set formatoptions+=mM                                " 日本語の行の連結時には空白を入力しない。
-set display+=lastline                                " 画面最後の行をできる限り表示する。
-set bs=start,indent                                  " インサートモードで backspace を使用可能にする
-set backspace=indent,eol,start                       " backspace で何でも消せるようにする
-set spelllang=en,cjk                                 " スペルチェック時に日本語を除外
-set foldmethod=indent                                " フォールディング設定
-" set ambiwidth=double                               " 曖昧な文字幅は 2 バイト文字
-set list listchars=tab:»-,trail:-,eol:↩,extends:»,precedes:«,nbsp:%  " 不可視文字の可視化
-
-" クリップボートとヤンクを共有
+"
+syntax enable
+setlocal textwidth=80
+set wrap number
+set tabstop=4 shiftwidth=4 softtabstop=4 expandtab
+set cursorline showmatch matchtime=3
+set foldmethod=indent
+set list listchars=tab:»-,trail:-,eol:↩,extends:»,precedes:«,nbsp:%
 if has('clipboard')
   set clipboard=unnamedplus
 endif
+set bs=start,indent
+set backspace=indent,eol,start
 
-" 256 色を使う
-if has("termguicolors")
- set termguicolors
-endif
-
-" colorscheme
-" -------------------------------------------------------
-
-syntax enable
-if has("termguicolors")
-  colorscheme tender
-else
-  colorscheme desert
-endif
-set number                            " 行数を表示
-set cursorline showmatch matchtime=3  " 現在行, 対応する括弧などをハイライト, 括弧ハイライト表示は3秒
-
-
-" -------------------------------------------------------
+" -------------------------------------------------
 " Key mapping
-" -------------------------------------------------------
+" -------------------------------------------------
+let mapleader = "\<Space>"
 map <Leader>i gg=<S-g><C-o><C-o>zz
 
 " * で下の単語を検索
