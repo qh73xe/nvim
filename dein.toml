@@ -74,6 +74,21 @@ repo = "tpope/vim-fugitive"
 [[plugins]] # スニペットの基本セット
 repo = 'Shougo/neosnippet-snippets'
 
+[[plugins]] # スニペット管理
+repo = 'Shougo/neosnippet.vim'
+depends = ['neosnippet-snippets', 'context_filetype.vim']
+hook_add = '''
+  let g:neosnippet#enable_snipmate_compatibility = 1
+  let g:neosnippet#snippets_directory=g:ECT_DIR . '/snipets/'
+  if has('conceal')
+    set conceallevel=2 concealcursor=niv
+  endif
+  imap <C-k> <Plug>(neosnippet_expand_or_jump)
+  smap <C-k> "<Plug>(neosnippet_expand_or_jump)
+  xmap <C-k> <Plug>(neosnippet_expand_target)
+  smap <expr><TAB> neosnippet#expandable_or_jumpable() ?  "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+'''
+
 [[plugins]]  # 補完
 repo = 'Shougo/deoplete.nvim'
 hook_add = '''
