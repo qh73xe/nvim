@@ -4,14 +4,21 @@
 [[plugins]]  # プラグイン管理
 repo = 'Shougo/dein.vim'
 
-[[plugins]]
-repo = 'Shougo/neomru.vim'
+[[plugins]]  # vim interface framework
+repo = 'Shougo/denite.nvim'
+hook_add = '''
+    call denite#custom#var('file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+    call denite#custom#var('grep', 'command', ['ag'])
+    call denite#custom#var('grep', 'recursive_opts', [])
+    call denite#custom#var('grep', 'pattern_opt', [])
+    call denite#custom#var('grep', 'default_opts', ['--follow', '--no-group', '--no-color'])
+'''
 
 [[plugins]]  # 非同期処理
 repo = 'Shougo/vimproc.vim'
 build = 'make'
 
-[[plugins]]  # カーソル位置のコンテキストの filetype を判定する
+[[plugins]] # ファイルタイプの動的決定
 repo = 'Shougo/context_filetype.vim'
 hook_add = '''
   let g:context_filetype#filetypes = {
@@ -126,11 +133,15 @@ hook_add = '''
 
 # Ctags
 # --------------------------------------------------
+
 [[plugins]]
+# this plugins is require global
+# Run `sudo apt install global`
 repo = 'jsfaint/gen_tags.vim'
 hook_add = '''
   let g:gen_tags#ctags_auto_gen = 1
 '''
+
 
 [[plugins]]
 repo = 'majutsushi/tagbar'
@@ -168,6 +179,7 @@ repo = 'qh73xe/nvim-trans'
 [[plugins]] # vimからlookコマンドを使用する
 repo = 'ujihisa/neco-look'
 
+
 # ====================================================
 # Text Object 管理
 # ====================================================
@@ -188,9 +200,12 @@ repo = 'kana/vim-textobj-function'
 repo = 'cespare/vim-toml'
 on_ft = 'toml'
 
-[[plugins]]
+[[plugins]] # typescript
 repo = 'mhartington/nvim-typescript'
 on_ft = ['typescript']
+
+[[plugins]]  # vue
+repo = 'posva/vim-vue'
 
 # ====================================================
 # UI 制御
@@ -200,7 +215,6 @@ repo = 'vim-airline/vim-airline-themes'
 
 [[plugins]]  # AIRLINE
 repo = 'vim-airline/vim-airline'
-depends = ['vim-airline-themes']
 hook_add = '''
   let g:airline_powerline_fonts = 1
   let g:airline_mode_map = {
@@ -211,7 +225,8 @@ hook_add = '''
   let g:airline_section_z = airline#section#create(
   \ ['windowswap', '%3p%% ', 'linenr', ':%3v']
   \)
-  let g:airline_theme = 'badwolf'
+  let g:airline#extensions#tabline#enabled = 1
+  let g:airline#extensions#tabline#buffer_idx_mode = 1
   let g:airline#extensions#virtualenv#enabled = 1
   let g:airline#extensions#hunks#enabled = 0
   let g:airline#extensions#ale#enabled = 1
@@ -224,6 +239,7 @@ repo = 'jacoborus/tender.vim'
 hook_add = '''
   set termguicolors
   set background=dark
+  let g:airline_theme = 'tender'
   au MyAutoCmd VimEnter * nested colorscheme tender
 '''
 
@@ -233,7 +249,6 @@ hook_add = '''
   let g:indent_guides_enable_on_vim_startup = 1
   let g:indent_guides_start_level = 2
   let g:indent_guides_guide_size = 1
-  let g:indent_guides_auto_colors = 0
   au MyAutoCmd FileType *.html nested setlocal tabstop=2 softtabstop=2 shiftwidth=2
   au MyAutoCmd FileType *.rst nested setlocal tabstop=3 softtabstop=3 shiftwidth=3
   au MyAutoCmd FileType *.js nested setlocal tabstop=2 softtabstop=2 shiftwidth=2
