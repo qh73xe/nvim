@@ -92,10 +92,11 @@ if has('clipboard')
 endif
 set bs=start,indent
 set backspace=indent,eol,start
+set conceallevel=0
 
-" -------------------------------------------------
+" -------------------------------------------
 " Key mapping
-" -------------------------------------------------
+" -------------------------------------------
 let mapleader = "\<Space>"
 map <Leader>i gg=<S-g><C-o><C-o>zz
 

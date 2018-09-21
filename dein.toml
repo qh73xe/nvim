@@ -201,8 +201,7 @@ repo = 'cespare/vim-toml'
 on_ft = 'toml'
 
 [[plugins]] # typescript
-repo = 'mhartington/nvim-typescript'
-on_ft = ['typescript']
+repo = 'HerringtonDarkholme/yats.vim'
 
 [[plugins]]  # vue
 repo = 'posva/vim-vue'
