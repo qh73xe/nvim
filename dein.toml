@@ -215,22 +215,21 @@ repo = 'vim-airline/vim-airline-themes'
 [[plugins]]  # AIRLINE
 repo = 'vim-airline/vim-airline'
 hook_add = '''
+  set laststatus=2
   let g:airline_powerline_fonts = 1
-  let g:airline_mode_map = {
-  \ "__": '-',
-  \ "n": 'N', "i": 'I', "R": 'R', "c": 'C',
-  \ "v": 'V', "V": 'V', "s": 'S', "S": 'S', "": 'S'
-  \}
-  let g:airline_section_z = airline#section#create(
-  \ ['windowswap', '%3p%% ', 'linenr', ':%3v']
-  \)
+
+  " tab 設定
   let g:airline#extensions#tabline#enabled = 1
-  let g:airline#extensions#tabline#buffer_idx_mode = 1
-  let g:airline#extensions#virtualenv#enabled = 1
-  let g:airline#extensions#hunks#enabled = 0
+  let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+  nmap <C-p> <Plug>AirlineSelectPrevTab
+  nmap <C-n> <Plug>AirlineSelectNextTab
+
+  " lint 対応
   let g:airline#extensions#ale#enabled = 1
-  let g:airline#extensions#ale#error_symbol = 'E:'
-  let g:airline#extensions#ale#warning_symbol = 'W:'
+  let g:airline#extensions#ale#open_lnum_symbol = '('
+  let g:airline#extensions#ale#close_lnum_symbol = ')'
+
+  " レイアウト
 '''
 
 [[plugins]] # Colour Shceme
@@ -253,6 +252,7 @@ hook_add = '''
   au MyAutoCmd FileType *.js nested setlocal tabstop=2 softtabstop=2 shiftwidth=2
   au MyAutoCmd FileType *.toml nested setlocal tabstop=2 softtabstop=2 shiftwidth=2
   au MyAutoCmd FileType *.vim nested setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  au MyAutoCmd FileType *.vue nested setlocal tabstop=2 softtabstop=2 shiftwidth=2
   au MyAutoCmd VimEnter * nested :hi IndentGuidesOdd  guibg=DarkGrey ctermbg=DarkGrey
   au MyAutoCmd VimEnter * nested :hi IndentGuidesEven guibg=#73cef4 ctermbg=81
 '''

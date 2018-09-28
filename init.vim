@@ -117,9 +117,6 @@ nmap # #zz
 nmap g* g*zz
 nmap g# g#zz
 
-" コマンドモード時でも Enter で空白行を挿入
-nmap <CR> o<ESC>
-
 " ターミナルモード設定
 if has('nvim')
   " ターミナル起動

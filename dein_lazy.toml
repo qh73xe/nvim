@@ -32,36 +32,54 @@ hook_add = '''
 # ===========================================
 [[plugins]] # シンタッスクチェッカー
 repo = 'w0rp/ale'
-on_event = 'FileType'
-hook_add = """
-  let g:ale_fix_on_save = 1
+on_event = 'VimEnter'
+hook_add = '''
+  " 行強調
   let g:ale_completion_enabled = 1
   let g:ale_sign_column_always = 1
-  let g:ale_open_list = 1
+  let g:ale_sign_error = 'EE'
+  let g:ale_sign_warning = 'WW'
+  highlight link ALEErrorSign airline_error_red
+  highlight link ALEWarningSign PmenuSel
+
+  " ファイルセーブ時にのみ Lint を走らせる.
+  let g:ale_lint_on_text_changed = 'never'
+  let g:ale_lint_on_enter = 0
+  let g:ale_fix_on_save = 1
+
+  " エラーメッセージリスト
   let g:ale_set_loclist = 0
   let g:ale_set_quickfix = 1
+  let g:ale_open_list = 1
+  let g:ale_list_window_size = 5
+
+  " エラーメッセージフォーマット
+  let g:ale_echo_msg_error_str = 'E'
+  let g:ale_echo_msg_warning_str = 'W'
+  let g:ale_echo_msg_format = '[%linter%]%code: %%s'
+
   let g:ale_linters = {
   \   '*': ['remove_trailing_lines', 'trim_whitespace'],
   \   'javascript': ['eslint'],
   \   'typescript': ['tslint'],
+  \   'vue': ['eslint'],
   \   'python': ['flake8', 'mypy', 'pycodestyle'],
   \   'yaml': ['yamllint'],
   \   'json': ['jq'],
   \   'sh': ['shellcheck'],
   \   'css': ['stylelint'],
+  \   'sass': ['sasslint'],
   \   'html': [],
   \   'rst': ['alex', 'rstcheck', 'textlint'],
   \}
   let g:ale_fixers = {
   \   'python': ['yapf', 'isort'],
+  \   'vue': ['prettier'],
+  \   'javascript': ['prettier'],
   \}
-  let g:airline#extensions#ale#enabled = 1
-  let g:ale_echo_msg_error_str = 'E'
-  let g:ale_echo_msg_warning_str = 'W'
-  let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
   nmap <silent><C-k> <Plug>(ale_previous_wrap)
   nmap <silent><C-j> <Plug>(ale_next_wrap)
-"""
+'''
 
 
 [[plugins]]
