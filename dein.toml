@@ -7,7 +7,10 @@ repo = 'Shougo/dein.vim'
 [[plugins]]  # vim interface framework
 repo = 'Shougo/denite.nvim'
 hook_add = '''
-    call denite#custom#var('file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+    call denite#custom#var(
+    \ 'file_rec', 'command',
+    \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', '']
+    \ )
     call denite#custom#var('grep', 'command', ['ag'])
     call denite#custom#var('grep', 'recursive_opts', [])
     call denite#custom#var('grep', 'pattern_opt', [])
@@ -223,11 +226,6 @@ hook_add = '''
   let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
   nmap <C-p> <Plug>AirlineSelectPrevTab
   nmap <C-n> <Plug>AirlineSelectNextTab
-
-  " lint 対応
-  let g:airline#extensions#ale#enabled = 1
-  let g:airline#extensions#ale#open_lnum_symbol = '('
-  let g:airline#extensions#ale#close_lnum_symbol = ')'
 
   " レイアウト
 '''

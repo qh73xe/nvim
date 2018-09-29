@@ -75,8 +75,16 @@ hook_add = '''
   let g:ale_fixers = {
   \   'python': ['yapf', 'isort'],
   \   'vue': ['prettier'],
+  \   'json': ['jq'],
   \   'javascript': ['prettier'],
   \}
+
+  " lint 対応
+  let g:airline#extensions#ale#enabled = 1
+  let g:airline#extensions#ale#open_lnum_symbol = '('
+  let g:airline#extensions#ale#close_lnum_symbol = ')'
+
+  " KeyMAP
   nmap <silent><C-k> <Plug>(ale_previous_wrap)
   nmap <silent><C-j> <Plug>(ale_next_wrap)
 '''
