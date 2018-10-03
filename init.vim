@@ -7,7 +7,6 @@
 " -------------------------------------------------
 " パス管理
 " -------------------------------------------------
-let g:python3_host_prog = expand($PYENV_ROOT . '/shims/python3')
 let g:ECT_DIR = '$HOME/.config/nvim'      " Nvim 設定管理ディレクトリ
 let g:DEIN_DIR = '$HOME/.cache/dein'      " DEIN ディレクトリ
 let s:rc_dir = g:ECT_DIR . 'rc/'          " 各プラグインに対する個別設定
@@ -47,22 +46,25 @@ endfunction
 " 以下にプラグイン管理プラグイン DEIN に関する
 " 設定を記述する
 syntax off
-if &compatible
-  set nocompatible
-endif
 augroup MyAutoCmd
   autocmd!
 augroup END
 
+if &compatible
+  set nocompatible               " Be iMproved
+endif
+
 let s:dein_dir = expand(g:DEIN_DIR)
 let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+
 if !isdirectory(s:dein_repo_dir)
   execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
 endif
-execute 'set runtimepath^=' . s:dein_repo_dir
+set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
 if dein#load_state(s:dein_dir)
   call dein#begin(s:dein_dir)
+  call dein#add('~/.cache/dein')
   let s:toml = '~/.config/nvim/dein.toml'
   let s:lazy_toml = '~/.config/nvim/dein_lazy.toml'
   call dein#load_toml(s:toml, {'lazy': 0})
@@ -70,6 +72,9 @@ if dein#load_state(s:dein_dir)
   call dein#end()
   call dein#save_state()
 endif
+
+filetype plugin indent on
+syntax enable
 if dein#check_install()
     call dein#install()
 endif

@@ -70,7 +70,7 @@ hook_add = '''
   \   'css': ['stylelint'],
   \   'sass': ['sasslint'],
   \   'html': [],
-  \   'rst': ['alex', 'rstcheck', 'textlint'],
+  \   'rst': ['rstcheck'],
   \}
   let g:ale_fixers = {
   \   'python': ['yapf', 'isort'],
