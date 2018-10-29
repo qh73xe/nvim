@@ -130,4 +130,6 @@ if has('nvim')
   tnoremap <C-q> <C-\><C-n>:q<CR>
   tnoremap <ESC> <C-\><C-n>:q<CR>
 endif
-autocmd FileType python nnoremap <leader>y :0,$!yapf<Cr>
+
+set guicursor=
+autocmd OptionSet guicursor noautocmd set guicursor=
