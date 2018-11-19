@@ -63,7 +63,7 @@ hook_add = '''
   \   'javascript': ['eslint'],
   \   'typescript': ['tslint'],
   \   'vue': ['eslint'],
-  \   'python': ['flake8', 'mypy', 'pycodestyle'],
+  \   'python': ['flake8', 'mypy'],
   \   'yaml': ['yamllint'],
   \   'json': ['jq'],
   \   'sh': ['shellcheck'],
