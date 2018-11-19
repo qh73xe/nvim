@@ -80,6 +80,11 @@ snippet image
 options head
   .. image:: ${1:#:path}
 
+
+snippet figure
+options head
+  .. figure:: ${1:#:path}
+
 snippet strong
 options head
   **${1:#:text}**
@@ -206,3 +211,22 @@ abbr        important
 snippet     seealso
 abbr        seealso
 	.. seealso:: ${0:#:CURSOR}
+
+# ================================================
+# Math
+# ================================================
+snippet math
+abbr math
+options head
+	.. math::
+	
+	   ${2:#:content}
+
+
+snippet     imath
+abbr        math-inline
+	:math:\`${0:#:CURSOR}\`
+
+
+snippet     inf
+	\infty
