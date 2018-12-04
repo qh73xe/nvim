@@ -79,15 +79,14 @@ if dein#check_install()
     call dein#install()
 endif
 
-" -------------------------------------------------
+" =================================================
 " デフォルト設定
-" -------------------------------------------------
-"
+" =================================================
 " 以下にその他基本設定に関する記述を行う
 "
 syntax enable
 setlocal textwidth=80
-set wrap number
+set wrap number hls
 set tabstop=4 shiftwidth=4 softtabstop=4 expandtab
 set cursorline showmatch matchtime=3
 set foldmethod=indent
