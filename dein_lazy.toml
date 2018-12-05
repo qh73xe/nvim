@@ -64,19 +64,28 @@ hook_add = '''
   \   'typescript': ['tslint'],
   \   'vue': ['eslint'],
   \   'python': ['flake8', 'mypy', 'pycodestyle'],
+  \   'html': ['prettier'],
   \   'yaml': ['yamllint'],
   \   'json': ['jq'],
   \   'sh': ['shellcheck'],
   \   'css': ['stylelint'],
   \   'sass': ['sasslint'],
-  \   'html': [],
   \   'rst': ['rstcheck'],
   \}
   let g:ale_fixers = {
+  \   '*': ['remove_trailing_lines', 'trim_whitespace'],
   \   'python': ['yapf', 'isort'],
-  \   'vue': ['prettier'],
   \   'json': ['jq'],
   \   'javascript': ['prettier'],
+  \   'typescript': ['prettier'],
+  \   'html': ['prettier'],
+  \   'css': ['prettier'],
+  \   'sass': ['prettier'],
+  \   'less': ['prettier'],
+  \   'jsx': ['prettier'],
+  \   'vue': ['prettier'],
+  \   'md': ['prettier'],
+  \   'yaml': ['prettier'],
   \}
 
   " lint 対応
@@ -205,4 +214,3 @@ hook_source = '''
     nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
     nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
 '''
-
