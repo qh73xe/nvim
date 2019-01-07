@@ -28,6 +28,18 @@ options head
 
      ${2:#:content}
 
+snippet code-block
+abbr code
+options head
+  .. code-block:: ${1:#:filetype}
+
+     ${2:#:content}
+
+
+snippet     icode
+abbr        code-inline
+	:code:\`${0:#:CURSOR}\`
+
 snippet link_raw
 abbr link_as_raw
 options head
@@ -98,6 +110,9 @@ options     head
 
 		${2:#:FILES}
 
+snippet     link
+abbr        link
+  \`${1:#:title} <${2:#:link}>\`_
 
 snippet     link_doc
 abbr        link_to_doc
