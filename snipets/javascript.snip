@@ -1,12 +1,50 @@
 snippet     comment
 abbr        |SNIPET| /* ${0:#:comment} */↩
 options     head
-    /* ${0:#:comment} */
+  /* ${0:#:comment} */
 
 snippet     jsdoc
 options     head
-    /**
-     * JSDocコメントはスラッシュと2つのアスタリスクから始めます.
-     * インラインタグは {@code this} のように波括弧で囲みます.
-     * @desc ブロックタグは必ず行の先頭から開始します.
-     */
+  /**
+   * JSDocコメントはスラッシュと2つのアスタリスクから始めます.
+   * インラインタグは {@code this} のように波括弧で囲みます.
+   * @desc ブロックタグは必ず行の先頭から開始します.
+   */
+
+snippet     components
+  components: {
+    ${0:TARGET}
+  },
+
+snippet     data
+  data: () => ({
+    ${0:TARGET}
+  }),
+
+snippet     methods
+  methods: {
+    ${0:TARGET}
+  },
+
+snippet     computed:
+  computed: {
+    ${0:TARGET}
+  },
+
+snippet    mounted
+  mounted: function() {
+    ${0:TARGET}
+  }
+
+snippet    props
+  props: {
+    ${0:TARGET}: {
+      type: ${1},
+    },
+  },
+snippet    watch
+  watch: {
+    ${0:TARGET}: function() {
+      ${1}
+    }
+  },
