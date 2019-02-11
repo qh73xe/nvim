@@ -3,6 +3,49 @@ abbr        |SNIPET| /* ${0:#:comment} */↩
 options     head
   /* ${0:#:comment} */
 
+snippet     v-components
+  components: {
+    ${0:TARGET}
+  },
+
+snippet     v-data
+  data: () => ({
+    ${0:TARGET}
+  }),
+
+snippet     v-methods
+  methods: {
+    ${0:TARGET}
+  },
+
+snippet     v-computed
+  computed: {
+    ${0:TARGET}
+  },
+
+snippet    v-mounted
+  mounted: function() {
+    ${0:TARGET}
+  }
+
+snippet    v-props
+  props: {
+    ${0:TARGET}: {
+      type: ${1},
+    },
+  },
+snippet    v-watch
+  watch: {
+    ${0:TARGET}: function() {
+      ${1}
+    }
+  },
+
+snippet    v-next-tick
+  this.$nextTick(()=>{
+    ${0:TARGET}
+  }):
+
 snippet     jsdoc
 options     head
   /**
@@ -10,41 +53,3 @@ options     head
    * インラインタグは {@code this} のように波括弧で囲みます.
    * @desc ブロックタグは必ず行の先頭から開始します.
    */
-
-snippet     components
-  components: {
-    ${0:TARGET}
-  },
-
-snippet     data
-  data: () => ({
-    ${0:TARGET}
-  }),
-
-snippet     methods
-  methods: {
-    ${0:TARGET}
-  },
-
-snippet     computed:
-  computed: {
-    ${0:TARGET}
-  },
-
-snippet    mounted
-  mounted: function() {
-    ${0:TARGET}
-  }
-
-snippet    props
-  props: {
-    ${0:TARGET}: {
-      type: ${1},
-    },
-  },
-snippet    watch
-  watch: {
-    ${0:TARGET}: function() {
-      ${1}
-    }
-  },
