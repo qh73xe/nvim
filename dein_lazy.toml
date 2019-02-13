@@ -8,10 +8,10 @@
 # ===========================================
 # ユーティリティ
 # ===========================================
-[[plugins]] # ft の動的変更
-repo = 'osyo-manga/vim-precious'
-on_ft = ['toml', 'md', 'html', 'md', 'rst']
-depends = ['context_filetype.vim']
+# [[plugins]] # ft の動的変更
+# repo = 'osyo-manga/vim-precious'
+# on_ft = ['toml', 'md', 'html', 'md', 'rst']
+# depends = ['context_filetype.vim']
 
 # [[plugins]]  # Terminal
 # repo = 'kassio/neoterm'
@@ -88,7 +88,7 @@ hook_add = '''
   \   'sass': ['prettier'],
   \   'less': ['prettier'],
   \   'jsx': ['prettier'],
-  \   'vue': ['prettier'],
+  \   'vue': ['prettier', 'eslint'],
   \   'md': ['prettier'],
   \   'yaml': ['prettier'],
   \}

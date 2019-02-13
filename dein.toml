@@ -29,30 +29,6 @@ hook_add = '''
   \     'end': "\v^'{3}$"
   \   },
   \ ],
-  \ 'html': [
-  \   {
-  \     'filetype': 'javascript',
-  \     'start': '<script>',
-  \     'end':   '</script>'
-  \   },
-  \   {
-  \     'filetype': 'css',
-  \     'start': '<style type="text/css">',
-  \     'end': '</style>'
-  \   },
-  \ ],
-  \ 'htmldjango': [
-  \   {
-  \     'filetype': 'javascript',
-  \     'start': '<script>',
-  \     'end':   '</script>'
-  \   },
-  \   {
-  \     'filetype': 'css',
-  \     'start': '<style type="text/css">',
-  \     'end': '</style>'
-  \   },
-  \ ],
   \ 'python': [
   \   {
   \     'filetype': 'rst',
@@ -160,7 +136,7 @@ hook_add = '''
     if cmd == 'On'
       let res = system('ibus engine kkc')
     elseif cmd == 'Off'
-      let res = system('ibus engine xkb:us::eng')
+      let res = system('ibus engine xkb:jp::jpn')
     endif
     return ''
   endfunction

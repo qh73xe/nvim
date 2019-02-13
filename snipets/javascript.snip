@@ -3,6 +3,9 @@ abbr        |SNIPET| /* ${0:#:comment} */↩
 options     head
   /* ${0:#:comment} */
 
+# ========================================================
+# FOR VUE
+# ========================================================
 snippet     v-components
   components: {
     ${0:TARGET}
@@ -44,10 +47,20 @@ snippet    v-watch
 snippet    v-next-tick
   this.$nextTick(()=>{
     ${0:TARGET}
-  }):
+  });
 
+snippet    v-vuetify-breakpoint
+  this.$vuetify.breakpoint
+
+snippet    v-vuetify-breakpoint-and-up
+  $vuetify.breakpoint.${0:BREAKPOINT}AndUp
+
+# ========================================================
+# FOR Code doc
+# ========================================================
 snippet     jsdoc
 options     head
+
   /**
    * JSDocコメントはスラッシュと2つのアスタリスクから始めます.
    * インラインタグは {@code this} のように波括弧で囲みます.
