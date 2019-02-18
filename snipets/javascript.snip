@@ -55,6 +55,40 @@ snippet    v-vuetify-breakpoint
 snippet    v-vuetify-breakpoint-and-up
   $vuetify.breakpoint.${0:BREAKPOINT}AndUp
 
+# 特殊構文
+snippet v-model-template
+  props: {
+    value: {
+      type: Object,
+      require: true
+    }
+  },
+  computed: {
+    item: {
+      get(){
+        return this.value
+      },
+      set(new_val) {
+        if (this.value !== new_val) this.$emit("input", new_val);
+      }
+    }
+  }
+
+
+# ========================================================
+# 構文
+# ========================================================
+snippet then-catch
+  then(res => {
+    console.log(res.data)
+  }).catch(error => {
+    const res = error.resconse
+    if (res !== undefined){
+      console.error(res)
+    } else {
+      console.error(error)
+    }
+  })
 # ========================================================
 # FOR Code doc
 # ========================================================

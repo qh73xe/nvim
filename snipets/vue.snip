@@ -65,3 +65,450 @@ snippet    watch
       ${1}
     }
   },
+
+# =======================================
+# VUETIFY
+# =======================================
+
+# Preset
+# =======================================
+snippet    v-quick-start
+  <v-app>
+    <v-navigation-drawer v-model="drawerRight" fixed right clipped app>
+      <v-list dense>
+        <v-list-tile @click.stop="right = !right">
+          <v-list-tile-action>
+            <v-icon>exit_to_app</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Open Temporary Drawer</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-toolbar color="blue-grey" dark fixed app clipped-right>
+      <v-toolbar-side-icon @click.stop="drawer = !drawer" />
+      <v-toolbar-title>Toolbar</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-side-icon @click.stop="drawerRight = !drawerRight" />
+    </v-toolbar>
+
+    <v-navigation-drawer v-model="drawer" fixed app>
+      <v-list dense>
+        <v-list-tile @click.stop="left = !left">
+          <v-list-tile-action>
+            <v-icon>exit_to_app</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Open Temporary Drawer</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-navigation-drawer v-model="left" temporary fixed />
+    <v-content>
+      <router-view />
+    </v-content>
+    <v-navigation-drawer v-model="right" right temporary fixed />
+
+    <v-footer color="blue-grey" class="white--text" app>
+      <span>Vuetify</span>
+      <v-spacer></v-spacer>
+      <span>&copy; 2017</span>
+    </v-footer>
+  </v-app>
+
+# CSS Class
+# =======================================
+snippet    v-text-color
+abbr       color seting
+  class="${0:TARGET}--text"
+
+snippet    v-text-font-weight
+abbr       color seting
+  class="font-weight-${0:TARGET}"
+
+snippet    v-text-h1
+abbr       .display-4 - Good for <h1>
+  class="display-4"
+
+snippet    v-text-headline
+abbr       .headline - Good for <h5>
+  class="headline"
+
+snippet    v-text-title
+abbr       .title - Good for <h6>
+  class="title"
+
+snippet    v-text-subheading
+abbr       subheading - Good for supporting text
+  class="subheading"
+
+snippet    v-text-caption
+abbr       .caption - Smaller size text
+  class="caption"
+
+snippet    v-trunce
+abbr       trunce -- for long text
+  <div class="text-truncate">
+    ${0:TARGET}
+  </div>
+
+snippet    v-hidden
+  class="hidden-${0:BREAKE POINT}-and-down"
+
+snippet    v-overflow
+  class="overflow-{0:AXIS}hidden"
+
+snippet    v-elevation
+  class="elevation-${0:target}"
+
+snippet    v-patting
+    p${0:DIRECTION}-${1:SIZE}
+
+snippet    v-margin
+    m${0:DIRECTION}-${1:SIZE}
+
+# UTILS
+# =======================================
+snippet    v-go-to
+  @click="$vuetify.goTo(target, options)"
+
+snippet    v-transitions
+  <v-btn @click="expand = !expand">
+    Expand Transition
+  </v-btn>
+  <v-expand-transition>
+    <div v-show="expand"></div>
+  </v-expand-transition>
+
+# Grid system
+# =======================================
+snippet    v-spacer
+  <v-spacer />
+
+snippet    v-grid-list
+  <v-container grid-list-md>
+    <v-layout row wrap>
+      <v-flex xs12>${0:TARGET}</v-flex>
+    </v-layout>
+  </v-container>
+
+snippet    v-layout
+  <v-layout>
+    ${0:TARGET}
+  </v-layout>
+
+snippet    v-layout-row
+  <v-layout fill-height>
+    ${0:TARGET}
+  </v-layout>
+
+snippet    v-layout-column
+  <v-layout column fill-height>
+    ${0:TARGET}
+  </v-layout>
+
+snippet    v-layout-justify-center
+  <v-layout justify-center fill-height>
+    ${0:TARGET}
+  </v-layout>
+snippet    v-layout-justify-end
+  <v-layout justify-end fill-height>
+    ${0:TARGET}
+  </v-layout>
+
+snippet    v-layout-justify-space-adound
+  <v-layout justify-space-around fill-height>
+    ${0:TARGET}
+  </v-layout>
+
+snippet    v-layout-justify-space-between
+  <v-layout justify-space-between fill-height>
+    ${0:TARGET}
+  </v-layout>
+
+snippet    v-flex
+  <v-flex>
+    ${0:TARGET}
+  </v-flex>
+
+snippet    v-flex-grow
+  <v-flex grow>
+    ${0:TARGET}
+  </v-flex>
+
+snippet    v-flex-shrink
+  <v-flex shrink>
+    ${0:TARGET}
+  </v-flex>
+
+snippet    d-flex
+  <v-flex d-flex>
+    ${0:TARGET}
+  </v-flex>
+
+# ALERTS
+# =======================================
+snippet    v-sccess
+    <v-alert :value="true" type="success">
+      ${0:TARGET}
+    </v-alert>
+
+snippet    v-info
+    <v-alert :value="true" type="info">
+      ${0:TARGET}
+    </v-alert>
+
+snippet    v-alert
+    <v-alert :value="true" type="warning">
+      ${0:TARGET}
+    </v-alert>
+
+snippet    v-error
+    <v-alert :value="true" type="error">
+      ${0:TARGET}
+    </v-alert>
+
+# AVATAR
+# =======================================
+snippet    v-avatar
+  <v-avatar>
+    <img src="https://cdn.vuetifyjs.com/images/john.jpg">
+   </v-avatar>
+
+# BADGE
+# =======================================
+snippet    v-badge
+  <v-badge color="red">
+    <span slot="badge">!</span>
+    <v-icon large color="grey">
+      ${0:TARGET}
+    </v-icon>
+  </v-badge>
+
+# Bottom NAV
+# =======================================
+snippet    v-bottom-nav
+    <div class="headline text-xs-center pa-5">
+      Active: {{ bottomNav }}
+    </div>
+
+    <v-bottom-nav :active.sync="bottomNav" :value="true" absolute color="transparent">
+      <v-btn color="teal" flat value="recent">
+        <span>Recent</span>
+        <v-icon>history</v-icon>
+      </v-btn>
+      <v-btn color="teal" flat value="favorites">
+        <span>Favorites</span>
+        <v-icon>favorite</v-icon>
+      </v-btn>
+      <v-btn color="teal" flat value="nearby">
+        <span>Nearby</span>
+        <v-icon>place</v-icon>
+      </v-btn>
+    </v-bottom-nav>
+
+# BTN
+# =======================================
+snippet    v-btn
+    <v-btn>${0:TARGET}</v-btn>
+
+snippet    v-btn-flat
+    <v-btn flat>${0:TARGET}</v-btn>
+
+snippet    v-btn-depressed
+    <v-btn depressed>${0:TARGET}</v-btn>
+
+snippet    v-btn-icon
+    <v-btn icon><v-icon>${0:TARGET}</v-icon></v-btn>
+
+snippet    v-btn-fab
+    <v-fab-transition>
+      <v-btn dark fab fixed bottom left>
+        <v-icon dark>${0:TARGET}</v-icon>
+      </v-btn>
+    </v-fab-transition>
+
+snippet    v-btn-loading
+    <v-btn :loading="loading" :disabled="loading">
+      ${0:TARGET}
+      <v-icon right dark>cloud_upload</v-icon>
+      <span slot="loader" class="custom-loader">
+        <v-icon light>cached</v-icon>
+      </span>
+    </v-btn>
+
+snippet    v-btn-round
+  <v-btn round>${0:TARGET}</v-btn>
+snippet    v-btn-block
+  <v-btn block>${0:TARGET}</v-btn>
+
+# CARENDER
+# =======================================
+snippet    v-calendar
+  <v-sheet height="500">
+    <v-calendar ref="calendar"
+      start="2019-01-01"
+      end="2019-01-01"
+      type="month"
+      color="primary"
+    />
+  </v-sheet>
+
+# CARD
+# =======================================
+snippet    v-card
+  <v-card>
+    ${0:TARGET}
+  </v-card>
+
+snippet    v-card-title
+  <v-card-title>
+  ${0:TARGET}
+  </v-card-title>
+
+snippet    v-card-actions
+  <v-card-actions>
+    ${0:TARGET}
+  </v-card-actions>
+
+snippet    v-image-card
+  <v-card>
+    <v-img
+      class="white--text"
+      height="200px"
+      src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+    >
+      <v-container fill-height fluid>
+        <v-layout fill-height>
+          <v-flex xs12 align-end flexbox>
+            <span class="headline">
+              ${0:TARGET}
+            </span>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-img>
+    <v-card-title>
+      ${1:CONTENTS}
+    </v-card-title>
+  </v-card>
+
+# CAROUSELES
+# =======================================
+snippet    v-carousel
+  <v-carousel>
+    <v-carousel-item src="${0:TARGET}" />
+  </v-carousel>
+
+# CHIP
+# =======================================
+snippet    v-chip
+  <v-chip color="primary" text-color="white">${0:TARGET}</v-chip>
+snippet    v-chip-label
+  <v-chip label>${0:TARGET}</v-chip>
+
+
+# tooltip
+# =======================================
+snippet    v-tooltip
+    <v-tooltip bottom>
+      ${1:TARGET}
+      <span>${0:CONTENTS}</span>
+    </v-tooltip>
+
+snippet    v-data-table
+  <v-data-table select-all :headers="${0:TABLES}" :items="${1:ITEMS}">
+    <template slot="items" slot-scope="props">
+      <td>
+        <v-checkbox v-model="props.selected" primary hide-details />
+      </td>
+      <td>{{ props.item.id }}</td>
+    </template>
+  </v-data-table>
+
+snippet    v-dialog
+  <v-dialog
+    v-model="dialog"
+    fullscreen
+    hide-overlay
+    transition="dialog-bottom-transition
+  ">
+    <v-card>
+      <v-toolbar dark color="primary">
+        <v-btn icon dark @click="dialog = false">
+          <v-icon>close</v-icon>
+        </v-btn>
+        <v-toolbar-title>Settings</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-toolbar-items>
+          <v-btn dark flat @click="dialog = false">Save</v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
+      ${0:TARGET}
+    </v-card>
+  </v-dialog>
+
+snippet    v-divider
+alias --
+  <v-divider />
+
+snippet    v-expansion-panel
+  <v-expansion-panel>
+    <v-expansion-panel-content>
+      <div slot="header">${0:TARGET}</div>
+      <v-card>
+        <v-card-text>
+          ${1:CONTENTS}
+        </v-card-text>
+      </v-card>
+    </v-expansion-panel-content>
+  </v-expansion-panel>
+
+snippet    v-input-date
+  <v-menu
+    v-model="menu"
+    :close-on-content-click="false"
+    full-width
+    max-width="290"
+  >
+    <v-text-field
+      slot="activator"
+      :value="computedDateFormattedMomentjs"
+      clearable
+      label="Formatted with Moment.js"
+      readonly
+    />
+    <v-date-picker v-model="date" @change="menu = false" />
+  </v-menu>
+snippet    v-input-time
+  <v-menu
+    ref="menu"
+    :close-on-content-click="false"
+    v-model="menu"
+    :nudge-right="40"
+    :return-value.sync="time"
+    lazy
+    transition="scale-transition"
+    offset-y
+    full-width
+    max-width="290px"
+    min-width="290px"
+  >
+    <v-text-field
+      slot="activator"
+      v-model="time"
+      label="Picker in menu"
+      prepend-icon="access_time"
+      readonly
+    />
+    <v-time-picker
+      v-if="menu"
+      v-model="time"
+      full-width
+      @change="$refs.menu.save(time)"
+    />
+  </v-menu>
