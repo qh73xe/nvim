@@ -55,6 +55,30 @@ snippet    v-vuetify-breakpoint
 snippet    v-vuetify-breakpoint-and-up
   $vuetify.breakpoint.${0:BREAKPOINT}AndUp
 
+# フォーマットルール
+snippet    v-rules
+  rules: {
+    email: [
+      v => !!v || "this field is required",
+      v => /.+@.+/.test(v) || "E-mail must be valid"
+    ],
+    url: [
+      v => !!v || "this field is required",
+      v => /^(https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)$/.test(v) || "url must be valid"
+    ],
+    phone: [
+      v => !!v || "this field is required",
+      v => {
+        const phones = v.replace(/[━.*‐.*―.*－.*\-.*ー.*\-]/gi,'');
+        if (/^(0[5-9]0[0-9]{8}|0[1-9][1-9][0-9]{7})$/.test(phones)){
+          return true
+        } else {
+          return "phone must be valid"
+        }
+      }
+    ]
+  },
+
 # 特殊構文
 snippet v-model-template
   props: {
@@ -89,6 +113,12 @@ snippet then-catch
       console.error(error)
     }
   })
+
+snippet if-is
+  if (${0:TARGET} != null || ${0:TARGET}.length === 0) {
+  }
+
+
 # ========================================================
 # FOR Code doc
 # ========================================================

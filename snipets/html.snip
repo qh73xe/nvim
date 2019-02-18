@@ -102,9 +102,11 @@ snippet    v-elevation
   class="elevation-${0:target}"
 
 snippet    v-patting
+alias vp
     p${0:DIRECTION}-${1:SIZE}
 
 snippet    v-margin
+alias vm
     m${0:DIRECTION}-${1:SIZE}
 
 # UTILS
@@ -357,7 +359,7 @@ snippet    v-chip-label
   <v-chip label>${0:TARGET}</v-chip>
 
 
-# tooltip
+# TOOLTIP
 # =======================================
 snippet    v-tooltip
     <v-tooltip bottom>
@@ -365,6 +367,8 @@ snippet    v-tooltip
       <span>${0:CONTENTS}</span>
     </v-tooltip>
 
+# DATA TABLE
+# =======================================
 snippet    v-data-table
   <v-data-table select-all :headers="${0:TABLES}" :items="${1:ITEMS}">
     <template slot="items" slot-scope="props">
@@ -375,6 +379,8 @@ snippet    v-data-table
     </template>
   </v-data-table>
 
+# DIALOG
+# =======================================
 snippet    v-dialog
   <v-dialog
     v-model="dialog"
@@ -397,10 +403,14 @@ snippet    v-dialog
     </v-card>
   </v-dialog>
 
+# DIVIDERS
+# =======================================
 snippet    v-divider
 alias --
   <v-divider />
 
+# EXPANSION PANEL
+# =======================================
 snippet    v-expansion-panel
   <v-expansion-panel>
     <v-expansion-panel-content>
@@ -413,6 +423,54 @@ snippet    v-expansion-panel
     </v-expansion-panel-content>
   </v-expansion-panel>
 
+# INPUTS
+# =======================================
+# Autocomplete
+snippet    v-autocomplete
+alias vac
+  <v-autocomplete
+    v-model="item"
+    :items="selects"
+    chips
+    label="Select"
+    item-text="text"
+    item-value="value"
+  >
+    <template slot="selection" slot-scope="data">
+      <v-chip class="chip--select-multi">
+        <v-avatar>
+          <img :src="data.item.avatar">
+        </v-avatar>
+        {{ data.item.text }}
+      </v-chip>
+    </template>
+    <template slot="item" slot-scope="data">
+      <template>
+        <v-list-tile-avatar>
+          <img :src="data.item.avatar">
+        </v-list-tile-avatar>
+        <v-list-tile-content>
+          <v-list-tile-title v-html="data.item.text" />
+          <v-list-tile-sub-title v-html="data.item.contents" />
+        </v-list-tile-content>
+      </template>
+    </template>
+  </v-autocomplete>
+# selects
+snippet    v-select
+alias vs
+  <v-select
+    v-model="select"
+    :hint="`${select.text}, ${select.value}`"
+    :items="items"
+    item-text="text"
+    item-value="value"
+    label="Select"
+    persistent-hint
+    return-object
+    single-line
+  />
+# others
 snippet    v-input-date
   <v-menu
     v-model="menu"
