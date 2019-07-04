@@ -1,6 +1,5 @@
 snippet     quick-start
 options     head
-abbr        quick-start
   <template>
     ${0:TARGET}
   </template>
@@ -65,6 +64,9 @@ snippet    watch
       ${1}
     }
   },
+
+snippet v-if
+  v-if="${0:TARGET}"
 
 # =======================================
 # VUETIFY
@@ -512,3 +514,22 @@ snippet    v-input-time
       @change="$refs.menu.save(time)"
     />
   </v-menu>
+
+# ========================================================
+# 構文
+# ========================================================
+snippet v-next-tick
+  this.$nextTick(() => {
+  });
+
+snippet then-catch
+  then(res => {
+    console.log(res.data)
+  }).catch(error => {
+    const res = error.resconse
+    if (res !== undefined){
+      console.error(res)
+    } else {
+      console.error(error)
+    }
+  })

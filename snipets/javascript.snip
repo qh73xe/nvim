@@ -104,14 +104,8 @@ snippet v-model-template
 # ========================================================
 snippet then-catch
   then(res => {
-    console.log(res.data)
   }).catch(error => {
-    const res = error.resconse
-    if (res !== undefined){
-      console.error(res)
-    } else {
-      console.error(error)
-    }
+  }).finally(() => {
   })
 
 snippet if-is

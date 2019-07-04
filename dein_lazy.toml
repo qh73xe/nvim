@@ -39,6 +39,7 @@ hook_add = '''
 repo = 'w0rp/ale'
 on_event = 'VimEnter'
 hook_add = '''
+  let g:ale_linters_explicit = 1
   " 行強調
   let g:ale_completion_enabled = 1
   let g:ale_sign_column_always = 1
@@ -65,6 +66,7 @@ hook_add = '''
 
   let g:ale_linters = {
   \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+  \   'tex': ['chktex'],
   \   'javascript': ['eslint'],
   \   'typescript': ['tslint'],
   \   'vue': ['eslint'],
@@ -79,9 +81,9 @@ hook_add = '''
   \}
   let g:ale_fixers = {
   \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-  \   'python': ['yapf', 'isort'],
+  \   'python': ['isort','yapf'],
   \   'json': ['jq'],
-  \   'javascript': ['prettier'],
+  \   'javascript': ['prettier', 'eslint'],
   \   'typescript': ['prettier'],
   \   'html': ['prettier'],
   \   'css': ['prettier'],
@@ -184,7 +186,7 @@ hook_add = '''
 [[plugins]]
 repo = 'leafgarland/typescript-vim'
 on_event = 'FileType'
-on_ft = ['javascript', 'typescript']
+on_ft = ['typescript']
 
 [[plugins]]
 repo = 'jason0x43/vim-js-indent'
@@ -197,26 +199,27 @@ hook_add = '''
 [[plugins]]
 repo = 'othree/javascript-libraries-syntax.vim'
 on_event = 'FileType'
-on_ft = ['javascript', 'typescript']
+on_ft = ['typescript']
 hook_add = '''
   let g:used_javascript_libs = 'jquery,angularjs,angularui,angularuirouter'
 '''
 
 
-[[plugins]]  # vue の補完
-repo = 'autozimu/LanguageClient-neovim'
-rev = 'next'
-build = 'bash install.sh'
-on_event = 'FileType'
-hook_source = '''
-    set hidden
-    let g:LanguageClient_serverCommands = {
-    \ 'vue': ['vls'],
-    \ }
-    " not stop completion $ & /
-    setlocal iskeyword+=$
-    setlocal iskeyword+=-
-    nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
-    nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-    nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
-'''
+# [[plugins]]  # vue の補完
+# repo = 'autozimu/LanguageClient-neovim'
+# rev = 'next'
+# build = 'bash install.sh'
+# on_event = 'FileType'
+# hook_source = '''
+#     set hidden
+#     let g:LanguageClient_serverCommands = {
+#     \ 'vue': ['vls'],
+#     \ 'html': ['html-languageserver', '--stdio'],
+#     \ }
+#     " not stop completion $ & /
+#     setlocal iskeyword+=$
+#     setlocal iskeyword+=-
+#     nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+#     nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+#     nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+# '''
