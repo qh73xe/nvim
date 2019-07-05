@@ -107,12 +107,6 @@ snippet v-model-template
 # ========================================================
 # 構文
 # ========================================================
-snippet then-catch
-  then(res => {
-  }).catch(error => {
-  }).finally(() => {
-  })
-
 snippet if-is
   if (${0:TARGET} != null || ${0:TARGET}.length === 0) {
   }
@@ -121,8 +115,12 @@ snippet if-is
 # ========================================================
 # FOR AXIOS
 # ========================================================
-snippet    then-catch
-  .then(res => {}).catch(error => {});
+snippet then-catch
+  then(res => {
+  }).catch(error => {
+  }).finally(() => {
+  })
+
 
 # ========================================================
 # FOR Code doc
@@ -131,7 +129,6 @@ snippet     jsdoc
 options     head
 
   /**
-   * JSDocコメントはスラッシュと2つのアスタリスクから始めます.
-   * インラインタグは {@code this} のように波括弧で囲みます.
-   * @desc ブロックタグは必ず行の先頭から開始します.
+   *
+   *
    */

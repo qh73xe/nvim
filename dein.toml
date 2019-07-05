@@ -102,7 +102,6 @@ hook_add = '''
   vnoremap <silent> <Space>o :OverCommandLine<CR>s//g<Left><Left>
   nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
 '''
-
 # Ctags
 # --------------------------------------------------
 
@@ -136,7 +135,7 @@ hook_add = '''
     if cmd == 'On'
       let res = system('ibus engine kkc')
     elseif cmd == 'Off'
-      let res = system('ibus engine xkb:us::eng')
+      let res = system('xkb:jp::jpn')
     endif
     return ''
   endfunction
