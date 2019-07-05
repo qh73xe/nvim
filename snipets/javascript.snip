@@ -3,6 +3,11 @@ abbr        |SNIPET| /* ${0:#:comment} */↩
 options     head
   /* ${0:#:comment} */
 
+snippet     for_of
+  for (const item of ${0:#:array}){
+  }
+
+
 # ========================================================
 # FOR VUE
 # ========================================================
@@ -54,6 +59,12 @@ snippet    v-vuetify-breakpoint
 
 snippet    v-vuetify-breakpoint-and-up
   $vuetify.breakpoint.${0:BREAKPOINT}AndUp
+
+# ========================================================
+# FOR AXIOS
+# ========================================================
+snippet    then-catch
+  .then(res => {}).catch(error => {});
 
 # ========================================================
 # FOR Code doc

@@ -132,3 +132,5 @@ endif
 
 set guicursor=
 autocmd OptionSet guicursor noautocmd set guicursor=
+
+set ambw=single
