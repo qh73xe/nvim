@@ -135,6 +135,7 @@ hook_add = '''
     if cmd == 'On'
       let res = system('ibus engine kkc')
     elseif cmd == 'Off'
+      // let res = system('xkb:us::eng')
       let res = system('xkb:jp::jpn')
     endif
     return ''
