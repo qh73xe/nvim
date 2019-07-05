@@ -20,3 +20,14 @@ abbr    |SNIPET| OPEN
     with open({0:#FILENAME}) as f:
         for line in f:
            print(line)
+
+snippet main_arg
+    from argparse import ArgumentParser
+    parser = ArgumentParser(
+        prog='argparseTest.py',
+        usage='Demonstration of argparser',
+        description='description',
+        add_help=True,
+    )
+    parser.add_argument('-v', '--verbose')
+    args = parser.parse_args()

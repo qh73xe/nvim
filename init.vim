@@ -97,6 +97,7 @@ endif
 set bs=start,indent
 set backspace=indent,eol,start
 set conceallevel=0
+set ambiwidth=single
 
 " -------------------------------------------
 " Key mapping
