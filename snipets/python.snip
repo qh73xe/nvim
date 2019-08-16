@@ -7,25 +7,42 @@ abbr    |SNIPET| if main:
 alias head
 options head
     # -*- coding: utf-8 -*
-    """
-    ${0:#:README}
+    """`expand("%")`
+
+    :DATE: `strftime("%Y/%m/%d %H:%M:%S", localtime())`
+
+    ${0:#DISP}
+
+    Example:
+        ${1:#Example}::
+
+            $ python `expand("%")` ${2}
+
+    Attributes:
+        ${3}
+
     """
 
 snippet ifmain
 abbr    |SNIPET| if main:
     if __name__ == "__main__":
+        ${0}
+
+snippet print
+abbr    |SNIPET| print
+    print(${0})
 
 snippet open
 abbr    |SNIPET| OPEN
-    with open({0:#FILENAME}) as f:
+    with open(${0:#FILENAME}) as f:
         for line in f:
-           print(line)
+            ${1}
 
-snippet main_arg
+snippet args
     from argparse import ArgumentParser
     parser = ArgumentParser(
-        prog='argparseTest.py',
-        usage='Demonstration of argparser',
+        prog='`expand("%")`',
+        usage='${0:#useage}',
         description='description',
         add_help=True,
     )
