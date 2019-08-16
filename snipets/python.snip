@@ -57,9 +57,15 @@ snippet args
     from argparse import ArgumentParser
     parser = ArgumentParser(
         prog='`expand("%")`',
-        usage='${0:#useage}',
-        description='description',
+        usage='${0:#USAGE}',
+        description='${1:#DESC}',
         add_help=True,
     )
     parser.add_argument('-v', '--verbose')
     args = parser.parse_args()
+
+
+snippet get_home
+alias home
+    from pathlib import Path
+    return Path.home().joinpath("${0:#ADD}")
