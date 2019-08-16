@@ -65,6 +65,9 @@ snippet args
     args = parser.parse_args()
 
 
+# =======================================
+# PathLib 系
+# =======================================
 snippet get_home
 alias home
     from pathlib import Path
@@ -72,10 +75,18 @@ alias home
 
 snippet get_repo
 alias repo
-    def get_git_root():
+    def get_repo():
         """このレポジトリのルートパスを返します."""
         from pathlib import Path
         from subprocess import check_output
         command = "git rev-parse --show-toplevel".split()
         res = check_output(command).decode("utf-8").strip()
         return Path(res)
+
+snippet joinpath
+alias .join
+    ${0}.mkdir(${1})
+
+snippet mkdir
+alias .mkdir
+    ${0}.mkdir(exist_ok=True, parents=True)
