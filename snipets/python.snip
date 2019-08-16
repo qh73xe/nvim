@@ -3,7 +3,7 @@
 # ===================================
 
 snippet headline
-abbr    |SNIPET| if main:
+abbr    |SNIPET| README:
 alias head
 options head
     # -*- coding: utf-8 -*
@@ -20,6 +20,21 @@ options head
 
     Attributes:
         ${3}
+
+    """
+
+snippet func_readme
+abbr    |SNIPET| README:
+alias """
+    """${0:#DISP}
+
+    :DATE: `strftime("%Y/%m/%d %H:%M:%S", localtime())`
+
+    Args:
+        ${1:#param1} (${2:#type}): ${3:#DISP}
+
+    Returns:
+        (${4:#type}): ${5:#DISP}
 
     """
 
