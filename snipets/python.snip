@@ -69,3 +69,13 @@ snippet get_home
 alias home
     from pathlib import Path
     return Path.home().joinpath("${0:#ADD}")
+
+snippet get_repo
+alias repo
+    def get_git_root():
+        """このレポジトリのルートパスを返します."""
+        from pathlib import Path
+        from subprocess import check_output
+        command = "git rev-parse --show-toplevel".split()
+        res = check_output(command).decode("utf-8").strip()
+        return Path(res)
