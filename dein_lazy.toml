@@ -70,6 +70,8 @@ hook_add = '''
   \   'javascript': ['eslint'],
   \   'typescript': ['tslint'],
   \   'vue': ['eslint'],
+  \   'ruby': ['rubocop'],
+  \   'eruby': ['rubocop', 'prettier'],
   \   'python': ['flake8', 'mypy', 'pycodestyle'],
   \   'html': ['prettier'],
   \   'yaml': ['yamllint'],
@@ -83,8 +85,10 @@ hook_add = '''
   \   '*': ['remove_trailing_lines', 'trim_whitespace'],
   \   'python': ['isort', 'yapf'],
   \   'json': ['jq'],
+  \   'ruby': ['rubocop'],
   \   'javascript': ['prettier', 'eslint'],
   \   'typescript': ['prettier'],
+  \   'eruby': ['prettier'],
   \   'html': ['prettier'],
   \   'css': ['prettier'],
   \   'sass': ['prettier'],
@@ -94,6 +98,7 @@ hook_add = '''
   \   'md': ['prettier'],
   \   'yaml': ['prettier'],
   \}
+  let g:ale_eruby_prettier_options = '--parser html'
 
   " lint 対応
   let g:airline#extensions#ale#enabled = 1
