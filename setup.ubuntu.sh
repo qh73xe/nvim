@@ -1,5 +1,5 @@
 if type "apt" > /dev/null 2>&1; then
-    sudo apt install ctags glob mupdf xdotool chktex jq shellcheck
+    sudo apt install ctags global mupdf xdotool chktex jq shellcheck
 else
     echo "apt is not this pc!!"
 fi

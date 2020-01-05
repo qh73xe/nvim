@@ -115,8 +115,11 @@ nmap <Leader><Leader> 0v$h
 nmap <Leader><Leader>w bvwh
 nmap <Leader><Leader>0 bvwh~
 
-" ジャンプ時にはその単語を中心にする
+" 矢印キーでなら行内を動けるように
+nmap <Down> gj
+nmap <Up>   gk
 
+" ジャンプ時にはその単語を中心にする
 nmap n nzz
 nmap N Nzz
 nmap * *zz
@@ -133,7 +136,20 @@ if has('nvim')
   tnoremap <ESC> <C-\><C-n>:q<CR>
 endif
 
+" 入力モードでのカーソル移動
+imap <C-j> <Down>
+imap <C-k> <Up>
+imap <C-h> <Left>
+imap <C-l> <Right>
+
+" -------------------------------------------
+" GUI setting
+" -------------------------------------------
 set guicursor=
 autocmd OptionSet guicursor noautocmd set guicursor=
 
+
+" -------------------------------------------
+" 全角対応
+" -------------------------------------------
 set ambw=single
