@@ -8,21 +8,47 @@
 # ===========================================
 # ユーティリティ
 # ===========================================
-# [[plugins]] # ft の動的変更
-# repo = 'osyo-manga/vim-precious'
-# on_ft = ['toml', 'md', 'html', 'md', 'rst']
-# depends = ['context_filetype.vim']
+[[plugins]] # im 制御
+repo = 'fuenor/im_control.vim'
+on_event = 'VimEnter'
+hook_source = '''
+  set timeout timeoutlen=3000 ttimeoutlen=100
+  set formatoptions+=mM
+  set spelllang=en,cjk
+  let IM_CtrlMode = 1
+  inoremap <silent> <C-j> <C-r>=IMState('FixMode')<CR>
+  function! IMCtrl(cmd)
+    let cmd = a:cmd
+    if cmd == 'On'
+      let res = system('ibus engine kkc')
+    elseif cmd == 'Off'
+      let res = system('ibus engine xkb:us::eng')
+    endif
+    return ''
+  endfunction
+  set cmdheight=2
+'''
+[[plugins]] # ローマ字を利用した検索
+repo = 'haya14busa/vim-migemo'
+on_event = 'VimEnter'
+hook_source = '''
+  set incsearch
+'''
+[[plugins]] # ローマ字を利用した検索
+repo = 'rhysd/migemo-search.vim'
+on_event = 'VimEnter'
+hook_post_source = '''
+  set incsearch
+  function! Migemo()
+    if hasmapto('\<CR>','c')
+        cunmap <expr><CR>
+    else
+        cnoremap <expr><CR> migemosearch#replace_search_word()."\<CR>"
+    endif
+  endfunction
+'''
 
-# [[plugins]]  # Terminal
-# repo = 'kassio/neoterm'
-# if = "has('nvim')"
-# hook_add = '''
-#   nnoremap <silent> ,rc :TREPLSendFile<cr>
-#   nnoremap <silent> ,rl :TREPLSendLine<cr>
-#   vnoremap <silent> ,rl :TREPLSendSelection<cr>
-#   nnoremap <Space>@ :Ttoggle<CR>
-#   nnoremap <buffer> <Space>@ :T ipython<CR>
-# '''
+
 
 [[plugins]] # 範囲検索
 repo = 'osyo-manga/vim-operator-search'

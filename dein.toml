@@ -120,30 +120,6 @@ hook_add = '''
   nmap <Leader>t :TagbarToggle<CR>
 '''
 
-[[plugins]]
-repo = 'fuenor/im_control.vim'
-hook_add = '''
-  set timeout timeoutlen=3000 ttimeoutlen=100
-  set formatoptions+=mM
-  set spelllang=en,cjk
-  set ambiwidth=double
-
-  let IM_CtrlMode = 1
-  inoremap <silent> <C-j> <C-r>=IMState('FixMode')<CR>
-  function! IMCtrl(cmd)
-    let cmd = a:cmd
-    if cmd == 'On'
-      " let res = system('ibus engine kkc')
-    elseif cmd == 'Off'
-      let res = system('xkb:us::eng')
-      " let res = system('xkb:us::eng')
-      " let res = system('xkb:jp::jpn')
-    endif
-    return ''
-  endfunction
-  set cmdheight=2
-'''
-
 # 英語支援
 # --------------------------------------------------
 [[plugins]]
@@ -227,8 +203,3 @@ hook_add = '''
   au MyAutoCmd FileType * nested :hi IndentGuidesEven guibg=#73cef4 ctermbg=81
   au MyAutoCmd FileType * nested IndentGuidesEnable
 '''
-
-
-[[plugins]]  # ブラウザのテキストエリアを nvim で編集
-repo = 'glacambre/firenvim'
-hook_post_update = "call firenvim#install(0)"
