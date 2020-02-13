@@ -9,6 +9,9 @@
 " -------------------------------------------------
 "
 let g:python3_host_prog = expand('/usr/bin/python3')
+if exists('$VIRTUAL_ENV')
+  let g:python3_host_prog = expand('$VIRTUAL_ENV/bin/python3')
+endif
 let g:ECT_DIR = '$HOME/.config/nvim'      " Nvim 設定管理ディレクトリ
 let g:DEIN_DIR = '$HOME/.cache/dein'      " DEIN ディレクトリ
 let s:rc_dir = g:ECT_DIR . 'rc/'          " 各プラグインに対する個別設定

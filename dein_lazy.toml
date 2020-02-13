@@ -127,6 +127,15 @@ hook_add = '''
 # Python
 # -------------------------------------------------------------
 [[plugins]]
+repo = 'szymonmaszke/vimpyter'
+on_event = 'FileType'
+hook_add = '''
+autocmd Filetype ipynb nmap <silent><Leader>b :VimpyterInsertPythonBlock<CR>
+autocmd Filetype ipynb nmap <silent><Leader>j :VimpyterStartJupyter<CR>
+autocmd Filetype ipynb nmap <silent><Leader>n :VimpyterStartNteract<CR>
+'''
+
+[[plugins]]
 repo = 'zchee/deoplete-jedi'
 on_event = 'FileType'
 on_ft = ['python']

@@ -227,3 +227,8 @@ hook_add = '''
   au MyAutoCmd FileType * nested :hi IndentGuidesEven guibg=#73cef4 ctermbg=81
   au MyAutoCmd FileType * nested IndentGuidesEnable
 '''
+
+
+[[plugins]]  # ブラウザのテキストエリアを nvim で編集
+repo = 'glacambre/firenvim'
+hook_post_update = "call firenvim#install(0)"
