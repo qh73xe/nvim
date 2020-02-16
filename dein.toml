@@ -55,7 +55,7 @@ repo = 'Shougo/neosnippet-snippets'
 
 [[plugins]] # スニペット管理
 repo = 'Shougo/neosnippet.vim'
-depends = ['neosnippet-snippets', 'context_filetype.vim']
+depends = ['neosnippet-snippets']
 hook_add = '''
   let g:neosnippet#enable_snipmate_compatibility = 1
   let g:neosnippet#snippets_directory=g:ECT_DIR . '/snipets/'
@@ -65,7 +65,6 @@ hook_add = '''
   imap <C-k> <Plug>(neosnippet_expand_or_jump)
   smap <C-k> "<Plug>(neosnippet_expand_or_jump)
   xmap <C-k> <Plug>(neosnippet_expand_target)
-  smap <expr><TAB> neosnippet#expandable_or_jumpable() ?  "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 '''
 
 [[plugins]]  # 補完
@@ -80,7 +79,13 @@ hook_add = '''
   let g:deoplete#enable_smart_case = 1
   let g:deoplete#file#enable_buffer_path = 1
   let g:deoplete#max_list = 10000
-  inoremap <expr><tab> pumvisible() ? "\<C-n>" : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
+
+  imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+   \ "\<Plug>(neosnippet_expand_or_jump)"
+   \: pumvisible() ? "\<C-n>" : "\<TAB>"
+  smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+   \ "\<Plug>(neosnippet_expand_or_jump)"
+   \: "\<TAB>"
 '''
 
 [[plugins]] # カッコ制御

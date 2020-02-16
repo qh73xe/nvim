@@ -28,12 +28,14 @@ hook_source = '''
   endfunction
   set cmdheight=2
 '''
+
 [[plugins]] # ローマ字を利用した検索
 repo = 'haya14busa/vim-migemo'
 on_event = 'VimEnter'
 hook_source = '''
   set incsearch
 '''
+
 [[plugins]] # ローマ字を利用した検索
 repo = 'rhysd/migemo-search.vim'
 on_event = 'VimEnter'
@@ -100,6 +102,7 @@ hook_add = '''
   \   'eruby': ['rubocop', 'prettier'],
   \   'python': ['flake8', 'mypy', 'pycodestyle'],
   \   'html': ['prettier'],
+  \   'htmldjango': ['prettier'],
   \   'yaml': ['yamllint'],
   \   'json': ['jq'],
   \   'sh': ['shellcheck'],
@@ -243,23 +246,3 @@ on_ft = ['typescript']
 hook_add = '''
   let g:used_javascript_libs = 'jquery,angularjs,angularui,angularuirouter'
 '''
-
-
-# [[plugins]]  # vue の補完
-# repo = 'autozimu/LanguageClient-neovim'
-# rev = 'next'
-# build = 'bash install.sh'
-# on_event = 'FileType'
-# hook_source = '''
-#     set hidden
-#     let g:LanguageClient_serverCommands = {
-#     \ 'vue': ['vls'],
-#     \ 'html': ['html-languageserver', '--stdio'],
-#     \ }
-#     " not stop completion $ & /
-#     setlocal iskeyword+=$
-#     setlocal iskeyword+=-
-#     nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
-#     nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-#     nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
-# '''
