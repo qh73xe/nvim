@@ -1,0 +1,27 @@
+# ===================================
+# toml snipet
+# ===================================
+
+# ----------------------------------
+# DEIN
+# ----------------------------------
+snippet	dein-plugins
+abbr	DEIN [[puluins]]:...
+	[[plugins]]  # {1:WhatIsThis}
+	repo = '{0:url}'
+
+snippet	dein-on_event
+abbr	DEIN on_event = ...
+	on_event = '${0:VimEnter|FileType|InsertEnter}'
+
+# ----------------------------------
+# PIPENV
+# ----------------------------------
+snippet	pipenv-script
+abbr	PIPFILE [scripts]:...
+alias	scripts
+options	head
+	[scripts]
+	repo = "git rev-parse --show-toplevel"
+	freeze = "pip freeze >> requirements.txt"
+	${0:TARGET}

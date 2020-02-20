@@ -1,0 +1,15 @@
+snippet snippet
+abbr	|SNIPET| snippet:
+alias snip
+options head
+	snippet ${1:#name}
+	abbr	|SNIPET| $1:
+	alias ${2:#alias}
+	options ${3:#options}
+		${4:#content}
+
+snippet abbr
+abbr	|SNIPET| abbr:
+alias abbr
+options head
+	abbr	|SNIPET| ${1:#name}

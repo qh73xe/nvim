@@ -53,6 +53,9 @@ repo = "tpope/vim-fugitive"
 [[plugins]] # スニペットの基本セット
 repo = 'Shougo/neosnippet-snippets'
 
+[[plugins]]  # AIRLINE Theme
+repo = 'vim-airline/vim-airline-themes'
+
 [[plugins]] # カッコ制御
 repo = 'kana/vim-smartinput'
 
@@ -124,52 +127,3 @@ repo = 'HerringtonDarkholme/yats.vim'
 
 [[plugins]]  # vue
 repo = 'posva/vim-vue'
-
-# ====================================================
-# UI 制御
-# ====================================================
-[[plugins]]  # AIRLINE Theme
-repo = 'vim-airline/vim-airline-themes'
-
-[[plugins]]  # AIRLINE
-repo = 'vim-airline/vim-airline'
-hook_add = '''
-  set laststatus=2
-  let g:airline_powerline_fonts = 1
-
-  " tab 設定
-  let g:airline#extensions#tabline#enabled = 1
-  let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-  nmap <C-p> <Plug>AirlineSelectPrevTab
-  nmap <C-n> <Plug>AirlineSelectNextTab
-
-  " レイアウト
-'''
-
-[[plugins]] # Colour Shceme
-repo = 'jacoborus/tender.vim'
-hook_add = '''
-  set termguicolors
-  set background=dark
-  let g:airline_theme = 'tender'
-  au MyAutoCmd VimEnter * nested colorscheme tender
-'''
-
-[[plugins]]  # Indent 表示
-repo = 'nathanaelkane/vim-indent-guides'
-hook_add = '''
-  let g:indent_guides_start_level = 2
-  let g:indent_guides_guide_size = 1
-
-  au MyAutoCmd FileType *.html nested set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-  au MyAutoCmd FileType *.rst nested set tabstop=3 softtabstop=3 shiftwidth=3 expandtab
-  au MyAutoCmd FileType *.js nested set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-  au MyAutoCmd FileType *.toml nested set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-  au MyAutoCmd FileType *.vim nested set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-  au MyAutoCmd FileType *.vue nested set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-  au MyAutoCmd FileType *.ruby nested set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-
-  au MyAutoCmd FileType * nested :hi IndentGuidesOdd  guibg=DarkGrey ctermbg=DarkGrey
-  au MyAutoCmd FileType * nested :hi IndentGuidesEven guibg=#73cef4 ctermbg=81
-  au MyAutoCmd FileType * nested IndentGuidesEnable
-'''

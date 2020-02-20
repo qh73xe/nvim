@@ -1,68 +1,69 @@
 # ===================================
-# python snipet[]
+# python snipet
 # ===================================
 
 snippet headline
-abbr    |SNIPET| README:
+abbr	|SNIPET| README:
 alias head
 options head
-    # -*- coding: utf-8 -*
-    """`expand("%")`
+	# -*- coding: utf-8 -*
+	"""`expand("%")`
 
-    :DATE: `strftime("%Y/%m/%d %H:%M:%S", localtime())`
+	:DATE: `strftime("%Y/%m/%d %H:%M:%S", localtime())`
 
-    ${0:#DISP}
+	${0:#DISP}
 
-    Example:
-        ${1:#Example}::
+	Example:
+		${1:#Example}::
 
-            $ python `expand("%")` ${2}
+				$ python `expand("%")` ${2}
 
-    Attributes:
-        ${3}
+	Attributes:
+		${3}
 
-    """
+	"""
 
 snippet func_readme
-abbr    |SNIPET| README:
+abbr	|SNIPET| FUNC_README:
 alias """
-    """${0:#DISP}
+	"""${0:#DISP}
 
-    :DATE: `strftime("%Y/%m/%d %H:%M:%S", localtime())`
+	:DATE: `strftime("%Y/%m/%d %H:%M:%S", localtime())`
 
-    Args:
-        ${1:#param1} (${2:#type}): ${3:#DISP}
+	Args:
+		${1:#param1} (${2:#type}): ${3:#DISP}
 
-    Returns:
-        (${4:#type}): ${5:#DISP}
+	Returns:
+		(${4:#type}): ${5:#DISP}
 
-    """
+	"""
 
 snippet ifmain
-abbr    |SNIPET| if main:
-    if __name__ == "__main__":
-        ${0}
+abbr	|SNIPET| if main:
+	if __name__ == "__main__":
+		${0}
 
 snippet print
-abbr    |SNIPET| print
-    print(${0})
+abbr	|SNIPET| print
+	print(${0})
 
 snippet open
-abbr    |SNIPET| OPEN
-    with open(${0:#FILENAME}) as f:
-        for line in f:
-            ${1}
+abbr	|SNIPET| OPEN
+	with open(${0:#FILENAME}) as f:
+		for line in f:
+			${1}
 
 snippet args
-    from argparse import ArgumentParser
-    parser = ArgumentParser(
-        prog='`expand("%")`',
-        usage='${0:#USAGE}',
-        description='${1:#DESC}',
-        add_help=True,
-    )
-    parser.add_argument('-v', '--verbose')
-    args = parser.parse_args()
+abbr	|SNIPET| args
+	from argparse import ArgumentParser
+	parser = ArgumentParser(
+		prog='`expand("%")`',
+		usage='${0:#USAGE}',
+		description='${1:#DESC}',
+		add_help=True,
+	)
+	parser.add_argument('-v', '--verbose')
+	args = parser.parse_args()
 
 
 # =======================================
@@ -70,23 +71,23 @@ snippet args
 # =======================================
 snippet get_home
 alias home
-    from pathlib import Path
-    return Path.home().joinpath("${0:#ADD}")
+	from pathlib import Path
+	return Path.home().joinpath("${0:#ADD}")
 
 snippet get_repo
 alias repo
-    def get_repo():
-        """このレポジトリのルートパスを返します."""
-        from pathlib import Path
-        from subprocess import check_output
-        command = "git rev-parse --show-toplevel".split()
-        res = check_output(command).decode("utf-8").strip()
-        return Path(res)
+	def get_repo():
+		"""このレポジトリのルートパスを返します."""
+		from pathlib import Path
+		from subprocess import check_output
+		command = "git rev-parse --show-toplevel".split()
+		res = check_output(command).decode("utf-8").strip()
+		return Path(res)
 
 snippet joinpath
 alias .join
-    ${0}.mkdir(${1})
+	${0}.mkdir(${1})
 
 snippet mkdir
 alias .mkdir
-    ${0}.mkdir(exist_ok=True, parents=True)
+	${0}.mkdir(exist_ok=True, parents=True)

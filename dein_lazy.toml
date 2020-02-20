@@ -16,7 +16,7 @@ hook_source = '''
         \ neosnippet#expandable_or_jumpable() ?
         \    "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
 '''
-on_i = 1
+on_event = 'InsertEnter'
 
 [[plugins]]
 repo = 'Shougo/neosnippet'
@@ -31,10 +31,48 @@ hook_source = '''
     set conceallevel=2 concealcursor=niv
   endif
 '''
-on_i  = 1
+on_event = 'InsertEnter'
 on_ft = ['snippet']
 depends = ['neosnippet-snippets']
 
+# ====================================================
+# UI 制御
+# ====================================================
+[[plugins]]  # Indent 表示
+repo = 'nathanaelkane/vim-indent-guides'
+on_event = 'FileType'  # filetype が特定された時に読み込む
+hook_source = '''
+  let g:indent_guides_start_level = 2
+  let g:indent_guides_guide_size = 1
+'''
+hook_post_source = '''
+  :hi IndentGuidesOdd  guibg=DarkGrey ctermbg=DarkGrey
+  :hi IndentGuidesEven guibg=#73cef4 ctermbg=81
+'''
+
+[[plugins]] # Colour Shceme
+repo = 'jacoborus/tender.vim'
+on_event = 'FileType'
+hook_source = '''
+  set termguicolors
+  set background=dark
+  colorscheme tender
+'''
+
+[[plugins]]  # AIRLINE
+repo = 'vim-airline/vim-airline'
+on_event = 'VimEnter'
+depends = ['vim-airline-themes', 'tender']
+hook_add = '''
+  set laststatus=2
+  let g:airline_powerline_fonts = 1
+
+  " tab 設定
+  let g:airline#extensions#tabline#enabled = 1
+  let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+  nmap <C-p> <Plug>AirlineSelectPrevTab
+  nmap <C-n> <Plug>AirlineSelectNextTab
+'''
 
 # ===========================================
 # ユーティリティ
@@ -85,7 +123,7 @@ hook_post_source = '''
 [[plugins]] # 範囲検索
 repo = 'osyo-manga/vim-operator-search'
 depends = ['vim-operator-user', 'vim-textobj-function', 'vim-textobj-user']
-hook_add = '''
+hook_post_source = '''
   nmap <Space>/ <Plug>(operator-search)if
 '''
 

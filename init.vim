@@ -35,7 +35,6 @@ function! Loadrc(filename)
   endif
 endfunction
 
-
 " 個別設定ファイル読み込み関数
 " -------------------------------------------------
 function! LoadRC(filename)
@@ -56,7 +55,7 @@ augroup MyAutoCmd
 augroup END
 
 if &compatible
-  set nocompatible               " Be iMproved
+  set nocompatible
 endif
 
 let s:dein_dir = expand(g:DEIN_DIR)
@@ -150,7 +149,6 @@ imap <C-l> <Right>
 " -------------------------------------------
 set guicursor=
 autocmd OptionSet guicursor noautocmd set guicursor=
-
 
 " -------------------------------------------
 " 全角対応

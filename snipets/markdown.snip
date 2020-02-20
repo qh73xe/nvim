@@ -1,24 +1,44 @@
-# ==== User definition ====
+# ===================================
+# markdown snipet[]
+# ===================================
+
+snippet headline
+abbr	|SNIPET| README:
+alias head
+options head
+	# `toupper(split(system("git rev-parse --show-toplevel"), "/")[-1])`
+	<details>
+		<summary>DOCUMENT INFO</summary>
+		<dl>
+		  <dt>AUTHOR</dt>
+		  <dd>`system("git config user.name")`</dd>
+		  <dt>E-MAIL</dt>
+		  <dd>`system("git config user.email")`</dd>
+		  <dt>DATE</dt>
+		  <dd>`system("date --iso-8601")`</dd>
+		</dl>
+	</details>
+
+	## ${1:#:title}
+
 snippet img
 alias img
-options img
-    ![${1:#:title}](${2:#:url})
+options head
+	![${1:#:title}](${2:#:url})
 
 snippet tab
 alias tab
-options tab
-
-    |            |             |              |
-    |:-----------|------------:|:------------:|
-    |            |             |              |
-    |            |             |              |
-    |            |             |              |
-    |            |             |              |
-    |            |             |              |
-    |            |             |              |
+options head
+	|		|		|		|
+	|:------:|:------:|:------:|
+	|		|		|		|
+	|		|		|		|
+	|		|		|		|
+	|		|		|		|
+	|		|		|		|
+	|		|		|		|
 
 
 snippet link
-alias li
-options link
-  [${1:#:alt}](${2:#:url})
+alias link
+	[${1:#:alt}](${2:#:url})

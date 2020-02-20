@@ -1,143 +1,165 @@
-snippet     comment
-abbr        |SNIPET| /* ${0:#:comment} */↩
-options     head
-  /* ${0:#:comment} */
+snippet	comment
+abbr	|SNIPET| COMMENT
+options	head
+	/* ${0:#:comment} */
 
-snippet     for_of
-  for (const item of ${0:#:array}){
-  }
+snippet	for_of
+abbr	|SNIPET| README:
+	for (const item of ${0:#:array}){
+	}
 
 
 # ========================================================
 # FOR VUE
 # ========================================================
-snippet     v-store-module
-  const ${0:TARGET} = {
-    state: {},
-    mutations: {},
-    actions: {},
-    getters: {}
-  }
+snippet	v-store-module
+abbr	|SNIPET| V-STORE:
+	const ${0:TARGET} = {
+		state: {},
+		mutations: {},
+		actions: {},
+		getters: {}
+	}
 
 
-snippet     v-components
-  components: {
-    ${0:TARGET}
-  },
+snippet	v-components
+abbr	|SNIPET| V-COMPONENTS:
+	components: {
+		${0:TARGET}
+	},
 
-snippet     v-data
-  data: () => ({
-    ${0:TARGET}
-  }),
+snippet	v-data
+abbr	|SNIPET| V-DATA:
+	data: () => ({
+		${0:TARGET}
+	}),
 
-snippet     v-methods
-  methods: {
-    ${0:TARGET}
-  },
+snippet	v-methods
+abbr	|SNIPET| V-METHODS:
+	methods: {
+		${0:TARGET}
+	},
 
-snippet     v-computed
-  computed: {
-    ${0:TARGET}
-  },
+snippet	v-computed
+abbr	|SNIPET| V-COMPUTED:
+	computed: {
+		${0:TARGET}
+	},
 
-snippet    v-mounted
-  mounted: function() {
-    ${0:TARGET}
-  }
+snippet	v-mounted
+abbr	|SNIPET| V-MOUNTED:
+	mounted: function() {
+		${0:TARGET}
+	}
 
-snippet    v-props
-  props: {
-    ${0:TARGET}: {
-      type: ${1},
-    },
-  },
-snippet    v-watch
-  watch: {
-    ${0:TARGET}: function() {
-      ${1}
-    }
-  },
+snippet	v-props
+abbr	|SNIPET| V-PROPS:
+	props: {
+		${0:TARGET}: {
+			type: ${1},
+		},
+	},
 
-snippet    v-next-tick
-  this.$nextTick(()=>{
-    ${0:TARGET}
-  });
+snippet	v-watch
+abbr	|SNIPET| V-WATCH:
+	watch: {
+		${0:TARGET}: function() {
+			${1}
+		}
+	},
 
-snippet    v-vuetify-breakpoint
-  this.$vuetify.breakpoint
+snippet	v-next-tick
+abbr	|SNIPET| V-NEXT-TICK:
+	this.$nextTick(()=>{
+		${0:TARGET}
+	});
 
-snippet    v-vuetify-breakpoint-and-up
-  $vuetify.breakpoint.${0:BREAKPOINT}AndUp
+snippet	v-breakpoint
+abbr	|SNIPET| V-BREAKPOINT:
+	this.$vuetify.breakpoint
+
+snippet	v-breakpoint-and-up
+abbr	|SNIPET| V-AND-UP
+	$vuetify.breakpoint.${0:BREAKPOINT}AndUp
 
 # フォーマットルール
-snippet    v-rules
-  rules: {
-    email: [
-      v => !!v || "this field is required",
-      v => /.+@.+/.test(v) || "E-mail must be valid"
-    ],
-    url: [
-      v => !!v || "this field is required",
-      v => /^(https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)$/.test(v) || "url must be valid"
-    ],
-    phone: [
-      v => !!v || "this field is required",
-      v => {
-        const phones = v.replace(/[━.*‐.*―.*－.*\-.*ー.*\-]/gi,'');
-        if (/^(0[5-9]0[0-9]{8}|0[1-9][1-9][0-9]{7})$/.test(phones)){
-          return true
-        } else {
-          return "phone must be valid"
-        }
-      }
-    ]
-  },
+snippet	v-rules
+abbr	|SNIPET| V-RULES
+	rules: {
+		email: [
+			v => !!v || "this field is required",
+			v => /.+@.+/.test(v) || "E-mail must be valid"
+		],
+		url: [
+			v => !!v || "this field is required",
+			v => /^(https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)$/.test(v) || "url must be valid"
+		],
+		phone: [
+			v => !!v || "this field is required",
+			v => {
+				const phones = v.replace(/[━.*‐.*―.*－.*\-.*ー.*\-]/gi,'');
+				if (/^(0[5-9]0[0-9]{8}|0[1-9][1-9][0-9]{7})$/.test(phones)){
+					return true
+				} else {
+					return "phone must be valid"
+				}
+			}
+		]
+	},
 
 # 特殊構文
 snippet v-model-template
-  props: {
-    value: {
-      type: Object,
-      require: true
-    }
-  },
-  computed: {
-    item: {
-      get(){
-        return this.value
-      },
-      set(new_val) {
-        if (this.value !== new_val) this.$emit("input", new_val);
-      }
-    }
-  }
+abbr	|SNIPET| V-MODEL-TEMPLATE
+	props: {
+		value: {
+			type: Object,
+			require: true
+		}
+	},
+	computed: {
+		item: {
+			get(){
+				return this.value
+			},
+			set(new_val) {
+				if (this.value !== new_val) this.$emit("input", new_val);
+			}
+		}
+	}
 
+snippet v-model-veux-template
+abbr	|SNIPET| V-MODEL-VUEX-TEMPLATE
+	computed: {
+		${0:TARGET}: {
+			get () { return this.$store.state.${0:TARGET} },
+			set (val) { store.commit('setFamilyName', val) },
+		},
+	},
 
 # ========================================================
 # 構文
 # ========================================================
 snippet if-is
-  if (${0:TARGET} != null || ${0:TARGET}.length === 0) {
-  }
+	if (${0:TARGET} != null || ${0:TARGET}.length === 0) {
+	}
 
 
 # ========================================================
 # FOR AXIOS
 # ========================================================
 snippet then-catch
-  then(res => {
-  }).catch(error => {
-  }).finally(() => {
-  })
+	then(res => {
+	}).catch(error => {
+	}).finally(() => {
+	})
 
 
 # ========================================================
 # FOR Code doc
 # ========================================================
-snippet     jsdoc
-options     head
-
-  /**
-   *
-   *
-   */
+snippet		 jsdoc
+options		 head
+	/**
+	 *
+	 *
+	 */
