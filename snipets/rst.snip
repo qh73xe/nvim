@@ -7,10 +7,17 @@ alias	head
 abbr	|SPHINX| HEADER
 options head
 	===========================
-	${1:#:content_name}
+	`expand('%:t:r')`
 	===========================
 
-	.. contents:: contents_name
+	- 文責: `system("git config user.name")`
+	- 作成日: `system("date --iso-8601")`
+
+	.. contents::
+		:depth: 2
+
+	${1:#:content}
+
 
 snippet title
 alias	h1
@@ -192,6 +199,18 @@ options head
 			${0:#content}
 		}
 
+snippet blockdiag-start-end
+abbr	|blockdiag| .. blockdiag::
+alias	b-diag-s-e
+options head
+	.. blockdiag::
+		blockdiag {
+			first [shape = "beginpoint"];
+			last [shape = "endpoint"];
+			${0:#content}
+		}
+
+
 snippet actdiag
 abbr	|actdiag| .. actdiag::
 alias	a-diag
@@ -217,15 +236,15 @@ options head
 # ----------------------------------------
 snippet     icode
 abbr	|SNIPET| :code:
-	:code:\`${0:#:CURSOR}\`
+	:code:\`${1:#:CURSOR}\`
 
 snippet     imath
 abbr	|SNIPET| :math:
-	:math:\`${0:#:CURSOR}\`
+	:math:\`${1:#:CURSOR}\`
 
-snippet     link_doc
+snippet     idoc
 abbr	|SNIPET| :doc:
-	:doc:\`${1:#:PageName}\` ${0:#:CURSOR}
+	:doc:\`${1:#:PageName}\` ${2:#:content}
 
 
 snippet     iref

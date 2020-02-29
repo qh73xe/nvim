@@ -54,8 +54,6 @@ hook_post_source = '''
 repo = 'jacoborus/tender.vim'
 on_event = 'FileType'
 hook_source = '''
-  set termguicolors
-  set background=dark
   colorscheme tender
 '''
 

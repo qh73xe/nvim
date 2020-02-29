@@ -145,12 +145,20 @@ imap <C-h> <Left>
 imap <C-l> <Right>
 
 " -------------------------------------------
-" GUI setting
+" 全角対応
 " -------------------------------------------
-set guicursor=
-autocmd OptionSet guicursor noautocmd set guicursor=
+set ambw=single
 
 " -------------------------------------------
 " 全角対応
 " -------------------------------------------
-set ambw=single
+set t_Co=256
+set termguicolors
+set background=dark
+colorscheme desert
+
+" -------------------------------------------
+" GUI setting
+" -------------------------------------------
+set guicursor=
+autocmd OptionSet guicursor noautocmd set guicursor=
