@@ -43,15 +43,6 @@ abbr	|SNIPET| if main:
 	if __name__ == "__main__":
 		${0}
 
-snippet print
-abbr	|SNIPET| print
-	print(${0})
-
-snippet open
-abbr	|SNIPET| OPEN
-	with open(${0:#FILENAME}) as f:
-		for line in f:
-			${1}
 
 snippet args
 abbr	|SNIPET| args
@@ -65,6 +56,22 @@ abbr	|SNIPET| args
 	parser.add_argument('-v', '--verbose')
 	args = parser.parse_args()
 
+
+snippet doctest
+abbr	|SNIPET| doctest
+	import doctest
+	doctest.testmod()
+
+
+snippet print
+abbr	|SNIPET| print
+	print(${0})
+
+snippet open
+abbr	|SNIPET| OPEN
+	with open(${0:#FILENAME}) as f:
+		for line in f:
+			${1}
 
 # =======================================
 # PathLib 系
