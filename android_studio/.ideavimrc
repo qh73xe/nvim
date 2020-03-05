@@ -38,3 +38,4 @@ nmap <leader>r :action Run<cr>
 
 " 静的解析
 nmap <leader>rc :action InspectCode<cr>
+set ideajoin

@@ -20,8 +20,9 @@ install_cmd jq
 install_cmd shellcheck
 install_cmd cmigemo
 
-pip3 install --user neovim-remote pynvim jedi flake8 yapf isort yamllint
+pip3 install pynvim neovim-remote msgpack jedi flake8 yapf isort yamllint
 
 if [ -e "$HOME/.yarn/bin" ]; then
+  cd $Home
   yarn add global neovim eslint tslint prettier stylelint sasslint
 fi
