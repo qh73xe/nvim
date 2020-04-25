@@ -36,4 +36,4 @@ tags
 [._]*.un~
 
 # rplugin
-rplugin
+__pycache__
