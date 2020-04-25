@@ -60,7 +60,7 @@ hook_source = '''
 [[plugins]]  # AIRLINE
 repo = 'vim-airline/vim-airline'
 on_event = 'VimEnter'
-depends = ['vim-airline-themes', 'tender']
+depends = ['vim-airline-themes']
 hook_add = '''
   set laststatus=2
   let g:airline_powerline_fonts = 1
@@ -221,15 +221,6 @@ hook_add = '''
 
 # Python
 # -------------------------------------------------------------
-[[plugins]]
-repo = 'szymonmaszke/vimpyter'
-on_event = 'FileType'
-hook_add = '''
-autocmd Filetype ipynb nmap <silent><Leader>b :VimpyterInsertPythonBlock<CR>
-autocmd Filetype ipynb nmap <silent><Leader>j :VimpyterStartJupyter<CR>
-autocmd Filetype ipynb nmap <silent><Leader>n :VimpyterStartNteract<CR>
-'''
-
 [[plugins]]
 repo = 'zchee/deoplete-jedi'
 on_event = 'FileType'
