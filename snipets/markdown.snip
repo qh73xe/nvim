@@ -42,6 +42,11 @@ snippet link
 alias link
 	[${1:#:alt}](${2:#:url})
 
+snippet icode
+abbr	|SNIPET| icode:
+	\`${1:#:cmd}\`
+
+
 snippet tree
 abbr	|SNIPET| tree:
 alias head
@@ -49,3 +54,10 @@ options head
 	\`\`\`
 	`system("tree " . expand("%:p:h"))`
 	\`\`\`
+
+
+snippet issue
+abbr	|SNIPET| issue:
+	## 概要
+	- 作成日: `system("date --iso-8601")`
+	${1:#:contents}
