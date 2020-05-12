@@ -174,7 +174,7 @@ hook_add = '''
   \   'sh': ['shellcheck'],
   \   'css': ['stylelint'],
   \   'sass': ['sasslint'],
-  \   'rst': ['rstcheck'],
+  \   'rst': [],
   \}
   let g:ale_fixers = {
   \   '*': ['remove_trailing_lines', 'trim_whitespace'],
@@ -239,15 +239,15 @@ repo = 'plytophogy/vim-virtualenv'
 on_event = 'FileType'
 on_ft = ['python']
 
-[[plugins]]  # rst
-repo = 'Rykka/riv.vim'
-on_event = 'FileType'
-on_ft = ['rst', 'python']
+# [[plugins]]  # rst
+# repo = 'Rykka/riv.vim'
+# on_event = 'FileType'
+# on_ft = ['rst', 'python']
 
-[[plugins]]  # rst
-repo = 'vim-scripts/rest.vim'
-on_event = 'FileType'  # filetype が特定された時に読み込む
-on_ft = ['rst', 'python']
+# [[plugins]]  # rst
+# repo = 'vim-scripts/rest.vim'
+# on_event = 'FileType'  # filetype が特定された時に読み込む
+# on_ft = ['rst', 'python']
 
 # HTML
 # -------------------------------------------------------------
