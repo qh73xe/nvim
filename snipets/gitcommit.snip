@@ -2,3 +2,7 @@ snippet     head
 abbr        |SNIPET| README
 options     head
 	[${2:#:fix|add|update|remove}] ${1:#:summary}
+
+snippet     issue
+abbr        |SNIPET| issue
+	`split(system("gh issue list"), "\n")[-1]`
