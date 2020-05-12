@@ -1,7 +1,6 @@
 # ===================================
 # markdown snipet[]
 # ===================================
-
 snippet headline
 abbr	|SNIPET| README:
 alias head
@@ -42,3 +41,11 @@ options head
 snippet link
 alias link
 	[${1:#:alt}](${2:#:url})
+
+snippet tree
+abbr	|SNIPET| tree:
+alias head
+options head
+	\`\`\`
+	`system("tree " . expand("%:p:h"))`
+	\`\`\`
