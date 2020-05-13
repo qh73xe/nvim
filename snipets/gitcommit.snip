@@ -5,4 +5,4 @@ options     head
 
 snippet     issue
 abbr        |SNIPET| issue
-	`split(system("gh issue list"), "\n")[-1]`
+	i`split(split(system("gh issue list"), "\n")[-1], '\t')[0]` (`split(split(system("gh issue list"), "\n")[-1], '\t')[1]`) 対応
