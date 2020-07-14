@@ -98,3 +98,15 @@ alias .join
 snippet mkdir
 alias .mkdir
 	${0}.mkdir(exist_ok=True, parents=True)
+
+
+# =======================================
+# Djnago 関連
+# =======================================
+snippet django-commnad
+	from django.core.management.base import BaseCommand
+	
+	
+	class Command(BaseCommand):
+		def handle(self, *args, **options):
+			${0}

@@ -1,14 +1,15 @@
 snippet     quick-start
 options     head
-  <template>
-    ${0:TARGET}
-  </template>
+	<template>
+		${0:TARGET}
+	</template>
+	<script>
+	export default {
+		name: "`expand('%:t')`",
+	}
+	</script>
 
-  <script>
-  export default { }
-  </script>
-
-  <style scoped></style>
+	<style scoped></style>
 
 snippet     script
 options     head
