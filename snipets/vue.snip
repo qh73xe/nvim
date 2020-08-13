@@ -5,30 +5,30 @@ options     head
 	</template>
 	<script>
 	export default {
-		name: "`expand('%:t')`",
+		name: "`expand('%:t:r')`",
 	}
 	</script>
 
 	<style scoped></style>
 
-snippet     script
+snippet     v-script
 options     head
 abbr        Scaffold <script> with JavaScript
-  <script>
-  export default {
-    ${0:TARGET}
-  }
-  </script>
+	<script>
+	export default {
+		${0:TARGET}
+	}
+	</script>
 
-snippet     style
+snippet     v-style
 options     head
 abbr Scaffold <style> with CSS scoped
-  <style scoped>
-    ${0:TARGET}
-  </style>
+	<style scoped>
+		${0:TARGET}
+	</style>
 
 
-snippet     components
+snippet     v-components
   components: {
     ${0:TARGET}
   },
@@ -372,6 +372,12 @@ snippet    v-card-title
   <v-card-title>
   ${0:TARGET}
   </v-card-title>
+
+snippet    v-card-text
+  <v-card-text>
+  ${0:TARGET}
+  </v-card-text>
+
 
 snippet    v-card-actions
   <v-card-actions>

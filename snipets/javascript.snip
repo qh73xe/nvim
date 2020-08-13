@@ -12,7 +12,11 @@ abbr	|SNIPET| README:
 # ========================================================
 # FOR VUE
 # ========================================================
+snippet	v-is-dev
+	process.env.NODE_ENV
+
 snippet	v-store-module
+alias	v-st
 abbr	|SNIPET| V-STORE:
 	const ${0:TARGET} = {
 		state: {},
@@ -20,7 +24,6 @@ abbr	|SNIPET| V-STORE:
 		actions: {},
 		getters: {}
 	}
-
 
 snippet	v-components
 abbr	|SNIPET| V-COMPONENTS:
@@ -41,10 +44,34 @@ abbr	|SNIPET| V-METHODS:
 	},
 
 snippet	v-computed
+alias	v-c
 abbr	|SNIPET| V-COMPUTED:
 	computed: {
 		${0:TARGET}
 	},
+snippet	v-components-item
+alias	v-c-i
+$emit('input', val)
+	${1:TARGET}: {
+		get(){
+			return this.${2:#:value}
+		},
+		set(val){
+			$emit('input', val)
+		}
+	},
+snippet	v-components-store-item
+alias	v-c-s
+$emit('input', val)
+	${1:TARGET}: {
+		get(){
+			return this.$store.state.${2:#:value}
+		},
+		set(val){
+			this.$store.commit("${2:#:method}")
+		}
+	},
+
 
 snippet	v-mounted
 abbr	|SNIPET| V-MOUNTED:
@@ -55,8 +82,8 @@ abbr	|SNIPET| V-MOUNTED:
 snippet	v-props
 abbr	|SNIPET| V-PROPS:
 	props: {
-		${0:TARGET}: {
-			type: ${1},
+		${1:TARGET}: {
+			type: ${2:TYPE},
 		},
 	},
 

@@ -3,8 +3,29 @@ snippet     comment
   <!-- ${0} -->
 
 # =======================================
+# VUE
+# =======================================
+snippet    v-for
+	v-for="(item, key) in ${0:TARGET}" :key=key
+snippet    v-if
+	v-if="${0:TARGET}"
+
+snippet    v-slot
+	<slot>${0:TARGET}</slot>
+
+snippet    v-name-slot
+	<slot name="${0:TARGET}">${1:#option}</slot>
+
+snippet    v-template
+	<template v-slot:"${0:TARGET}">${1:#option}</slot>
+
+
+
+# =======================================
 # VUETIFY
 # =======================================
+snippet    v-t
+	$vuetify.lang.t(`$vuetify.${0:TARGET}`);
 
 # Preset
 # =======================================
@@ -351,6 +372,11 @@ snippet    v-card-title
   <v-card-title>
   ${0:TARGET}
   </v-card-title>
+
+snippet    v-card-text
+  <v-card-text>
+  ${0:TARGET}
+  </v-card-text>
 
 snippet    v-card-actions
   <v-card-actions>
