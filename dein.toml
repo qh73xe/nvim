@@ -127,3 +127,6 @@ repo = 'HerringtonDarkholme/yats.vim'
 
 [[plugins]]  # vue
 repo = 'posva/vim-vue'
+
+[[plugins]]  # json
+repo = 'elzr/vim-json'
