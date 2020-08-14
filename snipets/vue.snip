@@ -5,7 +5,7 @@ options     head
 	</template>
 	<script>
 	export default {
-		name: "`expand('%:t:r')`",
+		name: "`tolower(substitute(expand('%:t:r'), "[A-Z][a-z]*", "-&","g")[1:])`",
 	}
 	</script>
 
