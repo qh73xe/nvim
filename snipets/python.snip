@@ -11,15 +11,15 @@ options head
 
 	:DATE: `strftime("%Y/%m/%d %H:%M:%S", localtime())`
 
-	${0:#DISP}
+	${1:Disp}
 
 	Example:
-		${1:#Example}::
+		${2:Example}::
 
-				$ python `expand("%")` ${2}
+			$ python `expand("%")`
 
 	Attributes:
-		${3}
+		${3:Arr}
 
 	"""
 
@@ -105,8 +105,8 @@ alias .mkdir
 # =======================================
 snippet django-commnad
 	from django.core.management.base import BaseCommand
-	
-	
+
+
 	class Command(BaseCommand):
 		def handle(self, *args, **options):
 			${0}
