@@ -5,6 +5,20 @@
 " VIM (nvim) の基本設定及びを記述
 
 " -------------------------------------------------
+" OS 判定
+" -------------------------------------------------
+"
+let g:OS = substitute(system('uname'), '\n', '', 'g')
+if g:OS == "Linux"
+  let s:tmp = substitute(system('uname -r'), '\n', '', 'g')
+  if match(s:tmp, "Microsoft") != -1
+    let g:OS = "WSL"
+  else
+    echo(s:temp . " is not Microsoft")
+  endif
+endif
+
+" -------------------------------------------------
 " パス管理
 " -------------------------------------------------
 "
@@ -12,9 +26,16 @@ let g:python3_host_prog = expand('/usr/bin/python3')
 if exists('$VIRTUAL_ENV')
   let g:python3_host_prog = expand('$VIRTUAL_ENV/bin/python3')
 endif
-let g:ECT_DIR = '$HOME/.config/nvim'      " Nvim 設定管理ディレクトリ
-let g:DEIN_DIR = '$HOME/.cache/dein'      " DEIN ディレクトリ
-let s:rc_dir = g:ECT_DIR . 'rc/'          " 各プラグインに対する個別設定
+
+" Nvim 設定管理ディレクトリ
+let g:ECT_DIR = '$HOME/.config/nvim'
+
+" DEIN ディレクトリ
+let g:DEIN_DIR = '$HOME/.cache/dein'
+
+" 各プラグインに対する個別設定
+let s:rc_dir = g:ECT_DIR . 'rc/'
+
 
 
 " 設定ファイル読み込み関数の定義
