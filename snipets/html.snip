@@ -577,3 +577,45 @@ snippet    v-input-time
       @change="$refs.menu.save(time)"
     />
   </v-menu>
+
+
+# COLOR
+snippet    darken
+	darken-{1}
+snippet    accent
+	accent-{1}
+snippet    lighten
+	lighten-{1}
+snippet    transparent
+	transparent
+
+
+# vutify
+snippet    xs
+abbr       small to large handset [< 600px]
+	xs
+
+snippet    sm
+abbr       small to medium tablet [< 960px]
+	sm
+
+snippet    md
+abbr       large tablet to laptop [960px > < 1264px*]
+	md
+
+snippet    lg
+abbr	desktop [1264px* > < 1904px*]
+	lg
+
+snippet xl
+abbr	4k and ultra-wides[> 1904px*]
+	xl
+
+snippet    $t
+	$vuetify.lang.t("$vuetify.{}")
+
+snippet    $bp
+	$vuetify.breakpoint
+
+snippet    $bpn
+	$vuetify.breakpoint.name

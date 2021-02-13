@@ -56,6 +56,13 @@ on_event = 'FileType'
 hook_source = '''
   colorscheme tender
 '''
+[[plugins]] # 全角強調
+repo = 'thinca/vim-zenspace'
+on_event = 'FileType'
+hook_source = '''
+  set list
+  colorscheme tender
+'''
 
 [[plugins]]  # AIRLINE
 repo = 'vim-airline/vim-airline'
@@ -134,6 +141,7 @@ repo = 'dense-analysis/ale'
 on_event = 'VimEnter'
 hook_add = '''
   let g:ale_linters_explicit = 1
+
   " 行強調
   let g:ale_completion_enabled = 1
   let g:ale_sign_column_always = 1
@@ -162,7 +170,7 @@ hook_add = '''
   \   '*': ['remove_trailing_lines', 'trim_whitespace'],
   \   'tex': ['chktex'],
   \   'javascript': ['eslint'],
-  \   'typescript': ['tslint'],
+  \   'typescript': ['eslint'],
   \   'vue': ['eslint'],
   \   'ruby': ['rubocop'],
   \   'eruby': ['rubocop', 'prettier'],
