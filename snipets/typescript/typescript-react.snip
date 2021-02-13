@@ -1,0 +1,84 @@
+# ========================================================
+# TS:REACT 系スニペット
+# ========================================================
+#
+# ここでは REACT 関連のスニペットを定義します.
+# 名前空間の重複を避けるためにすべて r- で始まるものとします.
+#
+# ========================================================
+# インポート系
+# ========================================================
+snippet r-import
+abbr	|TS:REACT| IMPORT:REACT
+	import React from 'react';
+
+snippet r-import-hook
+abbr	|TS:REACT| IMPORT:REACT:HOOK
+	import React, { ${0:#useState, ReactElement} } from 'react';
+
+snippet r-import-router
+abbr	|TS:REACT| IMPORT:REACT-ROUTER
+	import { RouteComponentProps${0} } from "react-router-dom";
+
+# ========================================================
+# ReactHook
+# ========================================================
+snippet r-use-state
+abbr	|TS:REACT| HOOK:USESTATE
+	const [${1:state}, set${2}] = useState<${3:string}>(${0:${VISUAL}});
+
+
+# ========================================================
+# REDUX
+# ========================================================
+snippet	quickstart-slice
+abbr	|REDUX| QUICKSTART
+options	head
+	/**
+	 * `toupper(split(system("git rev-parse --show-toplevel"), "/")[-1])`
+	 *
+	 * ${1:#:desc}
+	 *
+	 * @packageDocumentation
+	 * @module store
+	 * @author t.asai@ubsecure.jp (t.asai)
+	 */
+	import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+	import { RootState } from ".";
+
+	interface ${2:#:interface} {
+	  ${3:#:key}: ${4:#value};
+	}
+
+	const slice = createSlice({
+	  name: ${5:#:app},
+	  initialState: { $3: $4 },
+	  reducers: {
+	    set$2: (state, action: PayloadAction<$2>) => {
+	      state = action.payload;
+	    },
+	  },
+	});
+	const { reducer, actions } = slice;
+
+	export type { $2 };
+	export const $5Actions = actions;
+	export const $5Getter = (state: RootState): $2 => {
+		const { $5 } = state;
+		return $5;
+	};
+	export default reducer;${0}
+
+snippet	slice
+abbr	|REDUX| SLICE
+options	head
+	const slice = createSlice({
+	  name: "${1:#:app}",
+	  initialState,
+	  reducers: {
+	    ${2:action}: (state, action: PayloadAction<${3:prop}>) => {
+			${0}
+	    },
+	  },
+	});
+	const { reducer, actions } = slice;

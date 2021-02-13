@@ -112,7 +112,7 @@ endif
 syntax enable
 setlocal textwidth=80
 set wrap number hls
-set tabstop=4 shiftwidth=4 softtabstop=4 expandtab
+set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 set cursorline showmatch matchtime=3
 set foldmethod=indent
 set list listchars=tab:»-,trail:-,eol:↩,extends:»,precedes:«,nbsp:%

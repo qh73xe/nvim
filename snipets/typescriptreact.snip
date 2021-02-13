@@ -1,0 +1,35 @@
+# ========================================================
+# REACT TSX 系スニペット
+# ========================================================
+extends typescript
+
+snippet	quickstart
+abbr	|REACT| QUICKSTART
+options	head
+	import React from "react";
+	import { RouteComponentProps } from "react-router-dom";
+
+	export type ${0:#app}Prop = RouteComponentProps<{ ${1:#url_params} }>;
+
+	/** ${2:#:disc} */
+	const $0: React.FC = ($0Prop) => {
+		return ();
+	};
+	export default $0;
+
+
+snippet	component
+abbr	|REACT| COMPONENT
+options	head
+	const ${0:#:app} : React.FC = () => {
+		return ();
+	};
+
+
+# ========================================================
+# 共有
+# ========================================================
+snippet	comment-html
+abbr	|REACT| HTML-COMMENT
+options	head
+	{/* ${0:#:comment} */}
