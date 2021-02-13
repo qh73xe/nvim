@@ -130,7 +130,7 @@ hook_post_source = '''
 # 開発支援
 # ===========================================
 [[plugins]] # シンタッスクチェッカー
-repo = 'w0rp/ale'
+repo = 'dense-analysis/ale'
 on_event = 'VimEnter'
 hook_add = '''
   let g:ale_linters_explicit = 1
@@ -196,9 +196,9 @@ hook_add = '''
   let g:ale_eruby_prettier_options = '--parser html'
 
   " lint 対応
-  let g:airline#extensions#ale#enabled = 1
-  let g:airline#extensions#ale#open_lnum_symbol = '('
-  let g:airline#extensions#ale#close_lnum_symbol = ')'
+  " let g:airline#extensions#ale#enabled = 1
+  " let g:airline#extensions#ale#open_lnum_symbol = '('
+  " let g:airline#extensions#ale#close_lnum_symbol = ')'
 
   " KeyMAP
   nmap <silent><C-k> <Plug>(ale_previous_wrap)
