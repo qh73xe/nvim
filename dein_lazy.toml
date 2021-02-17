@@ -199,6 +199,7 @@ hook_source = '''
   \   'ruby': ['rubocop'],
   \   'javascript': ['prettier', 'eslint'],
   \   'typescript': ['prettier'],
+  \   'typescriptreact': ['prettier'],
   \   'eruby': ['prettier'],
   \   'html': ['prettier'],
   \   'css': ['prettier'],
@@ -215,6 +216,7 @@ hook_source = '''
   let g:airline#extensions#ale#enabled = 1
   let g:airline#extensions#ale#open_lnum_symbol = '('
   let g:airline#extensions#ale#close_lnum_symbol = ')'
+
   " KeyMAP
   nmap <silent><C-k> <Plug>(ale_previous_wrap)
   nmap <silent><C-j> <Plug>(ale_next_wrap)
