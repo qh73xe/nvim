@@ -7,35 +7,39 @@
 " -------------------------------------------------
 " OS 判定
 " -------------------------------------------------
-"
-let g:OS = substitute(system('uname'), '\n', '', 'g')
-if g:OS == "Linux"
-  let s:tmp = substitute(system('uname -r'), '\n', '', 'g')
-  if match(s:tmp, "Microsoft") != -1
-    let g:OS = "WSL"
-  else
-    echo(s:temp . " is not Microsoft")
+if (has("win64") || has("win32"))
+  let g:OS = "WINDOWS"
+else
+  let g:OS = substitute(system('uname'), '\n', '', 'g')
+  if g:OS == "Linux"
+    let s:tmp = substitute(system('uname -r'), '\n', '', 'g')
+    if match(s:tmp, "Microsoft") != -1
+      let g:OS = "WSL"
+    else
+      echo(s:temp . " is not Microsoft")
+    endif
   endif
 endif
 
 " -------------------------------------------------
 " パス管理
 " -------------------------------------------------
-"
 let g:python3_host_prog = expand('/usr/bin/python3')
 if exists('$VIRTUAL_ENV')
   let g:python3_host_prog = expand('$VIRTUAL_ENV/bin/python3')
 endif
 
-" Nvim 設定管理ディレクトリ
-let g:ECT_DIR = '$HOME/.config/nvim'
-
-" DEIN ディレクトリ
-let g:DEIN_DIR = '$HOME/.cache/dein'
+if (g:OS == "WINDOWS")
+  let g:ECT_DIR = '$HOME/AppData/Local/nvim' " Nvim 設定管理ディレクトリ
+else
+  let g:ECT_DIR = '$HOME/.config/nvim' " Nvim 設定管理ディレクトリ
+endif
 
 " 各プラグインに対する個別設定
 let s:rc_dir = g:ECT_DIR . 'rc/'
 
+" DEIN ディレクトリ
+let g:DEIN_DIR = '$HOME/.cache/dein'
 
 
 " 設定ファイル読み込み関数の定義
@@ -89,9 +93,9 @@ set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
 if dein#load_state(s:dein_dir)
   call dein#begin(s:dein_dir)
-  call dein#add('~/.cache/dein')
-  let s:toml = '~/.config/nvim/dein.toml'
-  let s:lazy_toml = '~/.config/nvim/dein_lazy.toml'
+  call dein#add(g:DEIN_DIR)
+  let s:toml = g:ECT_DIR  . '/dein.toml'
+  let s:lazy_toml = g:ECT_DIR  . '/dein_lazy.toml'
   call dein#load_toml(s:toml, {'lazy': 0})
   call dein#load_toml(s:lazy_toml, {'lazy': 1})
   call dein#end()
