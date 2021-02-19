@@ -24,15 +24,17 @@ endif
 " -------------------------------------------------
 " パス管理
 " -------------------------------------------------
-let g:python3_host_prog = expand('/usr/bin/python3')
-if exists('$VIRTUAL_ENV')
-  let g:python3_host_prog = expand('$VIRTUAL_ENV/bin/python3')
-endif
 
 if (g:OS == "WINDOWS")
+  let g:python3_host_prog = expand('$HOME/scoop/shims/python3')
   let g:ECT_DIR = '$HOME/AppData/Local/nvim' " Nvim 設定管理ディレクトリ
 else
+  let g:python3_host_prog = expand('/usr/bin/python3')
   let g:ECT_DIR = '$HOME/.config/nvim' " Nvim 設定管理ディレクトリ
+endif
+
+if exists('$VIRTUAL_ENV')
+  let g:python3_host_prog = expand('$VIRTUAL_ENV/bin/python3')
 endif
 
 " 各プラグインに対する個別設定
