@@ -5,16 +5,41 @@
 " VIM (nvim) の基本設定及びを記述
 
 " -------------------------------------------------
+" OS 判定
+" -------------------------------------------------
+if (has("win64") || has("win32"))
+  let g:OS = "WINDOWS"
+else
+  let g:OS = substitute(system('uname'), '\n', '', 'g')
+  if g:OS == "Linux"
+    let s:tmp = substitute(system('uname -r'), '\n', '', 'g')
+    if match(s:tmp, "Microsoft") != -1
+      let g:OS = "WSL"
+    endif
+  endif
+endif
+
+" -------------------------------------------------
 " パス管理
 " -------------------------------------------------
-"
-let g:python3_host_prog = expand('/usr/bin/python3')
+
+if (g:OS == "WINDOWS")
+  let g:python3_host_prog = expand('$HOME/scoop/shims/python3')
+  let g:ECT_DIR = '$HOME/AppData/Local/nvim' " Nvim 設定管理ディレクトリ
+else
+  let g:python3_host_prog = expand('/usr/bin/python3')
+  let g:ECT_DIR = '$HOME/.config/nvim' " Nvim 設定管理ディレクトリ
+endif
+
 if exists('$VIRTUAL_ENV')
   let g:python3_host_prog = expand('$VIRTUAL_ENV/bin/python3')
 endif
-let g:ECT_DIR = '$HOME/.config/nvim'      " Nvim 設定管理ディレクトリ
-let g:DEIN_DIR = '$HOME/.cache/dein'      " DEIN ディレクトリ
-let s:rc_dir = g:ECT_DIR . 'rc/'          " 各プラグインに対する個別設定
+
+" 各プラグインに対する個別設定
+let s:rc_dir = g:ECT_DIR . 'rc/'
+
+" DEIN ディレクトリ
+let g:DEIN_DIR = '$HOME/.cache/dein'
 
 
 " 設定ファイル読み込み関数の定義
@@ -68,9 +93,9 @@ set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
 if dein#load_state(s:dein_dir)
   call dein#begin(s:dein_dir)
-  call dein#add('~/.cache/dein')
-  let s:toml = '~/.config/nvim/dein.toml'
-  let s:lazy_toml = '~/.config/nvim/dein_lazy.toml'
+  call dein#add(g:DEIN_DIR)
+  let s:toml = g:ECT_DIR  . '/dein.toml'
+  let s:lazy_toml = g:ECT_DIR  . '/dein_lazy.toml'
   call dein#load_toml(s:toml, {'lazy': 0})
   call dein#load_toml(s:lazy_toml, {'lazy': 1})
   call dein#end()
@@ -91,7 +116,7 @@ endif
 syntax enable
 setlocal textwidth=80
 set wrap number hls
-set tabstop=4 shiftwidth=4 softtabstop=4 expandtab
+set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 set cursorline showmatch matchtime=3
 set foldmethod=indent
 set list listchars=tab:»-,trail:-,eol:↩,extends:»,precedes:«,nbsp:%

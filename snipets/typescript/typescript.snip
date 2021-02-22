@@ -1,0 +1,443 @@
+# ========================================================
+# TS 系スニペット
+# ========================================================
+snippet const
+abbr	|TYPESCRIPT| CONST
+	const ${1}: ${2:Record<string, unknown>} = ${0};
+
+snippet let
+abbr	|TYPESCRIPT| LET
+	let ${1}: ${2:Record<string, unknown>} = ${0};
+
+snippet	t-comment
+alias comment
+abbr	|TYPESCRIPT| INTERFACE
+	/** ${1:TARGET}${0} */
+
+
+# ========================================================
+# ES-LINT
+# ========================================================
+snippet eslint-disable
+abbr	|TYPESCRIPT| eslint-disable <...rule> {...} eslint-enable
+	/* eslint-disable ${1} */
+	${0}
+	/* eslint-enable */
+
+snippet eslint-disable-line
+abbr	|TYPESCRIPT| eslint-disable-line <...rule>
+	// eslint-disable-line no-unused-vars
+
+snippet eslint-disable-next-line
+abbr	|TYPESCRIPT| eslint-disable-next-line <...rule>
+	// eslint-disable-next-line ${0}
+
+
+# ========================================================
+# import / export
+# ========================================================
+snippet import
+abbr	|TYPESCRIPT| IMPORT
+	import ${1} from '${2:$1}';
+
+snippet import-as
+abbr	|TYPESCRIPT| IMPORT:AS
+	import * as ${1} from '${2:$1}';
+
+snippet import-menber
+abbr	|TYPESCRIPT| IMPORT:MENBER
+	import { ${1} } from '${2}';
+
+snippet export
+abbr	|TYPESCRIPT| EXPORT
+	export ${0}
+
+snippet export-type
+abbr	|TYPESCRIPT| EXPORT:TYPE
+	export type { $2 };
+
+snippet export-default
+abbr	|TYPESCRIPT| EXPORT:DEFAULT
+	export default ${0}
+
+
+# ========================================================
+# 型定義
+# ========================================================
+snippet	t-interface
+alias interface
+abbr	|TS| INTERFACE
+options	head
+	interface ${0:#:name} {
+		${1:#:key}: ${2:unknown};
+		${0}
+	}
+
+snippet any-object
+abbr	|TS| TYPE:ANY:OBJECT
+	Record<string, ${1:unknown}>
+
+snippet any-value
+abbr	|TS| TYPE:ANY:VALUE
+	unknown
+
+snippet empty-object
+abbr	|TS| TYPE:ANY:VALUE
+	Record<string, never>
+
+snippet callback-void
+abbr	|TS| TYPE:VOID:FUNCTION
+	() => void
+
+snippet callback
+alias callback
+abbr	|TS| TYPE:FUNCTION
+	() => ${1:#:type}
+
+
+# ========================================================
+# デザインパターン
+# ========================================================
+snippet SINGLETON
+	class ${1:Singleton} {
+	  private static _instance: ${1};
+	  private constructor() {
+	    ${2:#:do something construct...}
+	  }
+	  static get(): ${1} {
+	    if (!${1}._instance) {
+	      ${1}.instance = new ${1}();
+	      ${2:#:any one time initialization goes here ...}
+	    }
+	    return ${1}._instance;
+	  }
+	  ${3:#:method-name}() {
+	    ${0}
+	  }
+	}
+
+snippet TEMPLATEMETHOD
+	abstract class ${1:TemplateMethod} {
+	  abstract ${2:setTitle}(prop: ${3:#:Type}): void;
+	  abstract ${4:setTitle}(prop: $3): void;
+
+	  ${5:main} = (prop: $3) => {
+	   this.$2(prop);
+	   this.$4(prop);
+	   ${0:#:do something ...}
+	  }
+	}
+
+# ========================================================
+# 条件式
+# ========================================================
+# 三項演算
+snippet if? "(condition) ? {...} : {...}"
+	${1:#:condition} ? ${2} : ${0}
+
+# if
+snippet if "if (condition) { ... }"
+	if (${1:#:condition}) {
+		${0}
+	}
+
+snippet if-else "if (condition) { ... } else { ... }"
+	if (${1:#:condition}) {
+		${0}
+	} else {
+		${2}
+	}
+
+# switch
+snippet switch
+	switch (${1:expression}) {
+		case '${3:case}':
+			${4}
+			break;
+		${0}
+		default:
+			${2}
+	}
+
+# case
+snippet case "case 'xyz': ... break"
+	case '${1:case}':
+		${0}
+		break;
+
+
+# ========================================================
+# try-catch
+# ========================================================
+snippet try "try { ... } catch(e) { ... }"
+	try {
+		${1}
+	} catch (error: Error) {
+		${2:#:error-handler}
+	}
+
+snippet try-catch-finally "try { ... } catch(e) { ... } finally { ... }"
+	try {
+		${1}
+	} catch (error: Error) {
+		${2:#:error-handler}
+	} finally {
+		${3:#:finally-handler}
+	}
+
+snippet raise-error
+	throw new Error('${1:#:message}')
+
+
+# ========================================================
+# loop 処理
+# ========================================================
+snippet for "for (const key in object) {...}"
+	for (const ${1:key} in ${2:object}) {
+		${0:$2[$1]}
+	}
+
+snippet for-of "for (const prop of object) { ... }"
+	for (const ${1:prop} of ${2:object}) {
+		${0:$1}
+	}
+
+snippet while "(condition) { ... }"
+	while (${1:/* condition */}) {
+		${0}
+	}
+
+snippet do "do { ... } while (condition)"
+	do {
+		${0}
+	} while (${1:/* condition */});
+
+# ========================================================
+# 関数
+# ========================================================
+snippet function
+abbr	|TYPESCRIPT| FUNCTION
+	const ${1:function_name} = (payload:${2:unknown}): ${3:unknown} => {
+		return ${0};
+	};
+
+snippet :function
+	${1:#:method-name}: (payload:${2:unknown}): ${3:unknown} => {
+		${0}
+	},
+
+snippet void-function
+alias function-void
+abbr	|TYPESCRIPT| VOID:FUNCTION
+	const ${1:function_name} = (payload: ${2:unknown}): void => {
+		${0:TARGET};
+	};
+
+snippet return
+	return ${0:result};
+
+snippet =>
+	(${1}) => {
+		${0:${VISUAL}}
+	}
+
+# ASYNC 系
+# ========================================================
+snippet async-function
+abbr	|TYPESCRIPT| ASYNC:FUNCTION
+	const ${1:function_name} = async (${2}) => {
+		${0:TARGET}
+	}
+
+snippet async "async"
+	async ${0}
+
+snippet await "await"
+	await ${0:TARGET}
+
+snippet a=> "() =>"
+	(${1}) => ${0}
+
+snippet a=>{ "() =>"
+	(${1}) => {${0}}
+
+snippet a=>( "() =>"
+	(${1}) => ({${0}})
+
+snippet timeout "setTimeout(() => {})"
+	setTimeout(() => {${0}}, ${1} * 1000);
+
+
+# ========================================================
+# Objects
+# ========================================================
+
+snippet hasOwnProperty
+	hasOwnProperty(${0})
+
+
+let something = new Singleton() // Error: constructor of 'Singleton' is private.
+
+let instance = Singleton.getInstance()
+
+snippet object-marge
+	const ${1:#:object-name} = Object.assign(${2:{}}, ${3:#:new-object});
+
+snippet object-pop
+	const {${1:#:key}, ...${2:#:new-object}} = ${3:object};
+
+snippet {...
+	{ ...${1:#:old-obj}, ${2:#:key}: ${3:#:value} };${0}
+
+
+# ========================================================
+# Array 処理
+# ========================================================
+snippet .forEach "array.forEach((item) => {...})"
+	.forEach((obj) => {
+		{$0}
+	}
+
+snippet .forEachi "array.forEach((item, i) => {...})"
+	.forEach((obj, i) => {
+		{$0}
+	}
+
+snippet .map "array.map((item) => {...})"
+	.map((obj) => {
+		${0}
+	})
+
+snippet .mapi "array.map((item, i) => {...})"
+	.map((obj, i) => {
+		${0}
+	})
+
+snippet .mapo "array.map((item) => ({...}))"
+	.map((obj) => (${0})
+
+
+
+# ========================================================
+# JSON
+# ========================================================
+snippet json-enc
+	JSON.parse(${0:jstr});
+snippet json-dec
+	JSON.stringify(${0:object});
+
+# ========================================================
+# Documentation
+# ========================================================
+snippet docstring
+	/**
+	 * ${0:description}
+	 *
+	 */
+
+snippet @param
+	@param {${1:type}} ${2:name} ${0:description}
+
+snippet @return
+	@return {${1:type}} ${0:description}
+
+
+# ========================================================
+# DOM selectors
+# ========================================================
+snippet get-element
+	getElementsBy${1:ID}('${0}')
+
+snippet get-element-class
+	${1:document}.getElementsByClassName('${0:class}')
+
+snippet get-element-id
+	${1:document}.getElementById('${0:element ID}')
+
+snippet get-element-selector
+	${1:document}.querySelector('${0:CSS selector}')
+
+snippet get-element-selector-all
+	${1:document}.querySelectorAll('${0:CSS selector}')
+
+# ========================================================
+# Debugging
+# ========================================================
+snippet console-log "console.log"
+	// eslint-disable-next-line no-console
+	console.log(${1}, ${0});
+
+snippet console-debug "console.debug"
+	// eslint-disable-next-line no-console
+	console.debug(${1}, ${0});
+
+snippet console-error "console.error"
+	// eslint-disable-next-line no-console
+	console.error(${1}, ${0});
+
+snippet console-warn "console.warn"
+	// eslint-disable-next-line no-console
+	console.warn(${1}, ${0});
+
+snippet console-info "console.info"
+	// eslint-disable-next-line no-console
+	console.info(${1}, ${0});
+
+snippet console-trace "console.trace"
+	// eslint-disable-next-line no-console
+	console.trace(${1}, ${0});
+
+snippet console-time "console.time ... console.timeEnd"
+	// eslint-disable-next-line no-console
+	console.time("${1:label}");
+	${0}
+	console.timeEnd("$1");
+
+snippet console-time-tamp "console.timeStamp"
+	// eslint-disable-next-line no-console
+	console.timeStamp("${1:label}");
+
+snippet console-assert "console.assert"
+	// eslint-disable-next-line no-console
+	console.assert(${1:expression}, ${0:obj});
+
+snippet console-clear "console.clear"
+	// eslint-disable-next-line no-console
+	console.clear();
+
+snippet console-dir "console.dir"
+	// eslint-disable-next-line no-console
+	console.dir(${0:obj});
+
+snippet console-dirxml "console.dirxml"
+	// eslint-disable-next-line no-console
+	console.dirxml(${1:object});
+
+snippet console-group "console.group"
+	/* eslint-disable no-console */
+	console.group("${1:label}");
+	${0}
+	console.groupEnd();
+	/* eslint-enable */
+
+snippet cgroupc "console.groupCollapsed"
+	/* eslint-disable no-console */
+	console.groupCollapsed("${1:label}");
+	${0}
+	console.groupEnd();
+	/* eslint-enable */
+
+snippet cprof "console.profile"
+	/* eslint-disable no-console */
+	console.profile("${1:label}");
+	${0}
+	console.profileEnd();
+	/* eslint-enable */
+
+snippet console-table "console.table"
+	// eslint-disable-next-line no-console
+	console.table(${1:"${2:value}"});
+
+snippet console-json "console.log stringified"
+	// eslint-disable-next-line no-console
+	console.log(${1:#:label}, JSON.stringify(${0}, null, 2));

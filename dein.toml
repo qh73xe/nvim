@@ -46,7 +46,21 @@ repo = "airblade/vim-gitgutter"
 [[plugins]] # git 操作
 repo = "tpope/vim-fugitive"
 
-
+[[plugins]]
+repo = 'glacambre/firenvim'
+hook_add = '''
+let g:firenvim_config = {
+\  'localSettings': {
+\    '.*': {
+\      'selector': 'textarea, div[role="textbox"]',
+\      'priority': 0,
+\    }
+\  }
+\}
+'''
+hook_post_update = '''
+  call firenvim#install(0)
+'''
 # ====================================================
 # 編集支援
 # ====================================================
