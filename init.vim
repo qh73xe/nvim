@@ -15,8 +15,6 @@ else
     let s:tmp = substitute(system('uname -r'), '\n', '', 'g')
     if match(s:tmp, "Microsoft") != -1
       let g:OS = "WSL"
-    else
-      echo(s:temp . " is not Microsoft")
     endif
   endif
 endif
