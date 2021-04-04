@@ -54,7 +54,11 @@ let g:firenvim_config = {
 \    '.*': {
 \      'selector': 'textarea, div[role="textbox"]',
 \      'priority': 0,
-\    }
+\    },
+\    'github\.com': {
+\      'selector': 'textarea',
+\      'priority': 1,
+\    },
 \  }
 \}
 '''
