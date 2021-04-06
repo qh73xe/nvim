@@ -22,7 +22,6 @@ endif
 " -------------------------------------------------
 " パス管理
 " -------------------------------------------------
-
 if (g:OS == "WINDOWS")
   let g:python3_host_prog = expand('$HOME/scoop/shims/python3')
   let g:ECT_DIR = '$HOME/AppData/Local/nvim' " Nvim 設定管理ディレクトリ

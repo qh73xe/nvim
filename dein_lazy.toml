@@ -97,12 +97,17 @@ hook_source = '''
     if cmd == 'On'
       if g:OS == "WSL"
         let res = system("zenhan.exe 1")
+      elseif g:OS == "Darwin"
+        let res = system("osascript -e 'tell application".'"System Events"'."to key code {104}'")
+
       else
         let res = system('ibus engine kkc')
       endif
     elseif cmd == 'Off'
       if g:OS == "WSL"
         let res = system("zenhan.exe 0")
+      elseif g:OS == "Darwin"
+        let res = system("osascript -e 'tell application".'"System Events"'."to key code {102}'")
       else
         let res = system('ibus engine xkb:us::eng')
       endif
@@ -320,4 +325,31 @@ on_event = 'FileType'
 on_ft = ['typescript']
 hook_add = '''
   let g:used_javascript_libs = 'jquery,angularjs,angularui,angularuirouter'
+'''
+
+# --------------------------------------------------
+# GO LANG
+# --------------------------------------------------
+[[plugins]]  # go
+repo = 'fatih/vim-go'
+on_ft = ['go']
+hook_add = '''
+  let g:go_fmt_command = "goimports"
+  let g:go_def_mapping_enabled = 0
+  let g:go_doc_keywordprg_enabled = 0
+'''
+
+[[plugins]]
+repo = 'autozimu/LanguageClient-neovim'
+on_ft = ['go']
+build = 'bash install.sh'
+rev = 'next'
+hook_add = '''
+  set hidden
+  let g:LanguageClient_serverCommands = {
+  \ 'go': ['gopls']
+  \ }
+  let g:LanguageClient_loadSettings = 1
+  nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+  nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 '''
