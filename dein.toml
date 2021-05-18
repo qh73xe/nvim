@@ -68,6 +68,9 @@ hook_post_update = '''
 # ====================================================
 # 編集支援
 # ====================================================
+[[plugins]] # 日付情報の自動更新
+repo = 'vim-scripts/autodate.vim'
+
 [[plugins]] # スニペットの基本セット
 repo = 'Shougo/neosnippet-snippets'
 
@@ -148,4 +151,3 @@ repo = 'posva/vim-vue'
 
 [[plugins]]  # json
 repo = 'elzr/vim-json'
-
