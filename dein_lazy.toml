@@ -38,22 +38,22 @@ hook_source = '''
 # ====================================================
 # LanguageClient
 # ====================================================
-[[plugins]]
-repo = 'autozimu/LanguageClient-neovim'
-on_event = 'VimEnter'
-build = 'bash install.sh'
-rev = 'next'
-hook_add = '''
-  set hidden
-  let g:LanguageClient_serverCommands = {
-  \ 'go': ['gopls'],
-  \ 'typescript': ['~/.node-bin/javascript-typescript-langserver', '--stdio'],
-  \ 'typescript.tsx': ['~/.node-bin/javascript-typescript-langserver', '--stdio'],
-  \ }
-  let g:LanguageClient_loadSettings = 1
-  nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-  nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-'''
+# [[plugins]]
+# repo = 'autozimu/LanguageClient-neovim'
+# on_event = 'VimEnter'
+# build = 'bash install.sh'
+# rev = 'next'
+# hook_add = '''
+#   set hidden
+#   let g:LanguageClient_serverCommands = {
+#   \ 'go': ['gopls'],
+#   \ 'typescript': ['~/.node-bin/javascript-typescript-langserver', '--stdio'],
+#   \ 'typescript.tsx': ['~/.node-bin/javascript-typescript-langserver', '--stdio'],
+#   \ }
+#   let g:LanguageClient_loadSettings = 1
+#   nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+#   nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+# '''
 
 # ===================================================
 # UI 制御
