@@ -3,6 +3,9 @@
 # ====================================================
 [[plugins]]  # プラグイン管理
 repo = 'Shougo/dein.vim'
+hook_add = '''
+  let g:dein#types#git#clone_depth = 1
+'''
 
 [[plugins]]  # vim interface framework
 repo = 'Shougo/denite.nvim'
