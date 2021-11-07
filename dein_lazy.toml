@@ -49,6 +49,7 @@ hook_add = '''
   \ 'go': ['gopls'],
   \ 'typescript': ['~/.node-bin/javascript-typescript-langserver', '--stdio'],
   \ 'typescript.tsx': ['~/.node-bin/javascript-typescript-langserver', '--stdio'],
+  \ 'python': ['pyls'],
   \ }
   let g:LanguageClient_loadSettings = 1
   nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
