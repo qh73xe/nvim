@@ -212,7 +212,6 @@ hook_source = '''
   \   'python': ['flake8', 'mypy', 'pycodestyle'],
   \   'html': ['prettier'],
   \   'htmldjango': ['prettier'],
-  \   'yaml': ['yamllint'],
   \   'json': ['jq'],
   \   'sh': ['shellcheck'],
   \   'css': ['stylelint'],
@@ -235,7 +234,6 @@ hook_source = '''
   \   'jsx': ['prettier'],
   \   'vue': ['prettier', 'eslint'],
   \   'md': ['prettier'],
-  \   'yaml': ['prettier'],
   \}
   let g:ale_eruby_prettier_options = '--parser html'
 
@@ -280,10 +278,10 @@ repo = 'Vimjas/vim-python-pep8-indent'
 on_event = 'FileType'
 on_ft = ['python']
 
-[[plugins]]
-repo = 'plytophogy/vim-virtualenv'
-on_event = 'FileType'
-on_ft = ['python']
+# [[plugins]]
+# repo = 'plytophogy/vim-virtualenv'
+# on_event = 'FileType'
+# on_ft = ['python']
 
 # --------------------------------------------------
 # Praat
@@ -351,6 +349,8 @@ hook_add = '''
 # --------------------------------------------------
 # GO LANG
 # --------------------------------------------------
+# [[plugins]]
+# repo = 'mattn/vim-goimports'
 [[plugins]]  # go
 repo = 'fatih/vim-go'
 on_ft = ['go']

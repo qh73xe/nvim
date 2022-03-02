@@ -7,16 +7,22 @@ snippet	quickstart
 abbr	|REACT| QUICKSTART
 options	head
 	import React from "react";
-	import { RouteComponentProps } from "react-router-dom";
 
-	export type ${0:#app}Prop = RouteComponentProps<{ ${1:#url_params} }>;
+	export interface ${1:#app}Props {}
 
 	/** ${2:#:disc} */
-	const $0: React.FC = ($0Prop) => {
+	const $1: React.FC<$1Props> = React.memo((props) => {
+		console.log(props);
 		return ();
-	};
-	export default $0;
+	});
+	$1.displayName = "$1";
+	export default $1;
 
+
+snippet	comment-html
+abbr	|REACT| HTML-COMMENT
+options	head
+	{/* ${0:#:comment} */}
 
 snippet	component
 abbr	|REACT| COMPONENT
@@ -26,31 +32,53 @@ options	head
 	};
 
 
+snippet	ReactMemo
+abbr	|REACT| React.memo()
+	React.memo(${1})
+
+
+snippet	displayName
+abbr	|REACT| X.displayName = "X"
+	${1:#app}.displayName = "$1";
+
+  argTypes: {
+    propertyA: {
+      options: ['Item One', 'Item Two', 'Item Three'],
+      control: { type: 'select' }, // Automatically inferred when 'options' is defined
+    },
+    propertyB: {
+      options: ['Another Item One', 'Another Item Two', 'Another Item Three'],
+    },
+  },
+
+
 # ========================================================
-# 共有
+# STORYBOOK 系スニペット
 # ========================================================
-snippet	comment-html
-abbr	|REACT| HTML-COMMENT
-options	head
-	{/* ${0:#:comment} */}
-
-
-
 snippet	quickstart-story
-abbr	|REACT| QUICKSTART
+abbr	|STORYBOOK| QUICKSTART
 options	head
 	import React from "react";
-	import { Story, Meta } from "@storybook/react";
-	import ${2:#Component} from "./${1:#:app}";
+	import { ComponentStory, ComponentMeta } from "@storybook/react";
+	import ${2:#:Component}, {$2Props} from "./${1:#:app}";
 
 	export default {
-	  title: "${3:#:title}",
-	  component: $2,
-	} as Meta;
+		title: "${3:#:title}",
+		component: $2,
+	} as ComponentMeta<typeof $2>;
 
-	const Template: Story = () => {
-	  return <$2 />;
-	};
+	export const $2Story: ComponentStory<typeof $2> = (args: $2Props) => {
+		console.log(args);
+		return <$2 {...args} />;
+	}
+	$2Story.args = {${4:#:args}};
+	$2Story.storyName = "${5:#:storyName}"
 
-	export const Default = Template.bind({});
-	Default.args = {};
+snippet	argTypes-story
+abbr	|STORYBOOK| argTypes
+	argTypes: {
+		${1:arg}: {
+			options: [${2:values}],
+			control: { type: "select" },
+		},
+	},
