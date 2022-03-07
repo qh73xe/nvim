@@ -35,6 +35,27 @@ hook_source = '''
   endif
 '''
 
+# ====================================================
+# LanguageClient
+# ====================================================
+[[plugins]]
+repo = 'autozimu/LanguageClient-neovim'
+on_event = 'VimEnter'
+build = 'bash install.sh'
+rev = 'next'
+hook_add = '''
+  set hidden
+  let g:LanguageClient_serverCommands = {
+  \ 'go': ['gopls'],
+  \ 'typescript': ['~/.node-bin/javascript-typescript-langserver', '--stdio'],
+  \ 'typescript.tsx': ['~/.node-bin/javascript-typescript-langserver', '--stdio'],
+  \ 'python': ['pyls'],
+  \ }
+  let g:LanguageClient_loadSettings = 1
+  nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+  nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+'''
+
 # ===================================================
 # UI 制御
 # ===================================================
@@ -191,7 +212,6 @@ hook_source = '''
   \   'python': ['flake8', 'mypy', 'pycodestyle'],
   \   'html': ['prettier'],
   \   'htmldjango': ['prettier'],
-  \   'yaml': ['yamllint'],
   \   'json': ['jq'],
   \   'sh': ['shellcheck'],
   \   'css': ['stylelint'],
@@ -214,7 +234,6 @@ hook_source = '''
   \   'jsx': ['prettier'],
   \   'vue': ['prettier', 'eslint'],
   \   'md': ['prettier'],
-  \   'yaml': ['prettier'],
   \}
   let g:ale_eruby_prettier_options = '--parser html'
 
@@ -259,10 +278,10 @@ repo = 'Vimjas/vim-python-pep8-indent'
 on_event = 'FileType'
 on_ft = ['python']
 
-[[plugins]]
-repo = 'plytophogy/vim-virtualenv'
-on_event = 'FileType'
-on_ft = ['python']
+# [[plugins]]
+# repo = 'plytophogy/vim-virtualenv'
+# on_event = 'FileType'
+# on_ft = ['python']
 
 # --------------------------------------------------
 # Praat
@@ -330,6 +349,8 @@ hook_add = '''
 # --------------------------------------------------
 # GO LANG
 # --------------------------------------------------
+# [[plugins]]
+# repo = 'mattn/vim-goimports'
 [[plugins]]  # go
 repo = 'fatih/vim-go'
 on_ft = ['go']
@@ -337,19 +358,4 @@ hook_add = '''
   let g:go_fmt_command = "goimports"
   let g:go_def_mapping_enabled = 0
   let g:go_doc_keywordprg_enabled = 0
-'''
-
-[[plugins]]
-repo = 'autozimu/LanguageClient-neovim'
-on_ft = ['go']
-build = 'bash install.sh'
-rev = 'next'
-hook_add = '''
-  set hidden
-  let g:LanguageClient_serverCommands = {
-  \ 'go': ['gopls']
-  \ }
-  let g:LanguageClient_loadSettings = 1
-  nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-  nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 '''
