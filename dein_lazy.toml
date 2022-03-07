@@ -8,33 +8,25 @@
 # ====================================================
 # 編集支援
 # ====================================================
-# [[plugins]]  # ddc 移行のため一度停止
-# repo = 'Shougo/deoplete.nvim'
-# on_event = 'InsertEnter'
-# hook_source = '''
-#   let g:deoplete#enable_at_startup = 1
-#   inoremap <expr><tab> pumvisible() ? "\<C-n>" :
-#   \ neosnippet#expandable_or_jumpable() ?
-#   \ "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
-# '''
 [[plugins]]
  repo = 'Shougo/ddc.vim'
  on_event = 'InsertEnter'
  depends = ['denops.vim']
  hook_source = '''
- call ddc#custom#patch_global('sources', ['nvim-lsp', 'around', 'vsnip'])
+ call ddc#custom#patch_global('sources', ['nvim-lsp', 'around', 'vsnip', 'neosnippet'])
  call ddc#custom#patch_global('sourceOptions', {
-      \ '_': {
-      \ 'matchers': ['matcher_head'],
-      \ 'sorters': ['sorter_rank'],
-      \ 'converters': ['converter_remove_overlap'],
-      \ },
-      \ 'around': {'mark': 'A'},
-      \ 'nvim-lsp': {
-      \ 'mark': 'L',
-      \ 'forceCompletionPattern': '\.\w*|:\w*|->\w*',
-      \ },
-      \ })
+ \   '_': {
+ \     'matchers': ['matcher_head'],
+ \     'sorters': ['sorter_rank'],
+ \     'converters': ['converter_remove_overlap'],
+ \   },
+ \   'around': {'mark': 'A'},
+ \   'neosnippet': {'mark': 'neo-snippet'},
+ \   'nvim-lsp': {
+ \     'mark': 'L',
+ \     'forceCompletionPattern': '\.\w*|:\w*|->\w*',
+ \   },
+ \ })
 
  call ddc#custom#patch_global('sourceParams', {
       \ 'around': {'maxSize': 500},
@@ -90,7 +82,6 @@ depends = ['neosnippet-snippets']
 hook_source = '''
   let g:neosnippet#enable_snipmate_compatibility = 1
   let g:neosnippet#snippets_directory=g:ECT_DIR . '/snipets/'
-
   imap <C-k> <Plug>(neosnippet_expand_or_jump)
   smap <C-k> <Plug>(neosnippet_expand_or_jump)
   xmap <C-k> <Plug>(neosnippet_expand_target)

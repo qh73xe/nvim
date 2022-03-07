@@ -12,6 +12,21 @@ abbr	|SNIPET| README:
 # ========================================================
 # FOR VUE
 # ========================================================
+snippet	v-quickstart-story
+abbr	|STORYBOOK| VUE-QUICKSTART
+options	head
+	import ${2:#:Component} from "./${1:#:app}";
+	export default { component: $2 };
+
+	const Template = (_, { argTypes }) => ({
+	  components: { $2 },
+	  props: Object.keys(argTypes),
+	  template: '<$2 v-bind="$props" />',
+	});
+
+	export const $2Story = Template.bind({});
+	$2Story.args = {${3:#args}};
+
 snippet	v-is-dev
 	process.env.NODE_ENV
 
