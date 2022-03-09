@@ -13,7 +13,7 @@ repo = 'Shougo/ddc.vim'
 on_event = 'InsertEnter'
 depends = ['denops.vim']
 hook_source = '''
- call ddc#custom#patch_global('sources', ['nvim-lsp', 'around', 'vsnip', 'neosnippet', 'file'])
+ call ddc#custom#patch_global('sources', ['around', 'nvim-lsp', 'neosnippet', 'vsnip', 'file'])
  call ddc#custom#patch_global('sourceOptions', {
  \   '_': {
  \     'matchers': ['matcher_head'],
@@ -47,10 +47,6 @@ hook_source = '''
 '''
 
 [[plugins]]
-repo = 'Shougo/ddc-around'
-on_source = 'ddc.vim'
-
-[[plugins]]
 repo = 'Shougo/ddc-matcher_head'
 on_source = 'ddc.vim'
 
@@ -62,28 +58,15 @@ on_source = 'ddc.vim'
 repo = 'Shougo/ddc-converter_remove_overlap'
 on_source = 'ddc.vim'
 
-[[plugins]]
+[[plugins]] # 周辺単語補完ソース
+repo = 'Shougo/ddc-around'
+on_source = 'ddc.vim'
+
+[[plugins]] # ラングエッジサーバー補完
 repo = 'Shougo/ddc-nvim-lsp'
 on_source = 'ddc.vim'
 
-[[plugins]]
-repo = 'LumaKernel/ddc-file'
-on_source = 'ddc.vim'
-
-[[plugins]]
-repo = 'hrsh7th/vim-vsnip'
-on_event = 'InsertEnter'
-depends = ['vim-vsnip-integ', 'friendly-snippets']
-hook_add = '''
- imap <expr> <C-j> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-j>'
- smap <expr> <C-j> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-j>'
- imap <expr> <C-f> vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-f>'
- smap <expr> <C-f> vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-f>'
- imap <expr> <C-b> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-b>'
- smap <expr> <C-b> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-b>'
- let g:vsnip_filetypes = {}
- '''
-[[plugins]]
+[[plugins]] # スニペット補完
 repo = 'Shougo/neosnippet'
 on_event = 'VimEnter'
 on_ft = ['snippet']
@@ -98,6 +81,25 @@ hook_source = '''
     set conceallevel=2 concealcursor=niv
   endif
 '''
+
+[[plugins]] # LSP 用スニペット補完
+repo = 'hrsh7th/vim-vsnip'
+on_event = 'InsertEnter'
+depends = ['vim-vsnip-integ', 'friendly-snippets']
+hook_add = '''
+  imap <expr> <C-j> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-j>'
+  smap <expr> <C-j> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-j>'
+  imap <expr> <C-f> vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-f>'
+  smap <expr> <C-f> vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-f>'
+  imap <expr> <C-b> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-b>'
+  smap <expr> <C-b> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-b>'
+  let g:vsnip_filetypes = {}
+'''
+
+[[plugins]] # ファイルパス補完
+repo = 'LumaKernel/ddc-file'
+on_source = 'ddc.vim'
+
 
 # ====================================================
 # LanguageClient
