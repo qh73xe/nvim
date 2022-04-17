@@ -1,20 +1,13 @@
 # ====================================================
 # ユーティリティ
 # ====================================================
+[[plugins]]  # deno: 次世代暗黒系プラグラインの前提になりそう
+repo = 'vim-denops/denops.vim'
+
 [[plugins]]  # プラグイン管理
 repo = 'Shougo/dein.vim'
 hook_add = '''
   let g:dein#types#git#clone_depth = 1
-'''
-
-[[plugins]]  # vim interface framework
-repo = 'Shougo/denite.nvim'
-hook_add = '''
-   call denite#custom#var('file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
-   call denite#custom#var('grep', 'command', ['ag'])
-   call denite#custom#var('grep', 'recursive_opts', [])
-   call denite#custom#var('grep', 'pattern_opt', [])
-   call denite#custom#var('grep', 'default_opts', ['--follow', '--no-group', '--no-color'])
 '''
 
 [[plugins]]  # 非同期処理
@@ -44,11 +37,10 @@ hook_add = '''
 '''
 
 [[plugins]]
- repo = 'hrsh7th/vim-vsnip-integ'
+repo = 'hrsh7th/vim-vsnip-integ'
 
 [[plugins]]
- repo = 'rafamadriz/friendly-snippets'
-
+repo = 'rafamadriz/friendly-snippets'
 
 [[plugins]] # git 表示
 repo = "airblade/vim-gitgutter"
@@ -56,25 +48,6 @@ repo = "airblade/vim-gitgutter"
 [[plugins]] # git 操作
 repo = "tpope/vim-fugitive"
 
-[[plugins]]
-repo = 'glacambre/firenvim'
-hook_add = '''
-let g:firenvim_config = {
-\  'localSettings': {
-\    '.*': {
-\      'selector': 'textarea, div[role="textbox"]',
-\      'priority': 0,
-\    },
-\    'github\.com': {
-\      'selector': 'textarea',
-\      'priority': 1,
-\    },
-\  }
-\}
-'''
-hook_post_update = '''
-  call firenvim#install(0)
-'''
 # ====================================================
 # 編集支援
 # ====================================================
@@ -106,9 +79,10 @@ hook_add = '''
   vnoremap <silent> <Space>o :OverCommandLine<CR>s//g<Left><Left>
   nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
 '''
-# Ctags
-# --------------------------------------------------
 
+# ====================================================
+# Ctags
+# ====================================================
 [[plugins]]
 # this plugins is require global
 # Run `sudo apt install global`
@@ -117,21 +91,17 @@ hook_add = '''
   let g:gen_tags#ctags_auto_gen = 1
 '''
 
-
 [[plugins]]
 repo = 'majutsushi/tagbar'
 hook_add = '''
   nmap <Leader>t :TagbarToggle<CR>
 '''
 
+# ====================================================
 # 英語支援
-# --------------------------------------------------
-[[plugins]]
-repo = 'qh73xe/nvim-trans'
-
+# ====================================================
 [[plugins]] # vimからlookコマンドを使用する
 repo = 'ujihisa/neco-look'
-
 
 # ====================================================
 # Text Object 管理
@@ -144,7 +114,6 @@ repo = 'kana/vim-textobj-user'
 
 [[plugins]]
 repo = 'kana/vim-textobj-function'
-
 
 # ============================================
 # selector
@@ -199,9 +168,9 @@ repo = 'kana/vim-textobj-function'
 # ============================================
 # file type / syntax の追加
 # ============================================
-# [[plugins]] # toml syntax
-# repo = 'cespare/vim-toml'
-# on_ft = 'toml'
+[[plugins]] # toml syntax
+repo = 'cespare/vim-toml'
+on_ft = 'toml'
 
 [[plugins]] # typescript
 repo = 'HerringtonDarkholme/yats.vim'
@@ -211,6 +180,3 @@ repo = 'posva/vim-vue'
 
 [[plugins]]  # json
 repo = 'elzr/vim-json'
-
-[[plugins]]  # deno
-repo = 'vim-denops/denops.vim'
