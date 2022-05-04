@@ -37,10 +37,6 @@ endif
 " 各プラグインに対する個別設定
 let s:rc_dir = g:ECT_DIR . 'rc/'
 
-" DEIN ディレクトリ
-let g:DEIN_DIR = '$HOME/.cache/dein'
-
-
 " 設定ファイル読み込み関数の定義
 " -------------------------------------------------
 function! Loadrc(filename)
@@ -70,7 +66,6 @@ endfunction
 " -------------------------------------------------
 " Dein の設定
 " -------------------------------------------------
-"
 " 以下にプラグイン管理プラグイン DEIN に関する
 " 設定を記述する
 syntax off
@@ -78,15 +73,17 @@ augroup MyAutoCmd
   autocmd!
 augroup END
 
+" DEIN ディレクトリ
+let g:DEIN_DIR = '$HOME/.cache/dein'
 if &compatible
-  set nocompatible
+  set nocompatible "Be iMproved
 endif
 
 let s:dein_dir = expand(g:DEIN_DIR)
 let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 
 if !isdirectory(s:dein_repo_dir)
-  execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+ execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
 endif
 set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
@@ -101,12 +98,11 @@ if dein#load_state(s:dein_dir)
   call dein#save_state()
 endif
 
-filetype plugin indent on
 syntax enable
+filetype plugin indent on
 if dein#check_install()
-    call dein#install()
+ call dein#install()
 endif
-
 " =================================================
 " デフォルト設定
 " =================================================
