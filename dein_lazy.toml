@@ -13,7 +13,7 @@ repo = 'Shougo/ddc.vim'
 on_event = 'InsertEnter'
 depends = ['denops.vim']
 hook_source = '''
- call ddc#custom#patch_global('sources', ['around', 'nvim-lsp', 'omni', 'neosnippet', 'vsnip', 'file'])
+ call ddc#custom#patch_global('sources', ['around', 'nvim-lsp', 'neosnippet', 'vsnip', 'file'])
  call ddc#custom#patch_global('sourceOptions', {
  \   '_': {
  \     'matchers': ['matcher_head'],
@@ -27,7 +27,6 @@ hook_source = '''
  \   },
  \   'around': {'mark': 'A'},
  \   'neosnippet': {'mark': 'S'},
- \   'omni': {'mark': 'O'},
  \   'nvim-lsp': {
  \     'mark': 'L',
  \     'forceCompletionPattern': '\.\w*|:\w*|->\w*',
@@ -65,10 +64,6 @@ on_source = 'ddc.vim'
 
 [[plugins]] # ラングエッジサーバー補完
 repo = 'Shougo/ddc-nvim-lsp'
-on_source = 'ddc.vim'
-
-[[plugins]] # オムニ補完
-repo = 'Shougo/ddc-omni'
 on_source = 'ddc.vim'
 
 [[plugins]] # スニペット補完
@@ -407,12 +402,6 @@ hook_source = '''
     let g:vimtex_compiler_progname = 'nvr'
   endif
   call vimtex#init()
-  call ddc#custom#patch_filetype(['tex'], 'sourceOptions', {
-  \   'omni': {'forceCompletionPattern': g:vimtex#re#deoplete},
-  \ })
-  call ddc#custom#patch_filetype(['tex'], 'sourceParams', {
-  \ 'omni': {'omnifunc': 'vimtex#complete#omnifunc'},
-  \ })
 '''
 
 
