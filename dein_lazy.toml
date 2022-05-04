@@ -84,7 +84,7 @@ hook_source = '''
     set conceallevel=2 concealcursor=niv
   endif
 '''
-# 
+#
 [[plugins]] # LSP 用スニペット補完
 repo = 'hrsh7th/vim-vsnip'
 on_event = 'InsertEnter'
@@ -276,7 +276,8 @@ on_event = 'VimEnter'
 depends = ['vim-airline']
 hook_source = '''
   let g:ale_linters_explicit = 1
-
+  " nvim-lsp との競合防止
+   let g:ale_disable_lsp = 1
   " 行強調
   let g:ale_completion_enabled = 1
   let g:ale_sign_column_always = 1
@@ -300,6 +301,7 @@ hook_source = '''
   let g:ale_echo_msg_error_str = 'E'
   let g:ale_echo_msg_warning_str = 'W'
   let g:ale_echo_msg_format = '[%linter%]%code: %%s'
+  let g:ale_linter_aliases = {'typescriptreact': 'typescript'}
   let g:ale_linters = {
   \   '*': ['remove_trailing_lines', 'trim_whitespace'],
   \   'tex': ['chktex'],
@@ -360,7 +362,7 @@ hook_source = '''
   \}
   let g:quickrun_no_default_key_mappings = 1
 '''
-# 
+#
 # --------------------------------------------------
 # Python
 # --------------------------------------------------
