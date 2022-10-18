@@ -14,6 +14,14 @@ alias comment
 abbr	|TYPESCRIPT| INTERFACE
 	/** ${1:TARGET}${0} */
 
+# ========================================================
+# VUE-SETUP
+# ========================================================
+snippet	v-emit
+abbr	|VUE-SETUP| EMITS
+	const emit = defineEmits<{
+		(e: '${1:#emit}', value: ${2:#value}): void
+	}>()
 
 # ========================================================
 # ES-LINT

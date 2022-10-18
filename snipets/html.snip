@@ -3,6 +3,17 @@ snippet     comment
   <!-- ${0} -->
 
 # =======================================
+# VUE-TYPESCRIPT
+# =======================================
+snippet    v-emit
+abbr	|VUE-TYPESCRIPT| EMIT
+options	head
+	const emit = defineEmits<{
+		(e: '${1#emit}', value: ${2:#:value-type}): void
+	}>()
+
+
+# =======================================
 # VUE
 # =======================================
 snippet    v-for

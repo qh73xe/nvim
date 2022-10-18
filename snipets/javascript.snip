@@ -1,207 +1,30 @@
 snippet	comment
 abbr	|SNIPET| COMMENT
 options	head
-	/* ${0:#:comment} */
-
-snippet	for_of
-abbr	|SNIPET| README:
-	for (const item of ${0:#:array}){
-	}
+	/* ${1:#:comment} */
 
 
 # ========================================================
 # FOR VUE
 # ========================================================
-snippet	quickstartStoryVue
-abbr	|STORYBOOK| VUE-QUICKSTART
+snippet	quick-story-vue
+abbr	|STORYBOOK-VUE| QUICKSTART
 options	head
-	import ${2:#:Component} from "./${1:#:app}";
-	export default { component: $2 };
+	import VAppbar from './VAppbar.vue'
+	import ${2:#:Component} from "./${1:#:app}.vue";
 
-	const Template = (_, { argTypes }) => ({
+	export default {
+	  title: 'Components/$2',
+	  component: $2,
+	}
+
+	const Template = (args) => ({
 	  components: { $2 },
-	  props: Object.keys(argTypes),
-	  template: '<$2 v-bind="$props" />',
-	});
-
-	export const $2Story = Template.bind({});
-	$2Story.args = {${3:#args}};
-
-snippet	v-is-dev
-	process.env.NODE_ENV
-
-snippet	v-store-module
-alias	v-st
-abbr	|SNIPET| V-STORE:
-	const ${0:TARGET} = {
-		state: {},
-		mutations: {},
-		actions: {},
-		getters: {}
-	}
-
-snippet	v-components
-abbr	|SNIPET| V-COMPONENTS:
-	components: {
-		${0:TARGET}
-	},
-
-snippet	v-data
-abbr	|SNIPET| V-DATA:
-	data: () => ({
-		${0:TARGET}
-	}),
-
-snippet	v-methods
-abbr	|SNIPET| V-METHODS:
-	methods: {
-		${0:TARGET}
-	},
-
-snippet	v-computed
-alias	v-c
-abbr	|SNIPET| V-COMPUTED:
-	computed: {
-		${0:TARGET}
-	},
-snippet	v-components-item
-alias	v-c-i
-$emit('input', val)
-	${1:TARGET}: {
-		get(){
-			return this.${2:#:value}
-		},
-		set(val){
-			$emit('input', val)
-		}
-	},
-snippet	v-components-store-item
-alias	v-c-s
-$emit('input', val)
-	${1:TARGET}: {
-		get(){
-			return this.$store.state.${2:#:value}
-		},
-		set(val){
-			this.$store.commit("${2:#:method}")
-		}
-	},
-
-
-snippet	v-mounted
-abbr	|SNIPET| V-MOUNTED:
-	mounted: function() {
-		${0:TARGET}
-	}
-
-snippet	v-props
-abbr	|SNIPET| V-PROPS:
-	props: {
-		${1:TARGET}: {
-			type: ${2:TYPE},
-		},
-	},
-
-snippet	v-watch
-abbr	|SNIPET| V-WATCH:
-	watch: {
-		${0:TARGET}: function() {
-			${1}
-		}
-	},
-
-snippet	v-next-tick
-abbr	|SNIPET| V-NEXT-TICK:
-	this.$nextTick(()=>{
-		${0:TARGET}
-	});
-
-snippet	v-breakpoint
-abbr	|SNIPET| V-BREAKPOINT:
-	this.$vuetify.breakpoint
-
-snippet	v-breakpoint-and-up
-abbr	|SNIPET| V-AND-UP
-	$vuetify.breakpoint.${0:BREAKPOINT}AndUp
-
-# フォーマットルール
-snippet	v-rules
-abbr	|SNIPET| V-RULES
-	rules: {
-		email: [
-			v => !!v || "this field is required",
-			v => /.+@.+/.test(v) || "E-mail must be valid"
-		],
-		url: [
-			v => !!v || "this field is required",
-			v => /^(https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)$/.test(v) || "url must be valid"
-		],
-		phone: [
-			v => !!v || "this field is required",
-			v => {
-				const phones = v.replace(/[━.*‐.*―.*－.*\-.*ー.*\-]/gi,'');
-				if (/^(0[5-9]0[0-9]{8}|0[1-9][1-9][0-9]{7})$/.test(phones)){
-					return true
-				} else {
-					return "phone must be valid"
-				}
-			}
-		]
-	},
-
-# 特殊構文
-snippet v-model-template
-abbr	|SNIPET| V-MODEL-TEMPLATE
-	props: {
-		value: {
-			type: Object,
-			require: true
-		}
-	},
-	computed: {
-		item: {
-			get(){
-				return this.value
-			},
-			set(new_val) {
-				if (this.value !== new_val) this.$emit("input", new_val);
-			}
-		}
-	}
-
-snippet v-model-veux-template
-abbr	|SNIPET| V-MODEL-VUEX-TEMPLATE
-	computed: {
-		${0:TARGET}: {
-			get () { return this.$store.state.${0:TARGET} },
-			set (val) { store.commit('setFamilyName', val) },
-		},
-	},
-
-# ========================================================
-# 構文
-# ========================================================
-snippet if-is
-	if (${0:TARGET} != null || ${0:TARGET}.length === 0) {
-	}
-
-
-# ========================================================
-# FOR AXIOS
-# ========================================================
-snippet then-catch
-	then(res => {
-	}).catch(error => {
-	}).finally(() => {
+	  setup() {
+	    return { args }
+	  },
+	  template: '<$2 v-bind="args" />',
 	})
 
-
-# ========================================================
-# FOR Code doc
-# ========================================================
-snippet		 jsdoc
-options		 head
-	/**
-	 *
-	 *
-	 */
+	export const Default = Template.bind({})
+	Default.args = {}
