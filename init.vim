@@ -9,6 +9,8 @@
 " -------------------------------------------------
 if (has("win64") || has("win32"))
   let g:OS = "WINDOWS"
+elseif (has("mac"))
+  let g:OS = "MAC"
 else
   let g:OS = substitute(system('uname'), '\n', '', 'g')
   if g:OS == "Linux"
@@ -25,6 +27,9 @@ endif
 if (g:OS == "WINDOWS")
   let g:python3_host_prog = expand('$HOME/scoop/shims/python3')
   let g:ECT_DIR = '$HOME/AppData/Local/nvim' " Nvim 設定管理ディレクトリ
+elseif (g:OS == "MAC")
+  let g:python3_host_prog = expand('/opt/homebrew/bin/python3')
+  let g:ECT_DIR = '$HOME/.config/nvim' " Nvim 設定管理ディレクトリ
 else
   let g:python3_host_prog = expand('/usr/bin/python3')
   let g:ECT_DIR = '$HOME/.config/nvim' " Nvim 設定管理ディレクトリ
