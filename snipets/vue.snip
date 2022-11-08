@@ -6,13 +6,9 @@ options     head
 	<template>
 		${1:TARGET}
 	</template>
-	<script>
-	export default {
-		name: "`tolower(substitute(expand('%:t:r'), "[A-Z][a-z]*", "-&","g")[1:])`",
-	}
+	<script setup lang="ts">
+		import { ref } from 'vue'
 	</script>
-
-	<style scoped></style>
 
 snippet     v-script
 options     head
