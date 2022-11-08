@@ -48,6 +48,12 @@ repo = "airblade/vim-gitgutter"
 [[plugins]] # git 操作
 repo = "tpope/vim-fugitive"
 
+[[plugins]]  # truble.vim の依存
+repo = 'kyazdani42/nvim-web-devicons'
+
+[[plugins]]  # truble.vim の依存
+repo = 'folke/lsp-colors.nvim'
+
 # ====================================================
 # 編集支援
 # ====================================================
@@ -180,6 +186,3 @@ repo = 'posva/vim-vue'
 
 [[plugins]]  # json
 repo = 'elzr/vim-json'
-
-[[plugins]]  # truble.vim の依存
-repo = 'kyazdani42/nvim-web-devicons'
