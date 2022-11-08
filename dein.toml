@@ -180,3 +180,6 @@ repo = 'posva/vim-vue'
 
 [[plugins]]  # json
 repo = 'elzr/vim-json'
+
+[[plugins]]  # truble.vim の依存
+repo = 'kyazdani42/nvim-web-devicons'
