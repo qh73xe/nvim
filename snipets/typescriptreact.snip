@@ -63,8 +63,8 @@ options	head
 	import ${2:#:Component}, {$2Props} from "./${1:#:app}";
 
 	export default {
-		title: "${3:#:title}",
 		component: $2,
+		parameters: { fileName: __filename },
 	} as ComponentMeta<typeof $2>;
 
 	export const $2Story: ComponentStory<typeof $2> = (args: $2Props) => {
@@ -72,7 +72,6 @@ options	head
 		return <$2 {...args} />;
 	}
 	$2Story.args = {${4:#:args}};
-	$2Story.storyName = "${5:#:storyName}"
 
 snippet	argTypes-story
 abbr	|STORYBOOK| argTypes
