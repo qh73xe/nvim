@@ -1,0 +1,14 @@
+snippet quickstart
+	{/* ${1:#app}.mdx */}
+
+	import { Canvas, Meta, Controls } from '@storybook/blocks';
+	import * as $1Stories from './$1.stories';
+
+	<Meta of={$1Stories} />
+
+	# $1
+
+	このコンポーネントは VC におけるテーブルの一行を制御するコンポーネントです.
+
+	<Canvas of={$1Stories.$1Story} />
+	<Controls />

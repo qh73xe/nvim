@@ -138,7 +138,7 @@ map <Leader>i gg=<S-g><C-o><C-o>zz
 vmap <silent> * "vy/\V<C-r>=substitute(escape(@v, '\/'), "\n", '\\n', 'g')<CR><CR>
 
 "<Space><Space>
-nmap <Leader><Leader> 0v$h
+nmap <Leader><Leader>f 0v$h
 nmap <Leader><Leader>w bvwh
 nmap <Leader><Leader>0 bvwh~
 

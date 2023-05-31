@@ -153,6 +153,7 @@ lua << EOF
     buf_set_keymap('n', 'g[', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
     buf_set_keymap('n', 'g]', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
   end
+
   require('mason').setup({
     ui = {
       icons = {
@@ -163,7 +164,7 @@ lua << EOF
     }
   })
   require("mason-lspconfig").setup({
-      ensure_installed = { "sumneko_lua", "rust_analyzer" }
+      ensure_installed = { "lua_ls", "rust_analyzer" }
   })
   require("mason-lspconfig").setup_handlers({
     function(server_name)
@@ -177,6 +178,53 @@ lua << EOF
       end
       nvim_lsp[server_name].setup(opts)
     end
+  })
+
+  -- build-in LSP function
+  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
+  )
+  -- keyboard shortcut
+  -- 診断結果の表示
+  vim.api.nvim_set_keymap(
+    'n', '<Leader><Leader>',
+    '<cmd>lua vim.diagnostic.open_float()<CR>',
+    { noremap = true, silent = true }
+  )
+  -- 次の診断結果に移動
+  vim.api.nvim_set_keymap(
+    'n', '<Leader><Leader>k',
+    '<cmd>lua vim.diagnostic.goto_prev()<CR>',
+    { noremap = true, silent = true }
+  )
+  -- 前の診断結果に移動
+  vim.api.nvim_set_keymap(
+    'n', '<Leader><Leader>j',
+    '<cmd>lua vim.diagnostic.goto_next()<CR>',
+    { noremap = true, silent = true }
+  )
+  -- 診断結果一覧をメッセージに表示
+  vim.api.nvim_set_keymap(
+    'n', '<Leader><Leader>i',
+    '<cmd>lua vim.diagnostic.setloclist()<CR>',
+    { noremap = true, silent = true }
+  )
+  -- Mark
+  local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+  for type, icon in pairs(signs) do
+    local hl = "DiagnosticSign" .. type
+    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+  end
+  -- 診断メッセージ内容の変更
+  vim.diagnostic.config({
+    virtual_text = {
+      -- source = "always",  -- Or "if_many"
+      prefix = '●', -- Could be '■', '▎', 'x'
+    },
+    severity_sort = true,
+    float = {
+      source = "always",  -- Or "if_many"
+    },
   })
 EOF
 '''
@@ -543,3 +591,11 @@ hook_add = '''
   let g:go_def_mapping_enabled = 0
   let g:go_doc_keywordprg_enabled = 0
 '''
+
+# --------------------------------------------------
+# MDX
+# --------------------------------------------------
+[[plugins]]
+repo = 'iamcco/markdown-preview.nvim'
+on_ft = ['mdx']
+build = 'sh -c "cd app && yarn install"'

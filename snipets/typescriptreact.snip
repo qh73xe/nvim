@@ -58,20 +58,21 @@ abbr	|REACT| X.displayName = "X"
 snippet	quickstart-story
 abbr	|STORYBOOK| QUICKSTART
 options	head
-	import React from "react";
-	import { ComponentStory, ComponentMeta } from "@storybook/react";
-	import ${2:#:Component}, {$2Props} from "./${1:#:app}";
+	import type { Meta, StoryObj } from "@storybook/react";
+	import ${2:#:Component} from "./${1:#:app}";
+	const meta: Meta<typeof $2> = {
+	  component: $2,
+	  parameters: { fileName: __filename },
+	};
+	export default meta;
 
-	export default {
-		component: $2,
-		parameters: { fileName: __filename },
-	} as ComponentMeta<typeof $2>;
+	type Story = StoryObj<typeof $2>;
+	export const $2Story: Story = {
+	  args: {
+		${3:#:args}
+	  },
+	};
 
-	export const $2Story: ComponentStory<typeof $2> = (args: $2Props) => {
-		console.log(args);
-		return <$2 {...args} />;
-	}
-	$2Story.args = {${4:#:args}};
 
 snippet	argTypes-story
 abbr	|STORYBOOK| argTypes
