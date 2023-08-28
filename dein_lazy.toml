@@ -136,6 +136,7 @@ on_source = 'ddc.vim'
 [[plugins]]
 repo = 'neovim/nvim-lspconfig'
 on_event = 'BufEnter'
+depends = ['nvim-web-devicons']
 hook_source = '''
 lua << EOF
   local nvim_lsp = require('lspconfig')
@@ -162,9 +163,7 @@ lua << EOF
       }
     }
   })
-  require("mason-lspconfig").setup({
-      ensure_installed = { "sumneko_lua", "rust_analyzer" }
-  })
+  require("mason-lspconfig").setup()
   require("mason-lspconfig").setup_handlers({
     function(server_name)
       local opts = {}
@@ -188,7 +187,7 @@ on_source = 'nvim-lspconfig'
 
 [[plugins]]
 repo ='williamboman/mason.nvim'
-on_source = 'nvim-lspconfig'
+on_source = 'mason-lspconfig.nvim'
 
 [[plugins]]
 repo ='folke/trouble.nvim'

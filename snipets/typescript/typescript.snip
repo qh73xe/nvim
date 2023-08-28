@@ -15,6 +15,44 @@ abbr	|TYPESCRIPT| INTERFACE
 	/** ${1:TARGET}${0} */
 
 # ========================================================
+# React/Recoil
+# ========================================================
+snippet	quickstart-atom
+abbr	|Recoil| ATOM
+options	head
+	import { atom } from "recoil";
+	import { recoilPersist } from "recoil-persist";
+
+	const { persistAtom } = recoilPersist({
+	  key: "${3:#storage-key}",
+	  storage: localStorage,
+	});
+	export interface ${1:#atom} {}
+	export const ${2:#key}State = atom<$1>({
+	  key: "$2",
+	  default: {},
+	  effects_UNSTABLE: [persistAtom],
+	});
+	export default $2State;
+
+snippet	quickstart-selector
+abbr	|Recoil| SELECTOR
+options	head
+	import { selector } from "recoil";
+	import { ${2:#app}State } from "../atoms/${1:#file}";
+	import type { $1 } from "../atoms/$1";
+
+	const $2Selector = selector<$1>({
+	  key: "$2Selector",
+	  get: ({ get }) => {
+	    const $2: $1 = get($2State);
+	    return $2;
+	  },
+	});
+
+	export default $2Selector;
+
+# ========================================================
 # VUE-SETUP
 # ========================================================
 snippet	v-emit
@@ -282,11 +320,8 @@ snippet timeout "setTimeout(() => {})"
 
 snippet hasOwnProperty
 	hasOwnProperty(${0})
-
-
-let something = new Singleton() // Error: constructor of 'Singleton' is private.
-
-let instance = Singleton.getInstance()
+	let something = new Singleton() // Error: constructor of 'Singleton' is private.
+	let instance = Singleton.getInstance()
 
 snippet object-marge
 	const ${1:#:object-name} = Object.assign(${2:{}}, ${3:#:new-object});
