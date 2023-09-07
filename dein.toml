@@ -87,29 +87,6 @@ hook_add = '''
 '''
 
 # ====================================================
-# Ctags
-# ====================================================
-[[plugins]]
-# this plugins is require global
-# Run `sudo apt install global`
-repo = 'jsfaint/gen_tags.vim'
-hook_add = '''
-  let g:gen_tags#ctags_auto_gen = 1
-'''
-
-[[plugins]]
-repo = 'majutsushi/tagbar'
-hook_add = '''
-  nmap <Leader>t :TagbarToggle<CR>
-'''
-
-# ====================================================
-# 英語支援
-# ====================================================
-[[plugins]] # vimからlookコマンドを使用する
-repo = 'ujihisa/neco-look'
-
-# ====================================================
 # Text Object 管理
 # ====================================================
 [[plugins]]
@@ -186,3 +163,9 @@ repo = 'posva/vim-vue'
 
 [[plugins]]  # json
 repo = 'elzr/vim-json'
+
+[[plugins]] # Colour Shceme
+repo = 'jacoborus/tender.vim'
+hook_add = '''
+  au MyAutoCmd VimEnter * nested colorscheme tender
+'''

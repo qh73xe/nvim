@@ -137,8 +137,7 @@ on_source = 'ddc.vim'
 repo = 'neovim/nvim-lspconfig'
 on_event = 'BufEnter'
 depends = ['nvim-web-devicons']
-hook_source = '''
-lua << EOF
+lua_source = '''
   local nvim_lsp = require('lspconfig')
   local on_attach = function (client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -177,7 +176,6 @@ lua << EOF
       nvim_lsp[server_name].setup(opts)
     end
   })
-EOF
 '''
 
 [[plugins]]
@@ -193,8 +191,7 @@ on_source = 'mason-lspconfig.nvim'
 repo ='folke/trouble.nvim'
 on_source = 'nvim-lspconfig'
 depends = ['nvim-web-devicons']
-hook_source = '''
-lua << EOF
+lua_source = '''
   require("trouble").setup {
     position = "bottom", -- position of the list can be: bottom, top, left, right
     height = 10, -- height of the trouble list when position is top or bottom
@@ -242,7 +239,6 @@ lua << EOF
     },
     use_diagnostic_signs = false -- enabling this will use the signs defined in your lsp client
   }
-EOF
 '''
 
 
@@ -275,19 +271,11 @@ hook_post_source = '''
   :hi IndentGuidesEven guibg=#73cef4 ctermbg=81
 '''
 
-[[plugins]] # Colour Shceme
-repo = 'jacoborus/tender.vim'
-on_event = 'FileType'
-hook_source = '''
-  colorscheme tender
-'''
-
 [[plugins]] # 全角強調
 repo = 'thinca/vim-zenspace'
 on_event = 'FileType'
 hook_source = '''
   set list
-  colorscheme tender
 '''
 
 
