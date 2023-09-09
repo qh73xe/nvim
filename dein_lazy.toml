@@ -44,10 +44,23 @@ lua_source = '''
       local opts = {}
       opts.on_attach = function(_, bufnr)
         local bufopts = { silent = true, buffer = bufnr }
-        vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-        vim.keymap.set('n', 'gtD', vim.lsp.buf.type_definition, bufopts)
-        vim.keymap.set('n', 'grf', vim.lsp.buf.references, bufopts)
-        vim.keymap.set('n', '<space>p', vim.lsp.buf.format, bufopts)
+
+        -- カーソル下の変数の情報の取得
+        vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+
+        -- 定義ジャンプ
+        vim.keymap.set('n', '<C-n>', vim.lsp.buf.definition, bufopts)
+        vim.keymap.set('n', '<C-N>', vim.lsp.buf.implementation, bufopts)
+
+        -- 変数参照先の一覧を取得
+        vim.keymap.set('n', '<leader>r', vim.lsp.buf.references, bufopts)
+
+        -- Error/Warning/Hint の実行可能な修正の候補を表示
+        vim.keymap.set('n', '<leader>h', vim.lsp.buf.code_action, bufopts)
+
+        -- フォーマットの実施
+        vim.keymap.set('n', '<leader><Enter>', vim.lsp.buf.format, bufopts)
+
       end
       nvim_lsp[server_name].setup(opts)
     end
@@ -55,32 +68,10 @@ lua_source = '''
 '''
 
 
-[[plugins]]
-repo = 'matsui54/denops-signature_help'
-on_source = 'ddc.vim'
-hook_source = '''
-call signature_help#enable()
-'''
-
-[[plugins]]
-repo = 'matsui54/denops-popup-preview.vim'
-on_source = 'ddc.vim'
-hook_source = '''
-call popup_preview#enable()
-'''
-
-
-#
-# 遅延読み込み系プラグイン管理
-#
-[[plugins]]  # vim interface framework
-depends = ['denops.vim']
-repo = 'Shougo/ddu.vim'
-
 # ====================================================
 # 編集支援
 # ====================================================
-[[plugins]]
+[[plugins]] # コード補完
 repo = 'Shougo/ddc.vim'
 on_event = 'InsertEnter'
 depends = ['denops.vim']
@@ -114,24 +105,25 @@ call ddc#custom#patch_global('sourceOptions', {
 call ddc#custom#patch_global('sourceParams', {
 \     'around': {'maxSize': 500},
 \ })
-
-call ddc#custom#patch_global('completionMenu', 'pum.vim')
-inoremap <silent><expr> <TAB>
-      \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' :
-      \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
-      \ '<TAB>' : ddc#map#manual_complete()
-inoremap <S-Tab> <Cmd>call pum#map#insert_relative(-1)<CR>
-inoremap <C-n>   <Cmd>call pum#map#select_relative(+1)<CR>
-inoremap <C-p>   <Cmd>call pum#map#select_relative(-1)<CR>
-inoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
-inoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
-inoremap <silent><expr> <TAB>
 call ddc#enable()
 '''
 
-[[plugins]]
+[[plugins]] # 補完用ポップアップ
 repo = 'Shougo/pum.vim'
 on_source = 'ddc.vim'
+hook_source = '''
+" ddc と pum を接続させる
+call ddc#custom#patch_global('ui', 'pum.vim')
+
+inoremap <C-n>   <Cmd>call pum#map#select_relative(+1)<CR>  " 補完候補を一つ進める
+inoremap <C-p>   <Cmd>call pum#map#select_relative(-1)<CR>  " 補完候補を一つ戻す
+" 補完候補を一つ戻す
+inoremap <silent><expr> <TAB>
+  \ pumvisible() ? '<C-n>' :
+  \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
+  \ '<TAB>' : ddc#map#manual_complete()
+inoremap <expr><S-TAB>  pumvisible() ? '<C-p>' : '<C-h>'
+'''
 
 [[plugins]]
 repo = 'Shougo/ddc-matcher_head'
@@ -157,8 +149,12 @@ on_source = 'ddc.vim'
 repo = 'Shougo/ddc-around'
 on_source = 'ddc.vim'
 
-[[plugins]] # ラングエッジサーバー補完
+[[plugins]] # ラングエッジサーバー補完ソース
 repo = 'Shougo/ddc-nvim-lsp'
+on_source = 'ddc.vim'
+
+[[plugins]] # ddc 用スニペット補完ソース
+repo = 'uga-rosa/ddc-source-vsnip'
 on_source = 'ddc.vim'
 
 [[plugins]] # LSP 用スニペット補完
@@ -179,10 +175,27 @@ hook_add = '''
 repo = 'LumaKernel/ddc-file'
 on_source = 'ddc.vim'
 
+[[plugins]]
+repo = 'matsui54/denops-signature_help'
+on_source = 'ddc.vim'
+hook_source = '''
+call signature_help#enable()
+'''
+
+[[plugins]]
+repo = 'matsui54/denops-popup-preview.vim'
+on_source = 'ddc.vim'
+hook_source = '''
+call popup_preview#enable()
+'''
 
 # ===================================================
 # UI 制御
 # ===================================================
+[[plugins]]  # vim interface framework
+depends = ['denops.vim']
+repo = 'Shougo/ddu.vim'
+
 [[plugins]]  # Indent 表示
 repo = 'nathanaelkane/vim-indent-guides'
 on_event = 'FileType'  # filetype が特定された時に読み込む
@@ -242,6 +255,36 @@ lua_source = '''
   require("trouble").setup {
     use_diagnostic_signs = true
   }
+  vim.keymap.set("n", "Q", function() require("trouble").open() end)
+'''
+
+[[plugins]] # コードフォーマッター
+repo = 'mhartington/formatter.nvim'
+on_event = 'FileType'
+lua_source = '''
+local util = require "formatter.util"
+require("formatter").setup {
+  -- ロギングを有効または無効にする
+  logging = false,
+  filetype = {
+    lua = {
+      require("formatter.filetypes.lua").stylua
+    },
+    javascript = {
+      require("formatter.filetypes.javascript").prettier
+    },
+    vue = {
+      require("formatter.filetypes.vue").prettier
+    },
+    css = {
+      require("formatter.filetypes.css").prettier
+    },
+    -- デフォルトフォーマッタ構成
+    ["*"] = {
+      require("formatter.filetypes.any").remove_trailing_whitespace
+    }
+  }
+}
 '''
 
 [[plugins]] # スニペット補完
@@ -319,8 +362,6 @@ lua_source = '''
     },
   }
 '''
-
-
 
 # --------------------------------------------------
 # Python
