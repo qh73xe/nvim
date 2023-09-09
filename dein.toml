@@ -172,7 +172,7 @@ repo = 'posva/vim-vue'
 repo = 'elzr/vim-json'
 
 [[plugins]] # Colour Shceme
-repo = 'jacoborus/tender.vim'
+repo = 'shaunsingh/nord.nvim'
 hook_add = '''
-  au MyAutoCmd VimEnter * nested colorscheme tender
+  au MyAutoCmd VimEnter * nested colorscheme nord
 '''
