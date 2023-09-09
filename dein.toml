@@ -24,6 +24,16 @@ hook_add = '''
   \     'start': '\v^hook_(add|source|post_source)\s\=\s'."'+$",
   \     'end': "\v^'{3}$"
   \   },
+  \   {
+  \     'filetype':'lua',
+  \     'start': '\v^lua_(add|source|post_source)\s\=\s'."'+$",
+  \     'end': "\v^'{3}$"
+  \   },
+  \   {
+  \     'filetype':'vim',
+  \     'start': '\v^hook_(add|source|post_source)\s\=\s'."'+$",
+  \     'end': "\v^'{3}$"
+  \   },
   \ ],
   \ 'python': [
   \   {
@@ -50,9 +60,6 @@ repo = "tpope/vim-fugitive"
 
 [[plugins]]  # truble.vim の依存
 repo = 'kyazdani42/nvim-web-devicons'
-
-[[plugins]]  # truble.vim の依存
-repo = 'folke/lsp-colors.nvim'
 
 # ====================================================
 # 編集支援
