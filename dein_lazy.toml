@@ -38,10 +38,43 @@ on_source = 'nvim-lspconfig'
 depends = ['nvim-lspconfig']
 lua_source = '''
   local nvim_lsp = require('lspconfig')
-  require("mason-lspconfig").setup()
+  require("mason-lspconfig").setup({
+    ensure_installed = {
+      "dockerls",
+      "docker_compose_language_service",
+      "dotls",
+      "lua_ls",
+      "marksman",
+      "taplo", -- toml
+      "yamlls",
+      -- react, vue
+      "eslint",
+      "tsserver",
+      "volar",
+      -- "denols",
+      "ltex", -- latex
+      -- R, Matlab, python
+      "jedi_language_server",
+      "wgsl_analyzer",
+      "matlab_ls",
+    },
+  })
   require("mason-lspconfig").setup_handlers({
     function(server_name)
       local opts = {}
+
+      -- volar を読み込む際には tsserver 系統も全て利用する
+      if server_name == "volar" then
+          opts.filetypes = {
+            'typescript',
+            'javascript',
+            'javascriptreact',
+            'typescriptreact',
+            'vue',
+            'json'
+          }
+      end
+
       opts.on_attach = function(_, bufnr)
         local bufopts = { silent = true, buffer = bufnr }
 
@@ -272,6 +305,9 @@ require("formatter").setup {
     },
     javascript = {
       require("formatter.filetypes.javascript").prettier
+    },
+    typescript = {
+      require("formatter.filetypes.typescript").prettier
     },
     vue = {
       require("formatter.filetypes.vue").prettier
