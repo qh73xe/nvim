@@ -62,7 +62,6 @@ lua_source = '''
   require("mason-lspconfig").setup_handlers({
     function(server_name)
       local opts = {}
-
       -- volar を読み込む際には tsserver 系統も全て利用する
       if server_name == "volar" then
           opts.filetypes = {
@@ -221,6 +220,11 @@ on_source = 'ddc.vim'
 hook_source = '''
 call popup_preview#enable()
 '''
+
+[[plugins]] # copilot
+repo = 'github/copilot.vim'
+on_event = 'FileType'  # filetype が特定された時に読み込む
+
 
 # ===================================================
 # UI 制御
