@@ -1,1 +1,21 @@
 extends markdown
+snippet	quickstart
+abbr	|STORYBOOK| QUICKSTART
+options	head
+	{/* ${1:#app}.mdx */}
+
+	import { Canvas, Meta, Controls } from '@storybook/blocks';
+	import * as Stories from './$1.stories';
+
+	<Meta of={Stories} />
+
+	# $1
+
+	${2:#disc}
+
+	<Canvas of={Stories.$1Story} />
+	<Controls />
+
+	## 要件定義
+
+	${3:#disc}
