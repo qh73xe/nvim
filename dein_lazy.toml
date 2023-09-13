@@ -2,16 +2,115 @@
 # .config/nvim/dein_lazy.toml
 # ===========================================
 #
-# 遅延読み込み系プラグイン管理
-#
-[[plugins]]  # vim interface framework
-depends = ['denops.vim']
-repo = 'Shougo/ddu.vim'
+# nvim のプラグインの内, 非同期読み込みを行うライブラリの設定を記述します.
+
+# ====================================================
+# LanguageClient
+# ====================================================
+[[plugins]]
+repo = 'neovim/nvim-lspconfig'
+on_event = 'FileType'
+depends = ['nvim-web-devicons']
+lua_source = '''
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
+)
+'''
+
+[[plugins]]
+repo ='williamboman/mason.nvim'
+on_source = 'mason-lspconfig.nvim'
+lua_source = '''
+require('mason').setup({
+  ui = {
+    icons = {
+      package_installed = "✓",
+      package_pending = "➜",
+      package_uninstalled = "✗"
+    }
+  }
+})
+'''
+
+[[plugins]]
+repo ='williamboman/mason-lspconfig.nvim'
+on_source = 'nvim-lspconfig'
+depends = ['nvim-lspconfig']
+lua_source = '''
+  local nvim_lsp = require('lspconfig')
+  require("mason-lspconfig").setup({
+    ensure_installed = {
+      "dockerls",
+      "docker_compose_language_service",
+      "dotls",
+      "lua_ls",
+      "marksman",
+      "taplo", -- toml
+      "yamlls",
+      -- react, vue
+      "eslint",
+      "tsserver",
+      "volar",
+      -- "denols",
+      "ltex", -- latex
+      -- R, Matlab, python
+      "wgsl_analyzer",
+      "matlab_ls",
+    },
+  })
+  require("mason-lspconfig").setup_handlers({
+    function(server_name)
+      local opts = {}
+
+      if server_name == "tsserver" then
+        local root_dir = nvim_lsp.util.root_pattern("App.vue")
+        local is_vue_repo = root_dir(vim.api.nvim_buf_get_name(0)) ~= nil
+        if not vue_pattern then
+          return
+        end
+      end
+      -- volar を読み込む際には tsserver 系統も全て利用する
+      if server_name == "volar" then
+          opts.filetypes = {
+            'typescript',
+            'javascript',
+            'javascriptreact',
+            'typescriptreact',
+            'vue',
+            'json'
+          }
+      end
+
+      opts.on_attach = function(_, bufnr)
+        local bufopts = { silent = true, buffer = bufnr }
+
+        -- カーソル下の変数の情報の取得
+        vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+
+        -- 定義ジャンプ
+        vim.keymap.set('n', '<C-n>', vim.lsp.buf.definition, bufopts)
+        vim.keymap.set('n', '<C-N>', vim.lsp.buf.implementation, bufopts)
+
+        -- 変数参照先の一覧を取得
+        vim.keymap.set('n', '<leader>r', vim.lsp.buf.references, bufopts)
+
+        -- Error/Warning/Hint の実行可能な修正の候補を表示
+        vim.keymap.set('n', '<leader>h', vim.lsp.buf.code_action, bufopts)
+
+        -- フォーマットの実施
+        vim.keymap.set('n', '<leader><Enter>', vim.lsp.buf.format, bufopts)
+
+      end
+      nvim_lsp[server_name].setup(opts)
+    end
+  })
+'''
+
 
 # ====================================================
 # 編集支援
 # ====================================================
-[[plugins]]
+[[plugins]] # コード補完
 repo = 'Shougo/ddc.vim'
 on_event = 'InsertEnter'
 depends = ['denops.vim']
@@ -42,29 +141,28 @@ call ddc#custom#patch_global('sourceOptions', {
 \     'forceCompletionPattern': '\.\w*|:\w*|->\w*',
 \   },
 \ })
-
 call ddc#custom#patch_global('sourceParams', {
 \     'around': {'maxSize': 500},
 \ })
-
-call ddc#custom#patch_global('completionMenu', 'pum.vim')
-inoremap <silent><expr> <TAB>
-      \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' :
-      \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
-      \ '<TAB>' : ddc#map#manual_complete()
-inoremap <S-Tab> <Cmd>call pum#map#insert_relative(-1)<CR>
-inoremap <C-n>   <Cmd>call pum#map#select_relative(+1)<CR>
-inoremap <C-p>   <Cmd>call pum#map#select_relative(-1)<CR>
-inoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
-inoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
-inoremap <silent><expr> <TAB>
-
 call ddc#enable()
 '''
 
-[[plugins]]
+[[plugins]] # 補完用ポップアップ
 repo = 'Shougo/pum.vim'
 on_source = 'ddc.vim'
+hook_source = '''
+" ddc と pum を接続させる
+call ddc#custom#patch_global('ui', 'pum.vim')
+
+inoremap <C-n>   <Cmd>call pum#map#select_relative(+1)<CR>  " 補完候補を一つ進める
+inoremap <C-p>   <Cmd>call pum#map#select_relative(-1)<CR>  " 補完候補を一つ戻す
+" 補完候補を一つ戻す
+inoremap <silent><expr> <TAB>
+  \ pumvisible() ? '<C-n>' :
+  \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
+  \ '<TAB>' : ddc#map#manual_complete()
+inoremap <expr><S-TAB>  pumvisible() ? '<C-p>' : '<C-h>'
+'''
 
 [[plugins]]
 repo = 'Shougo/ddc-matcher_head'
@@ -86,31 +184,18 @@ on_source = 'ddc.vim'
 repo = 'Shougo/ddc-ui-native'
 on_source = 'ddc.vim'
 
-
 [[plugins]] # 周辺単語補完ソース
 repo = 'Shougo/ddc-around'
 on_source = 'ddc.vim'
 
-[[plugins]] # ラングエッジサーバー補完
+[[plugins]] # ラングエッジサーバー補完ソース
 repo = 'Shougo/ddc-nvim-lsp'
 on_source = 'ddc.vim'
 
-[[plugins]] # スニペット補完
-repo = 'Shougo/neosnippet'
-on_event = 'VimEnter'
-on_ft = ['snippet']
-depends = ['neosnippet-snippets']
-hook_source = '''
-  let g:neosnippet#enable_snipmate_compatibility = 1
-  let g:neosnippet#snippets_directory=g:ECT_DIR . '/snipets/'
-  imap <C-k> <Plug>(neosnippet_expand_or_jump)
-  smap <C-k> <Plug>(neosnippet_expand_or_jump)
-  xmap <C-k> <Plug>(neosnippet_expand_target)
-  if has('conceal')
-    set conceallevel=2 concealcursor=niv
-  endif
-'''
-#
+[[plugins]] # ddc 用スニペット補完ソース
+repo = 'uga-rosa/ddc-source-vsnip'
+on_source = 'ddc.vim'
+
 [[plugins]] # LSP 用スニペット補完
 repo = 'hrsh7th/vim-vsnip'
 on_event = 'InsertEnter'
@@ -129,172 +214,6 @@ hook_add = '''
 repo = 'LumaKernel/ddc-file'
 on_source = 'ddc.vim'
 
-
-# ====================================================
-# LanguageClient
-# ====================================================
-[[plugins]]
-repo = 'neovim/nvim-lspconfig'
-on_event = 'BufEnter'
-hook_source = '''
-lua << EOF
-  local nvim_lsp = require('lspconfig')
-  local on_attach = function (client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-  local opts = { noremap=true, silent=true }
-    buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-    buf_set_keymap('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-    buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-    buf_set_keymap('n', 'gx', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-    buf_set_keymap('n', 'g[', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-    buf_set_keymap('n', 'g]', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  end
-
-  require('mason').setup({
-    ui = {
-      icons = {
-        package_installed = "✓",
-        package_pending = "➜",
-        package_uninstalled = "✗"
-      }
-    }
-  })
-  require("mason-lspconfig").setup({
-      ensure_installed = { "lua_ls", "rust_analyzer" }
-  })
-  require("mason-lspconfig").setup_handlers({
-    function(server_name)
-      local opts = {}
-      opts.on_attach = function(_, bufnr)
-        local bufopts = { silent = true, buffer = bufnr }
-        vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-        vim.keymap.set('n', 'gtD', vim.lsp.buf.type_definition, bufopts)
-        vim.keymap.set('n', 'grf', vim.lsp.buf.references, bufopts)
-        vim.keymap.set('n', '<space>p', vim.lsp.buf.format, bufopts)
-      end
-      nvim_lsp[server_name].setup(opts)
-    end
-  })
-
-  -- build-in LSP function
-  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
-  )
-  -- keyboard shortcut
-  -- 診断結果の表示
-  vim.api.nvim_set_keymap(
-    'n', '<Leader><Leader>',
-    '<cmd>lua vim.diagnostic.open_float()<CR>',
-    { noremap = true, silent = true }
-  )
-  -- 次の診断結果に移動
-  vim.api.nvim_set_keymap(
-    'n', '<Leader><Leader>k',
-    '<cmd>lua vim.diagnostic.goto_prev()<CR>',
-    { noremap = true, silent = true }
-  )
-  -- 前の診断結果に移動
-  vim.api.nvim_set_keymap(
-    'n', '<Leader><Leader>j',
-    '<cmd>lua vim.diagnostic.goto_next()<CR>',
-    { noremap = true, silent = true }
-  )
-  -- 診断結果一覧をメッセージに表示
-  vim.api.nvim_set_keymap(
-    'n', '<Leader><Leader>i',
-    '<cmd>lua vim.diagnostic.setloclist()<CR>',
-    { noremap = true, silent = true }
-  )
-  -- Mark
-  local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-  for type, icon in pairs(signs) do
-    local hl = "DiagnosticSign" .. type
-    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-  end
-  -- 診断メッセージ内容の変更
-  vim.diagnostic.config({
-    virtual_text = {
-      -- source = "always",  -- Or "if_many"
-      prefix = '●', -- Could be '■', '▎', 'x'
-    },
-    severity_sort = true,
-    float = {
-      source = "always",  -- Or "if_many"
-    },
-  })
-EOF
-'''
-
-[[plugins]]
-repo ='williamboman/mason-lspconfig.nvim'
-on_source = 'nvim-lspconfig'
-
-
-[[plugins]]
-repo ='williamboman/mason.nvim'
-on_source = 'nvim-lspconfig'
-
-[[plugins]]
-repo ='folke/trouble.nvim'
-on_source = 'nvim-lspconfig'
-depends = ['nvim-web-devicons']
-hook_source = '''
-lua << EOF
-  require("trouble").setup {
-    position = "bottom", -- position of the list can be: bottom, top, left, right
-    height = 10, -- height of the trouble list when position is top or bottom
-    width = 50, -- width of the list when position is left or right
-    icons = true, -- use devicons for filenames
-    mode = "workspace_diagnostics", -- "workspace_diagnostics", "document_diagnostics", "quickfix", "lsp_references", "loclist"
-    fold_open = "", -- icon used for open folds
-    fold_closed = "", -- icon used for closed folds
-    group = true, -- group results by file
-    padding = true, -- add an extra new line on top of the list
-    action_keys = { -- key mappings for actions in the trouble list
-        -- map to {} to remove a mapping, for example:
-        -- close = {},
-        close = "q", -- close the list
-        cancel = "<esc>", -- cancel the preview and get back to your last window / buffer / cursor
-        refresh = "r", -- manually refresh
-        jump = {"<cr>"}, -- jump to the diagnostic or open / close folds
-        open_split = { "<c-x>" }, -- open buffer in new split
-        open_vsplit = { "<c-v>" }, -- open buffer in new vsplit
-        open_tab = { "<c-t>" }, -- open buffer in new tab
-        jump_close = {"o"}, -- jump to the diagnostic and close the list
-        toggle_mode = "m", -- toggle between "workspace" and "document" diagnostics mode
-        toggle_preview = "P", -- toggle auto_preview
-        hover = "K", -- opens a small popup with the full multiline message
-        preview = "p", -- preview the diagnostic location
-        close_folds = {"zM", "zm"}, -- close all folds
-        open_folds = {"zR", "zr"}, -- open all folds
-        toggle_fold = {"zA", "za"}, -- toggle fold of current file
-        previous = "k", -- previous item
-        next = "j" -- next item
-    },
-    indent_lines = true, -- add an indent guide below the fold icons
-    auto_open = false, -- automatically open the list when you have diagnostics
-    auto_close = false, -- automatically close the list when you have no diagnostics
-    auto_preview = true, -- automatically preview the location of the diagnostic. <esc> to close preview and go back to last window
-    auto_fold = false, -- automatically fold a file trouble list at creation
-    auto_jump = {"lsp_definitions"}, -- for the given modes, automatically jump if there is only a single result
-    signs = {
-        -- icons / text used for a diagnostic
-        error = "",
-        warning = "",
-        hint = "",
-        information = "",
-        other = "﫠"
-    },
-    use_diagnostic_signs = false -- enabling this will use the signs defined in your lsp client
-  }
-EOF
-'''
-
-
 [[plugins]]
 repo = 'matsui54/denops-signature_help'
 on_source = 'ddc.vim'
@@ -309,9 +228,18 @@ hook_source = '''
 call popup_preview#enable()
 '''
 
+[[plugins]] # copilot
+repo = 'github/copilot.vim'
+on_event = 'FileType'  # filetype が特定された時に読み込む
+
+
 # ===================================================
 # UI 制御
 # ===================================================
+[[plugins]]  # vim interface framework
+depends = ['denops.vim']
+repo = 'Shougo/ddu.vim'
+
 [[plugins]]  # Indent 表示
 repo = 'nathanaelkane/vim-indent-guides'
 on_event = 'FileType'  # filetype が特定された時に読み込む
@@ -324,21 +252,12 @@ hook_post_source = '''
   :hi IndentGuidesEven guibg=#73cef4 ctermbg=81
 '''
 
-[[plugins]] # Colour Shceme
-repo = 'jacoborus/tender.vim'
-on_event = 'FileType'
-hook_source = '''
-  colorscheme tender
-'''
-
 [[plugins]] # 全角強調
 repo = 'thinca/vim-zenspace'
 on_event = 'FileType'
 hook_source = '''
   set list
-  colorscheme tender
 '''
-
 
 [[plugins]]  # AIRLINE
 repo = 'vim-airline/vim-airline'
@@ -349,173 +268,148 @@ hook_source = '''
   let g:airline_powerline_fonts = 1
 
   " tab 設定
+  let g:airline_theme = 'nord_minimal'
   let g:airline#extensions#tabline#enabled = 1
   let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
   nmap <C-p> <Plug>AirlineSelectPrevTab
   nmap <C-n> <Plug>AirlineSelectNextTab
-'''
 
-# ===================================================
-# ユーティリティ
-# ===================================================
-[[plugins]] # im 制御
-repo = 'fuenor/im_control.vim'
-on_event = 'VimEnter'
-hook_source = '''
-  set timeout timeoutlen=3000 ttimeoutlen=100
-  set formatoptions+=mM
-  set spelllang=en,cjk
-  let IM_CtrlMode = 1
-  inoremap <silent> <C-j> <C-r>=IMState('FixMode')<CR>
-  function! IMCtrl(cmd)
-    let cmd = a:cmd
-    if cmd == 'On'
-      if g:OS == "WSL"
-        let res = system("zenhan.exe 1")
-      elseif g:OS == "Darwin"
-        let res = system("osascript -e 'tell application".'"System Events"'."to key code {104}'")
-
-      else
-        let res = system('ibus engine kkc')
-      endif
-    elseif cmd == 'Off'
-      if g:OS == "WSL"
-        let res = system("zenhan.exe 0")
-      elseif g:OS == "Darwin"
-        let res = system("osascript -e 'tell application".'"System Events"'."to key code {102}'")
-      else
-        let res = system('ibus engine xkb:us::eng')
-      endif
-    endif
-    return ''
-  endfunction
-'''
-
-[[plugins]] # ローマ字を利用した検索
-repo = 'haya14busa/vim-migemo'
-on_event = 'VimEnter'
-hook_source = '''
-  set incsearch
-'''
-
-[[plugins]] # ローマ字を利用した検索
-repo = 'rhysd/migemo-search.vim'
-on_event = 'VimEnter'
-hook_post_source = '''
-  set incsearch
-  function! Migemo()
-    if hasmapto('\<CR>','c')
-        cunmap <expr><CR>
-    else
-        cnoremap <expr><CR> migemosearch#replace_search_word()."\<CR>"
-    endif
-  endfunction
-'''
-
-
-[[plugins]] # 範囲検索
-repo = 'osyo-manga/vim-operator-search'
-depends = ['vim-operator-user', 'vim-textobj-function', 'vim-textobj-user']
-hook_post_source = '''
-  nmap <Space>/ <Plug>(operator-search)if
 '''
 
 # ===================================================
 # 開発支援
 # ===================================================
+[[plugins]] # lua によるカラー支援
+repo ='folke/lsp-colors.nvim'
+on_event = 'BufEnter'
+lua_source = '''
+require("lsp-colors").setup({
+  Error = "#db4b4b",
+  Warning = "#e0af68",
+  Information = "#0db9d7",
+  Hint = "#10B981"
+})
+'''
+
 [[plugins]] # シンタッスクチェッカー
-repo = 'dense-analysis/ale'
-on_event = 'VimEnter'
-depends = ['vim-airline']
-hook_source = '''
-  let g:ale_linters_explicit = 1
-  " nvim-lsp との競合防止
-   let g:ale_disable_lsp = 1
-  " 行強調
-  let g:ale_completion_enabled = 1
-  let g:ale_sign_column_always = 1
-  let g:ale_sign_error = 'EE'
-  let g:ale_sign_warning = 'WW'
-  highlight link ALEErrorSign airline_error_red
-  highlight link ALEWarningSign PmenuSel
-
-  " ファイルセーブ時にのみ Lint を走らせる.
-  let g:ale_lint_on_text_changed = 'never'
-  let g:ale_lint_on_enter = 0
-  let g:ale_fix_on_save = 1
-
-  " エラーメッセージリスト
-  let g:ale_set_loclist = 0
-  let g:ale_set_quickfix = 1
-  let g:ale_open_list = 1
-  let g:ale_list_window_size = 5
-
-  " エラーメッセージフォーマット
-  let g:ale_echo_msg_error_str = 'E'
-  let g:ale_echo_msg_warning_str = 'W'
-  let g:ale_echo_msg_format = '[%linter%]%code: %%s'
-  let g:ale_linter_aliases = {'typescriptreact': 'typescript'}
-  let g:ale_linters = {
-  \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-  \   'tex': ['chktex'],
-  \   'javascript': ['eslint'],
-  \   'typescript': ['eslint'],
-  \   'typescriptreact': ['eslint'],
-  \   'vue': ['eslint'],
-  \   'ruby': ['rubocop'],
-  \   'eruby': ['rubocop', 'prettier'],
-  \   'python': ['flake8', 'mypy', 'pycodestyle'],
-  \   'html': ['prettier'],
-  \   'htmldjango': ['prettier'],
-  \   'json': ['jq'],
-  \   'sh': ['shellcheck'],
-  \   'css': ['stylelint'],
-  \   'sass': ['sasslint'],
-  \   'rst': [],
-  \}
-  let g:ale_fixers = {
-  \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-  \   'python': ['isort', 'yapf'],
-  \   'json': ['jq'],
-  \   'ruby': ['rubocop'],
-  \   'eruby': ['prettier'],
-  \   'html': ['prettier'],
-  \   'css': ['prettier'],
-  \   'sass': ['prettier'],
-  \   'less': ['prettier'],
-  \   'javascript': ['prettier', 'eslint'],
-  \   'typescript': ['prettier', 'eslint'],
-  \   'typescriptreact': ['prettier', 'eslint'],
-  \   'jsx': ['prettier'],
-  \   'vue': ['prettier', 'eslint'],
-  \   'md': ['prettier'],
-  \}
-  let g:ale_eruby_prettier_options = '--parser html'
-
-  " lint 対応
-  let g:airline#extensions#ale#enabled = 1
-  let g:airline#extensions#ale#open_lnum_symbol = '('
-  let g:airline#extensions#ale#close_lnum_symbol = ')'
-
-  " KeyMAP
-  nmap <silent><C-k> <Plug>(ale_previous_wrap)
-  nmap <silent><C-j> <Plug>(ale_next_wrap)
+repo ='folke/trouble.nvim'
+on_source = 'nvim-lspconfig'
+depends = ['nvim-web-devicons']
+lua_source = '''
+  require("trouble").setup {
+    use_diagnostic_signs = true
+  }
+  vim.keymap.set("n", "Q", function() require("trouble").open() end)
 '''
 
-[[plugins]]
-repo = 'thinca/vim-quickrun'
+[[plugins]] # コードフォーマッター
+repo = 'mhartington/formatter.nvim'
 on_event = 'FileType'
-on_ft = ['tex', 'latex']
-hook_source = '''
-  let g:quickrun_config = {
-  \   'tex': {
-  \       'command': 'latexmk',
-  \       'exec': ['%c -gg -pdfdvi %s', 'xdg-open %s:r.pdf']
-  \   },
-  \}
-  let g:quickrun_no_default_key_mappings = 1
+lua_source = '''
+local util = require "formatter.util"
+require("formatter").setup {
+  -- ロギングを有効または無効にする
+  logging = false,
+  filetype = {
+    lua = {
+      require("formatter.filetypes.lua").stylua
+    },
+    javascript = {
+      require("formatter.filetypes.javascript").prettier
+    },
+    typescript = {
+      require("formatter.filetypes.typescript").prettier
+    },
+    vue = {
+      require("formatter.filetypes.vue").prettier
+    },
+    css = {
+      require("formatter.filetypes.css").prettier
+    },
+    -- デフォルトフォーマッタ構成
+    ["*"] = {
+      require("formatter.filetypes.any").remove_trailing_whitespace
+    }
+  }
+}
 '''
-#
+
+[[plugins]] # スニペット補完
+repo = 'Shougo/neosnippet'
+on_event = 'VimEnter'
+on_ft = ['snippet']
+depends = ['neosnippet-snippets']
+hook_source = '''
+  let g:neosnippet#enable_snipmate_compatibility = 1
+  let g:neosnippet#snippets_directory=g:ECT_DIR . '/snipets/'
+  imap <C-k> <Plug>(neosnippet_expand_or_jump)
+  smap <C-k> <Plug>(neosnippet_expand_or_jump)
+  xmap <C-k> <Plug>(neosnippet_expand_target)
+  if has('conceal')
+    set conceallevel=2 concealcursor=niv
+  endif
+'''
+
+[[plugins]] # 構文解析
+repo = 'nvim-treesitter/nvim-treesitter'
+on_event = 'FileType'
+hook_post_update = 'TSUpdate'
+lua_source = '''
+  require('nvim-treesitter.configs').setup {
+    ensure_installed = { 
+      "bash",
+      "csv",
+      "tsv",
+      "xml",
+      "diff",
+      "dot",
+      "ini",
+      "toml",
+      "jq",
+      "make",
+      "dockerfile",
+      -- vim
+      "vim",
+      "lua",
+      -- git
+      "git_config",
+      "git_rebase",
+      "gitattributes",
+      "gitcommit",
+      "gitignore",
+      "markdown",
+      -- python
+      "python",
+      "htmldjango",
+      "po",
+      "sql",
+      "rst",
+      "wgsl",
+      -- react, vue
+      "vue",
+      "javascript",
+      "html",
+      "typescript",
+      "tsx",
+      "css",
+      "scss",
+      "jsdoc",
+      "robot",
+      -- tex
+      "bibtex",
+      "latex",
+      -- matlab
+      "matlab",
+      "r",
+    },
+    sync_install = false,
+    auto_install = true,
+    highlight = {
+      enable = true,
+    },
+  }
+'''
+
 # --------------------------------------------------
 # Python
 # --------------------------------------------------
@@ -548,17 +442,6 @@ hook_source = '''
 '''
 
 # --------------------------------------------------
-# HTML
-# --------------------------------------------------
-[[plugins]]
-repo = 'mattn/emmet-vim'
-on_event = 'FileType'
-on_ft = ['html']
-hook_source = '''
-  let g:user_emmet_leader_key='<Space>e'
-'''
-
-# --------------------------------------------------
 # Typescript
 # --------------------------------------------------
 [[plugins]]
@@ -575,21 +458,6 @@ on_event = 'FileType'
 on_ft = ['javascript', 'typescript', 'html']
 hook_source = '''
   let g:js_indent_typescript = 1
-'''
-
-# --------------------------------------------------
-# GO LANG
-# --------------------------------------------------
-[[plugins]]
-repo = 'mattn/vim-goimports'
-
-[[plugins]]  # go
-repo = 'fatih/vim-go'
-on_ft = ['go']
-hook_add = '''
-  let g:go_fmt_command = "goimports"
-  let g:go_def_mapping_enabled = 0
-  let g:go_doc_keywordprg_enabled = 0
 '''
 
 # --------------------------------------------------

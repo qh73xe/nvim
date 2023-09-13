@@ -7,21 +7,18 @@ options	head
 # ========================================================
 # FOR VUE
 # ========================================================
-snippet	quick-story-vue
+snippet	quick-story-vue2
 abbr	|STORYBOOK-VUE| QUICKSTART
 options	head
 	import ${2:#:Component} from "./${1:#:app}.vue";
 
 	export default {
-	  title: 'Components/$2',
 	  component: $2,
 	}
 
-	const Template = (args) => ({
+	const Template = (_, { argTypes }) => ({
 	  components: { $2 },
-	  setup() {
-	    return { args }
-	  },
+	  props: { args: Object.keys(argTypes) },
 	  template: '<$2 v-bind="args" />',
 	})
 

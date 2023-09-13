@@ -24,6 +24,16 @@ hook_add = '''
   \     'start': '\v^hook_(add|source|post_source)\s\=\s'."'+$",
   \     'end': "\v^'{3}$"
   \   },
+  \   {
+  \     'filetype':'lua',
+  \     'start': '\v^lua_(add|source|post_source)\s\=\s'."'+$",
+  \     'end': "\v^'{3}$"
+  \   },
+  \   {
+  \     'filetype':'vim',
+  \     'start': '\v^hook_(add|source|post_source)\s\=\s'."'+$",
+  \     'end': "\v^'{3}$"
+  \   },
   \ ],
   \ 'python': [
   \   {
@@ -50,9 +60,6 @@ repo = "tpope/vim-fugitive"
 
 [[plugins]]  # truble.vim の依存
 repo = 'kyazdani42/nvim-web-devicons'
-
-[[plugins]]  # truble.vim の依存
-repo = 'folke/lsp-colors.nvim'
 
 # ====================================================
 # 編集支援
@@ -85,23 +92,6 @@ hook_add = '''
   vnoremap <silent> <Space>o :OverCommandLine<CR>s//g<Left><Left>
   nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
 '''
-
-# ====================================================
-# Ctags
-# ====================================================
-# [[plugins]]
-# # this plugins is require global
-# # Run `sudo apt install global`
-# repo = 'jsfaint/gen_tags.vim'
-# hook_add = '''
-#   let g:gen_tags#ctags_auto_gen = 1
-# '''
-#
-# [[plugins]]
-# repo = 'majutsushi/tagbar'
-# hook_add = '''
-#   nmap <Leader>t :TagbarToggle<CR>
-# '''
 
 # ====================================================
 # 英語支援
@@ -170,7 +160,6 @@ repo = 'kana/vim-textobj-function'
  command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 '''
 
-
 # ============================================
 # file type / syntax の追加
 # ============================================
@@ -189,3 +178,9 @@ repo = 'elzr/vim-json'
 
 [[plugins]]  # mdx
 repo = 'findango/vim-mdx'
+
+[[plugins]] # Colour Shceme
+repo = 'shaunsingh/nord.nvim'
+hook_add = '''
+  au MyAutoCmd VimEnter * nested colorscheme nord
+'''
