@@ -307,6 +307,13 @@ repo = 'mhartington/formatter.nvim'
 on_event = 'FileType'
 lua_source = '''
 local util = require "formatter.util"
+function format_prettier()
+   return {
+     exe = "npx",
+     args = {"prettier", "--stdin-filepath", vim.api.nvim_buf_get_name(0)},
+     stdin = true
+   }
+end
 require("formatter").setup {
   -- ロギングを有効または無効にする
   logging = false,
@@ -317,9 +324,7 @@ require("formatter").setup {
     javascript = {
       require("formatter.filetypes.javascript").prettier
     },
-    typescript = {
-      require("formatter.filetypes.typescript").prettier
-    },
+    typescript = { format_prettier },
     vue = {
       require("formatter.filetypes.vue").prettier
     },
