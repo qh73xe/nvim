@@ -106,191 +106,21 @@ lua_source = '''
   })
 '''
 
-
-# ====================================================
-# 編集支援
-# ====================================================
-[[plugins]] # コード補完
-repo = 'Shougo/ddc.vim'
-on_event = 'InsertEnter'
-depends = ['denops.vim']
-hook_source = '''
-call ddc#custom#patch_global('ui', 'native')
-call ddc#custom#patch_global('sources', [
-\     'around',
-\     'nvim-lsp',
-\     'neosnippet',
-\     'vsnip',
-\     'file'
-\ ])
-call ddc#custom#patch_global('sourceOptions', {
-\   '_': {
-\     'matchers': ['matcher_head'],
-\     'sorters': ['sorter_rank'],
-\     'converters': ['converter_remove_overlap'],
-\   },
-\   'file': {
-\     'mark': 'F',
-\     'isVolatile': v:true,
-\     'forceCompletionPattern': '\S/\S*',
-\   },
-\   'around': {'mark': 'A'},
-\   'neosnippet': {'mark': 'S'},
-\   'nvim-lsp': {
-\     'mark': 'L',
-\     'forceCompletionPattern': '\.\w*|:\w*|->\w*',
-\   },
-\ })
-call ddc#custom#patch_global('sourceParams', {
-\     'around': {'maxSize': 500},
-\ })
-call ddc#enable()
-'''
-
-[[plugins]] # 補完用ポップアップ
-repo = 'Shougo/pum.vim'
-on_source = 'ddc.vim'
-hook_source = '''
-" ddc と pum を接続させる
-call ddc#custom#patch_global('ui', 'pum.vim')
-
-inoremap <C-n>   <Cmd>call pum#map#select_relative(+1)<CR>  " 補完候補を一つ進める
-inoremap <C-p>   <Cmd>call pum#map#select_relative(-1)<CR>  " 補完候補を一つ戻す
-" 補完候補を一つ戻す
-inoremap <silent><expr> <TAB>
-  \ pumvisible() ? '<C-n>' :
-  \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
-  \ '<TAB>' : ddc#map#manual_complete()
-inoremap <expr><S-TAB>  pumvisible() ? '<C-p>' : '<C-h>'
-'''
-
-[[plugins]]
-repo = 'Shougo/ddc-matcher_head'
-on_source = 'ddc.vim'
-
-[[plugins]]
-repo = 'Shougo/ddc-sorter_rank'
-on_source = 'ddc.vim'
-
-[[plugins]]
-repo = 'Shougo/ddc-source-nvim-lsp'
-on_source = 'ddc.vim'
-
-[[plugins]]
-repo = 'Shougo/ddc-converter_remove_overlap'
-on_source = 'ddc.vim'
-
-[[plugins]]
-repo = 'Shougo/ddc-ui-native'
-on_source = 'ddc.vim'
-
-[[plugins]] # 周辺単語補完ソース
-repo = 'Shougo/ddc-around'
-on_source = 'ddc.vim'
-
-[[plugins]] # ラングエッジサーバー補完ソース
-repo = 'Shougo/ddc-nvim-lsp'
-on_source = 'ddc.vim'
-
-[[plugins]] # ddc 用スニペット補完ソース
-repo = 'uga-rosa/ddc-source-vsnip'
-on_source = 'ddc.vim'
-
-[[plugins]] # LSP 用スニペット補完
-repo = 'hrsh7th/vim-vsnip'
-on_event = 'InsertEnter'
-depends = ['vim-vsnip-integ', 'friendly-snippets']
-hook_add = '''
-  imap <expr> <C-j> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-j>'
-  smap <expr> <C-j> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-j>'
-  imap <expr> <C-f> vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-f>'
-  smap <expr> <C-f> vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-f>'
-  imap <expr> <C-b> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-b>'
-  smap <expr> <C-b> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-b>'
-  let g:vsnip_filetypes = {}
-'''
-
-[[plugins]] # ファイルパス補完
-repo = 'LumaKernel/ddc-file'
-on_source = 'ddc.vim'
-
-[[plugins]]
+[[plugins]] # 型情報ヘルプ
 repo = 'matsui54/denops-signature_help'
-on_source = 'ddc.vim'
-hook_source = '''
-call signature_help#enable()
-'''
-
-[[plugins]]
-repo = 'matsui54/denops-popup-preview.vim'
-on_source = 'ddc.vim'
-hook_source = '''
-call popup_preview#enable()
-'''
-
-[[plugins]] # copilot
-repo = 'github/copilot.vim'
-on_event = 'FileType'  # filetype が特定された時に読み込む
-
-
-# ===================================================
-# UI 制御
-# ===================================================
-[[plugins]]  # vim interface framework
+on_event = 'InsertEnter'
 depends = ['denops.vim']
-repo = 'Shougo/ddu.vim'
-
-[[plugins]]  # Indent 表示
-repo = 'nathanaelkane/vim-indent-guides'
-on_event = 'FileType'  # filetype が特定された時に読み込む
 hook_source = '''
-  let g:indent_guides_start_level = 2
-  let g:indent_guides_guide_size = 1
-'''
-hook_post_source = '''
-  :hi IndentGuidesOdd  guibg=DarkGrey ctermbg=DarkGrey
-  :hi IndentGuidesEven guibg=#73cef4 ctermbg=81
-'''
-
-[[plugins]] # 全角強調
-repo = 'thinca/vim-zenspace'
-on_event = 'FileType'
-hook_source = '''
-  set list
-'''
-
-[[plugins]]  # AIRLINE
-repo = 'vim-airline/vim-airline'
-on_event = 'VimEnter'
-depends = ['vim-airline-themes']
-hook_source = '''
-  set laststatus=2
-  let g:airline_powerline_fonts = 1
-
-  " tab 設定
-  let g:airline_theme = 'nord_minimal'
-  let g:airline#extensions#tabline#enabled = 1
-  let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-  nmap <C-p> <Plug>AirlineSelectPrevTab
-  nmap <C-n> <Plug>AirlineSelectNextTab
-
+let g:signature_help_config = {
+\ contentsStyle: "full",
+\ viewStyle: "floating"
+\ }
+call signature_help#enable()
 '''
 
 # ===================================================
 # 開発支援
 # ===================================================
-[[plugins]] # lua によるカラー支援
-repo ='folke/lsp-colors.nvim'
-on_event = 'BufEnter'
-lua_source = '''
-require("lsp-colors").setup({
-  Error = "#db4b4b",
-  Warning = "#e0af68",
-  Information = "#0db9d7",
-  Hint = "#10B981"
-})
-'''
-
 [[plugins]] # シンタッスクチェッカー
 repo ='folke/trouble.nvim'
 on_source = 'nvim-lspconfig'
@@ -339,6 +169,20 @@ require("formatter").setup {
 }
 '''
 
+[[plugins]] # LSP 用スニペット補完
+repo = 'hrsh7th/vim-vsnip'
+on_event = 'InsertEnter'
+depends = ['vim-vsnip-integ', 'friendly-snippets']
+hook_add = '''
+  imap <expr> <C-j> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-j>'
+  smap <expr> <C-j> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-j>'
+  imap <expr> <C-f> vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-f>'
+  smap <expr> <C-f> vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-f>'
+  imap <expr> <C-b> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-b>'
+  smap <expr> <C-b> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-b>'
+  let g:vsnip_filetypes = {}
+'''
+
 [[plugins]] # スニペット補完
 repo = 'Shougo/neosnippet'
 on_event = 'VimEnter'
@@ -355,120 +199,6 @@ hook_source = '''
   endif
 '''
 
-[[plugins]] # 構文解析
-repo = 'nvim-treesitter/nvim-treesitter'
-on_event = 'FileType'
-hook_post_update = 'TSUpdate'
-lua_source = '''
-  require('nvim-treesitter.configs').setup {
-    ensure_installed = { 
-      "bash",
-      "csv",
-      "tsv",
-      "xml",
-      "diff",
-      "dot",
-      "ini",
-      "toml",
-      "jq",
-      "make",
-      "dockerfile",
-      -- vim
-      "vim",
-      "lua",
-      -- git
-      "git_config",
-      "git_rebase",
-      "gitattributes",
-      "gitcommit",
-      "gitignore",
-      "markdown",
-      -- python
-      "python",
-      "htmldjango",
-      "po",
-      "sql",
-      "rst",
-      "wgsl",
-      -- react, vue
-      "vue",
-      "javascript",
-      "html",
-      "typescript",
-      "tsx",
-      "css",
-      "scss",
-      "jsdoc",
-      "robot",
-      -- tex
-      "bibtex",
-      "latex",
-      -- matlab
-      "matlab",
-      "r",
-    },
-    sync_install = false,
-    auto_install = true,
-    highlight = {
-      enable = true,
-    },
-  }
-'''
-
-# --------------------------------------------------
-# Python
-# --------------------------------------------------
-[[plugins]]
-repo = 'Vimjas/vim-python-pep8-indent'
-on_event = 'FileType'
-on_ft = ['python']
-
-# --------------------------------------------------
-# Praat
-# --------------------------------------------------
-[[plugins]]
-repo = 'dopefishh/vim-praat'
-on_event = 'FileType'
-on_ft = ['praat']
-
-# --------------------------------------------------
-# Latex
-# --------------------------------------------------
-[[plugins]]
-repo = 'lervag/vimtex'
-on_ft = ['tex', 'latex']
-hook_source = '''
-  let g:tex_flavor = 'latex'
-  let g:vimtex_view_method = 'mupdf'
-  if has('nvim')
-    let g:vimtex_compiler_progname = 'nvr'
-  endif
-  call vimtex#init()
-'''
-
-# --------------------------------------------------
-# Typescript
-# --------------------------------------------------
-[[plugins]]
-repo = 'leafgarland/typescript-vim'
-on_event = 'FileType'
-on_ft = ['typescript']
-hook_source = '''
-  let g:typescript_indent_disable = 1
-'''
-
-[[plugins]]
-repo = 'jason0x43/vim-js-indent'
-on_event = 'FileType'
-on_ft = ['javascript', 'typescript', 'html']
-hook_source = '''
-  let g:js_indent_typescript = 1
-'''
-
-# --------------------------------------------------
-# MDX
-# --------------------------------------------------
-[[plugins]]
-repo = 'iamcco/markdown-preview.nvim'
-on_ft = ['mdx']
-build = 'sh -c "cd app && yarn install"'
+[[plugins]] # copilot
+repo = 'github/copilot.vim'
+on_event = 'FileType'  # filetype が特定された時に読み込む

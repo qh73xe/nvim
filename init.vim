@@ -67,7 +67,6 @@ function! LoadRC(filename)
   call Loadrc(l:rc)
 endfunction
 
-
 " -------------------------------------------------
 " Dein の設定
 " -------------------------------------------------
@@ -97,8 +96,14 @@ if dein#load_state(s:dein_dir)
   call dein#add(g:DEIN_DIR)
   let s:toml = g:ECT_DIR  . '/dein.toml'
   let s:lazy_toml = g:ECT_DIR  . '/dein_lazy.toml'
+  let s:ft_toml = g:ECT_DIR  . '/dein_ft_lazy.toml'
+  let s:ui_toml = g:ECT_DIR  . '/dein_ui_lazy.toml'
+  let s:ddc_toml = g:ECT_DIR  . '/dein_ddc_lazy.toml'
   call dein#load_toml(s:toml, {'lazy': 0})
   call dein#load_toml(s:lazy_toml, {'lazy': 1})
+  call dein#load_toml(s:ui_toml, {'lazy': 1})
+  call dein#load_toml(s:ft_toml, {'lazy': 1})
+  call dein#load_toml(s:ddc_toml, {'lazy': 1})
   call dein#end()
   call dein#save_state()
 endif
@@ -199,3 +204,4 @@ autocmd OptionSet guicursor noautocmd set guicursor=
 
 
 au BufNewFile,BufRead *.rest setf rst
+au BufNewFile,BufRead .envrc setf sh

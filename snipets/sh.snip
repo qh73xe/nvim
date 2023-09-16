@@ -1,0 +1,9 @@
+# ===============================
+# DIRENV 形の設定
+# ===============================
+snippet direnv-go
+	export GOPATH=$(pwd)
+	export PATH=$PATH::$GOPATH/bin
+
+snippet direnv-python
+	source venv/bin/activate

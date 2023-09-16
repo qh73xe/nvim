@@ -1,0 +1,101 @@
+# ====================================================
+# コード補完
+# ====================================================
+[[plugins]] # コード補完
+repo = 'Shougo/ddc.vim'
+on_event = 'InsertEnter'
+depends = ['denops.vim']
+hook_source = '''
+call ddc#custom#patch_global('ui', 'native')
+call ddc#custom#patch_global('sources', [
+\     'around',
+\     'nvim-lsp',
+\     'neosnippet',
+\     'vsnip',
+\     'file'
+\ ])
+call ddc#custom#patch_global('sourceOptions', {
+\   '_': {
+\     'matchers': ['matcher_head'],
+\     'sorters': ['sorter_rank'],
+\     'converters': ['converter_remove_overlap'],
+\   },
+\   'file': {
+\     'mark': 'F',
+\     'isVolatile': v:true,
+\     'forceCompletionPattern': '\S/\S*',
+\   },
+\   'around': {'mark': 'A'},
+\   'neosnippet': {'mark': 'S'},
+\   'nvim-lsp': {
+\     'mark': 'L',
+\     'forceCompletionPattern': '\.\w*|:\w*|->\w*',
+\   },
+\ })
+call ddc#custom#patch_global('sourceParams', {
+\   'around': {'maxSize': 500},
+\   'nvim-lsp': {
+\     snippetEngine: denops#callback#register({
+\           body -> vsnip#anonymous(body)
+\     }),
+\     enableResolveItem: v:true,
+\     enableAdditionalTextEdit: v:true,
+\   }
+\ })
+call ddc#enable()
+'''
+
+# ====================================================
+# 補完ソース
+# ====================================================
+[[plugins]] # lsp 補完ソース
+repo = 'Shougo/ddc-source-nvim-lsp'
+on_source = 'ddc.vim'
+lua_source = '''
+local capabilities = require("ddc_nvim_lsp").make_client_capabilities()
+require("lspconfig").denols.setup({
+  capabilities = capabilities,
+})
+'''
+
+[[plugins]] # スニペット補完ソース
+repo = 'uga-rosa/ddc-source-vsnip'
+on_source = 'ddc.vim'
+
+[[plugins]] # ファイルパス補完
+repo = 'LumaKernel/ddc-file'
+on_source = 'ddc.vim'
+
+[[plugins]] # 周辺単語補完ソース
+repo = 'Shougo/ddc-around'
+on_source = 'ddc.vim'
+
+# ====================================================
+# UI
+# ====================================================
+[[plugins]]
+repo = 'Shougo/ddc-ui-native'
+on_source = 'ddc.vim'
+
+# ====================================================
+# MATCHERS
+# ====================================================
+[[plugins]]
+repo = 'Shougo/ddc-matcher_head'
+on_source = 'ddc.vim'
+
+# ====================================================
+# SORTER
+# ====================================================
+[[plugins]]
+repo = 'Shougo/ddc-sorter_rank'
+on_source = 'ddc.vim'
+
+# ====================================================
+# CONVERTERS
+# ====================================================
+[[plugins]]
+repo = 'Shougo/ddc-converter_remove_overlap'
+on_source = 'ddc.vim'
+
+

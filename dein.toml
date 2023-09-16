@@ -178,9 +178,3 @@ repo = 'elzr/vim-json'
 
 [[plugins]]  # mdx
 repo = 'findango/vim-mdx'
-
-[[plugins]] # Colour Shceme
-repo = 'shaunsingh/nord.nvim'
-hook_add = '''
-  au MyAutoCmd VimEnter * nested colorscheme nord
-'''

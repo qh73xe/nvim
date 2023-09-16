@@ -1,0 +1,57 @@
+# --------------------------------------------------
+# Python
+# --------------------------------------------------
+[[plugins]]
+repo = 'Vimjas/vim-python-pep8-indent'
+on_event = 'FileType'
+on_ft = ['python']
+
+# --------------------------------------------------
+# Praat
+# --------------------------------------------------
+[[plugins]]
+repo = 'dopefishh/vim-praat'
+on_event = 'FileType'
+on_ft = ['praat']
+
+# --------------------------------------------------
+# Latex
+# --------------------------------------------------
+[[plugins]]
+repo = 'lervag/vimtex'
+on_ft = ['tex', 'latex']
+hook_source = '''
+  let g:tex_flavor = 'latex'
+  let g:vimtex_view_method = 'mupdf'
+  if has('nvim')
+    let g:vimtex_compiler_progname = 'nvr'
+  endif
+  call vimtex#init()
+'''
+
+# --------------------------------------------------
+# Typescript
+# --------------------------------------------------
+[[plugins]]
+repo = 'leafgarland/typescript-vim'
+on_event = 'FileType'
+on_ft = ['typescript']
+hook_source = '''
+  let g:typescript_indent_disable = 1
+'''
+
+[[plugins]]
+repo = 'jason0x43/vim-js-indent'
+on_event = 'FileType'
+on_ft = ['javascript', 'typescript', 'html']
+hook_source = '''
+  let g:js_indent_typescript = 1
+'''
+
+# --------------------------------------------------
+# MDX
+# --------------------------------------------------
+[[plugins]]
+repo = 'iamcco/markdown-preview.nvim'
+on_ft = ['mdx']
+build = 'sh -c "cd app && yarn install"'

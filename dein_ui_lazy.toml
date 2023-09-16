@@ -1,0 +1,155 @@
+# ===================================================
+# UI 制御
+# ===================================================
+[[plugins]]  # vim interface framework
+on_event = 'VimEnter'
+depends = ['denops.vim']
+repo = 'Shougo/ddu.vim'
+
+[[plugins]] # lua によるカラー支援
+repo ='folke/lsp-colors.nvim'
+on_event = 'BufEnter'
+lua_source = '''
+require("lsp-colors").setup({
+  Error = "#db4b4b",
+  Warning = "#e0af68",
+  Information = "#0db9d7",
+  Hint = "#10B981"
+})
+'''
+
+[[plugins]] # Colour Shceme
+repo = 'shaunsingh/nord.nvim'
+on_event = 'BufEnter'
+hook_source = '''
+  au MyAutoCmd VimEnter * nested colorscheme nord
+'''
+
+# ===================================================
+# AIRLINE
+# ===================================================
+[[plugins]]  # AIRLINE
+repo = 'vim-airline/vim-airline'
+on_event = 'VimEnter'
+depends = ['vim-airline-themes']
+hook_source = '''
+  set laststatus=2
+  let g:airline_powerline_fonts = 1
+
+  " tab 設定
+  let g:airline_theme = 'nord_minimal'
+  let g:airline#extensions#tabline#enabled = 1
+  let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+  nmap <C-p> <Plug>AirlineSelectPrevTab
+  nmap <C-n> <Plug>AirlineSelectNextTab
+
+'''
+
+# ===================================================
+# ハイライト
+# ===================================================
+[[plugins]] # 構文解析
+repo = 'nvim-treesitter/nvim-treesitter'
+on_event = 'FileType'
+hook_post_update = 'TSUpdate'
+lua_source = '''
+  require('nvim-treesitter.configs').setup {
+    ensure_installed = { 
+      "bash",
+      "csv",
+      "tsv",
+      "xml",
+      "diff",
+      "dot",
+      "ini",
+      "toml",
+      "jq",
+      "make",
+      "dockerfile",
+      -- vim
+      "vim",
+      "lua",
+      -- git
+      "git_config",
+      "git_rebase",
+      "gitattributes",
+      "gitcommit",
+      "gitignore",
+      "markdown",
+      -- python
+      "python",
+      "htmldjango",
+      "po",
+      "sql",
+      "rst",
+      "wgsl",
+      -- react, vue
+      "vue",
+      "javascript",
+      "html",
+      "typescript",
+      "tsx",
+      "css",
+      "scss",
+      "jsdoc",
+      "robot",
+      -- tex
+      "bibtex",
+      "latex",
+      -- matlab
+      "matlab",
+      "r",
+    },
+    sync_install = false,
+    auto_install = true,
+    highlight = {
+      enable = true,
+    },
+  }
+'''
+
+[[plugins]] # 全角強調
+repo = 'thinca/vim-zenspace'
+on_event = 'FileType'
+hook_source = '''
+  set list
+'''
+
+[[plugins]]  # Indent 表示
+repo = 'nathanaelkane/vim-indent-guides'
+on_event = 'FileType'  # filetype が特定された時に読み込む
+hook_source = '''
+  let g:indent_guides_start_level = 2
+  let g:indent_guides_guide_size = 1
+'''
+hook_post_source = '''
+  :hi IndentGuidesOdd  guibg=DarkGrey ctermbg=DarkGrey
+  :hi IndentGuidesEven guibg=#73cef4 ctermbg=81
+'''
+
+# ===================================================
+# POPUP
+# ===================================================
+[[plugins]] # 補完用ポップアップ
+repo = 'Shougo/pum.vim'
+on_source = 'ddc.vim'
+hook_source = '''
+" ddc と pum を接続させる
+call ddc#custom#patch_global('ui', 'pum.vim')
+inoremap <C-n>   <Cmd>call pum#map#select_relative(+1)<CR>  " 補完候補を一つ進める
+inoremap <C-p>   <Cmd>call pum#map#select_relative(-1)<CR>  " 補完候補を一つ戻す
+" 補完候補を一つ戻す
+inoremap <silent><expr> <TAB>
+  \ pumvisible() ? '<C-n>' :
+  \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
+  \ '<TAB>' : ddc#map#manual_complete()
+inoremap <expr><S-TAB>  pumvisible() ? '<C-p>' : '<C-h>'
+'''
+
+[[plugins]] # pum.vim 拡張
+repo = 'matsui54/denops-popup-preview.vim'
+on_source = 'pum.vim'
+hook_source = '''
+call popup_preview#enable()
+'''
+
