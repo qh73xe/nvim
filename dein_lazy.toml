@@ -62,15 +62,31 @@ lua_source = '''
     function(server_name)
       local opts = {}
 
-      if server_name == "tsserver" then
-        local root_dir = nvim_lsp.util.root_pattern("App.vue")
-        local is_vue_repo = root_dir(vim.api.nvim_buf_get_name(0)) ~= nil
-        if not vue_pattern then
+      -- package.json がある場合には denols の処理を止める
+      if server_name == "denols" then
+        local root_dir = nvim_lsp.util.root_pattern("package.json")
+        local is_ts_repo = root_dir(vim.api.nvim_buf_get_name(0)) ~= nil
+        if is_ts_repo then
           return
         end
       end
+
+      -- App.vue がある場合には tsserver の処理を止める
+      if server_name == "tsserver" then
+        local root_dir = nvim_lsp.util.root_pattern("*.vue")
+        local is_vue_repo = root_dir(vim.api.nvim_buf_get_name(0)) ~= nil
+        if is_vue_repo then
+          return
+        end
+      end
+
       -- volar を読み込む際には tsserver 系統も全て利用する
       if server_name == "volar" then
+        local root_dir = nvim_lsp.util.root_pattern("*.vue")
+        local is_vue_repo = root_dir(vim.api.nvim_buf_get_name(0)) ~= nil
+        if not is_vue_repo then
+          return
+        else
           opts.filetypes = {
             'typescript',
             'javascript',
@@ -79,6 +95,7 @@ lua_source = '''
             'vue',
             'json'
           }
+        end
       end
 
       opts.on_attach = function(_, bufnr)
@@ -174,12 +191,6 @@ repo = 'hrsh7th/vim-vsnip'
 on_event = 'InsertEnter'
 depends = ['vim-vsnip-integ', 'friendly-snippets']
 hook_add = '''
-  imap <expr> <C-j> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-j>'
-  smap <expr> <C-j> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-j>'
-  imap <expr> <C-f> vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-f>'
-  smap <expr> <C-f> vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-f>'
-  imap <expr> <C-b> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-b>'
-  smap <expr> <C-b> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-b>'
   let g:vsnip_filetypes = {}
 '''
 
@@ -202,3 +213,60 @@ hook_source = '''
 [[plugins]] # copilot
 repo = 'github/copilot.vim'
 on_event = 'FileType'  # filetype が特定された時に読み込む
+
+
+# ====================================================
+# git
+# ====================================================
+[[plugins]] # git 支援
+repo = 'lewis6991/gitsigns.nvim'
+on_event = 'VimEnter'
+lua_source = '''
+require('gitsigns').setup {
+  signs = {
+    add          = { text = '➕' },
+    change       = { text = '✨' },
+    delete       = { text = '➖' },
+    topdelete    = { text = '‾' },
+    changedelete = { text = '🔥' },
+    untracked    = { text = '┆' },
+  },
+  signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
+  numhl      = true, -- Toggle with `:Gitsigns toggle_numhl`
+  linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
+  word_diff  = false, -- Toggle with `:Gitsigns toggle_word_diff`
+  watch_gitdir = {
+    follow_files = true
+  },
+  attach_to_untracked = true,
+  current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+  current_line_blame_opts = {
+    virt_text = true,
+    virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+    delay = 1000,
+    ignore_whitespace = false,
+  },
+  current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
+  sign_priority = 6,
+  update_debounce = 100,
+  status_formatter = nil, -- Use default
+  max_file_length = 40000, -- Disable if file is longer than this (in lines)
+  preview_config = {
+    -- Options passed to nvim_open_win
+    border = 'single',
+    style = 'minimal',
+    relative = 'cursor',
+    row = 0,
+    col = 1
+  },
+  yadm = {
+    enable = false
+  },
+  on_attach = function(bufnr)
+    local gs = package.loaded.gitsigns
+    local bufopts = { silent = true, buffer = bufnr }
+    -- カーソル下の変数の情報の取得
+    vim.keymap.set('n', '<leader>hb', function() gs.blame_line{full=false} end, bufopts)
+  end
+}
+'''

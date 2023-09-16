@@ -29,17 +29,18 @@ call ddc#custom#patch_global('sourceOptions', {
 \   'neosnippet': {'mark': 'S'},
 \   'nvim-lsp': {
 \     'mark': 'L',
+\     'keywordPattern': '\k+',
 \     'forceCompletionPattern': '\.\w*|:\w*|->\w*',
 \   },
 \ })
 call ddc#custom#patch_global('sourceParams', {
 \   'around': {'maxSize': 500},
 \   'nvim-lsp': {
-\     snippetEngine: denops#callback#register({
+\     'snippetEngine': denops#callback#register({
 \           body -> vsnip#anonymous(body)
 \     }),
-\     enableResolveItem: v:true,
-\     enableAdditionalTextEdit: v:true,
+\     'enableResolveItem': v:true,
+\     'enableAdditionalTextEdit': v:true,
 \   }
 \ })
 call ddc#enable()

@@ -47,19 +47,7 @@ hook_add = '''
 '''
 
 [[plugins]]
-repo = 'hrsh7th/vim-vsnip-integ'
-
-[[plugins]]
 repo = 'rafamadriz/friendly-snippets'
-
-[[plugins]] # git 表示
-repo = "airblade/vim-gitgutter"
-
-[[plugins]] # git 操作
-repo = "tpope/vim-fugitive"
-
-[[plugins]]  # truble.vim の依存
-repo = 'kyazdani42/nvim-web-devicons'
 
 # ====================================================
 # 編集支援
@@ -92,12 +80,6 @@ hook_add = '''
   vnoremap <silent> <Space>o :OverCommandLine<CR>s//g<Left><Left>
   nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
 '''
-
-# ====================================================
-# 英語支援
-# ====================================================
-[[plugins]] # vimからlookコマンドを使用する
-repo = 'ujihisa/neco-look'
 
 # ====================================================
 # Text Object 管理

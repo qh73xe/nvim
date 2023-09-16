@@ -25,6 +25,10 @@ hook_source = '''
   au MyAutoCmd VimEnter * nested colorscheme nord
 '''
 
+[[plugins]] # icon 利用
+on_event = 'BufEnter'
+repo = 'kyazdani42/nvim-web-devicons'
+
 # ===================================================
 # AIRLINE
 # ===================================================
@@ -152,4 +156,3 @@ on_source = 'pum.vim'
 hook_source = '''
 call popup_preview#enable()
 '''
-
