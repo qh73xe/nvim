@@ -3,6 +3,13 @@
 " =================================================
 "
 " VIM (nvim) の基本設定及びを記述
+"
+" -------------------------------------------
+" ファイルタイプの共有
+" -------------------------------------------
+au BufNewFile,BufRead *.rest setf rst
+au BufNewFile,BufRead .envrc setf sh
+au BufNewFile,BufRead requirements.txt setf config
 
 " -------------------------------------------------
 " OS 判定
@@ -201,7 +208,3 @@ colorscheme desert
 " -------------------------------------------
 set guicursor=
 autocmd OptionSet guicursor noautocmd set guicursor=
-
-
-au BufNewFile,BufRead *.rest setf rst
-au BufNewFile,BufRead .envrc setf sh
