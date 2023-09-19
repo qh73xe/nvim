@@ -44,69 +44,65 @@ lua_source = '''
       "docker_compose_language_service",
       "dotls",
       "lua_ls",
-      "marksman",
       "taplo", -- toml
       "yamlls",
-      -- react, vue
+      -- react, vue, deno
       "eslint",
       "tsserver",
       "volar",
       "denols",
-      "ltex", -- latex
-      -- R, Matlab, python
-      "wgsl_analyzer",
-      "matlab_ls",
+      -- latex
+      "ltex",
+      -- python
+      "pylsp",
     },
   })
   require("mason-lspconfig").setup_handlers({
     function(server_name)
       local opts = {}
+
+      -- JS 関連の LSP 選択
       local node_root_dir = nvim_lsp.util.root_pattern("package.json")
-      local vue_root_dir = nvim_lsp.util.root_pattern("*.vue")
-
       local is_node_repo = node_root_dir(vim.api.nvim_buf_get_name(0)) ~= nil
-      local is_vue_repo = vue_root_dir(vim.api.nvim_buf_get_name(0)) ~= nil
 
-      -- volar を読み込む際には tsserver 系統も全て利用する
+      local react_root_dir = nvim_lsp.util.root_pattern("main.tsx")
+      local is_react_repo = react_root_dir(vim.api.nvim_buf_get_name(0)) ~= nil
+
       if server_name == "volar" then
-          opts.filetypes = {
-            'typescript',
-            'javascript',
-            'javascriptreact',
-            'typescriptreact',
-            'vue',
-            'json'
-          }
-          opts.root_dir = node_root_dir
-      -- App.vue がある場合には tsserver の処理を止める
-      elseif server_name == "tsserver" then
-        if not is_node_repo and not is_vue_repo then
+        -- package.json 配下でなければ利用しない
+        if not is_node_repo then
+          return
+        -- main.tsx 配下では利用しない
+        elseif is_react_repo then
           return
         end
-        opts.root_dir = node_root_dir
+        opts.filetypes = {
+          'typescript',
+          'javascript',
+          'javascriptreact',
+          'typescriptreact',
+          'vue',
+          'json'
+        }
+      -- App.vue がある場合には tsserver の処理を止める
+      elseif server_name == "tsserver" then
+        -- package.json 配下でなければ利用しない
+       if not is_node_repo then
+          return
+        -- main.tsx 配下ではなければ利用しない
+        elseif not is_react_repo then
+          return
+        end
       elseif server_name == "eslint" then
+        -- package.json 配下でなければ利用しない
         if not is_node_repo then
           return
         end
-      -- package.json がある場合には denols の処理を止める
+      -- package.json 配下では利用しない
       elseif server_name == "denols" then
         if is_node_repo then
           return
         end
-        opts.root_dir = nvim_lsp.util.root_pattern("deno.json", "deno.jsonc", "deps.ts", "import_map.json")
-        opts.init_options = {
-          lint = true,
-          unstable = true,
-          suggest = {
-            imports = {
-              hosts = {
-                ["https://deno.land"] = true,
-                ["https://cdn.nest.land"] = true,
-                ["https://crux.land"] = true
-              }
-            }
-          }
-        }
       end
       opts.on_attach = function(_, bufnr)
         local bufopts = { silent = true, buffer = bufnr }
