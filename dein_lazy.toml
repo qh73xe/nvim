@@ -37,7 +37,6 @@ repo ='williamboman/mason-lspconfig.nvim'
 on_source = 'nvim-lspconfig'
 depends = ['nvim-lspconfig']
 lua_source = '''
-  local nvim_lsp = require('lspconfig')
   require("mason-lspconfig").setup({
     ensure_installed = {
       "dockerls",
@@ -57,10 +56,14 @@ lua_source = '''
       "pylsp",
     },
   })
+
+  local nvim_lsp = require('lspconfig')
+  local capabilities = require("ddc_nvim_lsp").make_client_capabilities()
   require("mason-lspconfig").setup_handlers({
     function(server_name)
-      local opts = {}
-
+      local opts = {
+        capabilities = capabilities,
+      }
       -- JS 関連の LSP 選択
       local node_root_dir = nvim_lsp.util.root_pattern("package.json")
       local is_node_repo = node_root_dir(vim.api.nvim_buf_get_name(0)) ~= nil

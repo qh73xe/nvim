@@ -3,7 +3,7 @@
 # ====================================================
 [[plugins]] # コード補完
 repo = 'Shougo/ddc.vim'
-on_event = 'InsertEnter'
+on_event = 'FileType'
 depends = ['denops.vim']
 hook_source = '''
 call ddc#custom#patch_global('ui', 'native')
@@ -52,12 +52,6 @@ call ddc#enable()
 [[plugins]] # lsp 補完ソース
 repo = 'Shougo/ddc-source-nvim-lsp'
 on_source = 'ddc.vim'
-lua_source = '''
-local capabilities = require("ddc_nvim_lsp").make_client_capabilities()
-require("lspconfig").denols.setup({
-  capabilities = capabilities,
-})
-'''
 
 [[plugins]] # スニペット補完ソース
 repo = 'uga-rosa/ddc-source-vsnip'
@@ -98,5 +92,3 @@ on_source = 'ddc.vim'
 [[plugins]]
 repo = 'Shougo/ddc-converter_remove_overlap'
 on_source = 'ddc.vim'
-
-
