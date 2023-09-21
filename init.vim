@@ -11,6 +11,9 @@ au BufNewFile,BufRead *.rest setf rst
 au BufNewFile,BufRead .envrc setf sh
 au BufNewFile,BufRead requirements.txt setf config
 
+au InsertEnter * setlocal conceallevel=0
+au InsertLeave * setlocal conceallevel=2
+
 " -------------------------------------------------
 " OS 判定
 " -------------------------------------------------
