@@ -20,6 +20,29 @@ abbr	|TYPESCRIPT| DEPRECATED
 	/** @deprecated */
 
 # ========================================================
+# Vue/Storybook
+# ========================================================
+snippet	quickstart-storybook-vue3
+abbr	|Storybook| VUE3
+options	head
+	import type { Meta, StoryObj } from '@storybook/vue3';
+	import ${2:#:Component} from "./${1:#:app}";
+
+	const meta: Meta<typeof $2> = {
+	  component: $2,
+	  tags: ['autodocs'],
+	} satisfies Meta<typeof $2>;
+	export default meta;
+
+	type Story = StoryObj<typeof meta>;
+	export const $2Story: Story = {
+	  args: {
+		${3:#:args}
+	  },
+	};
+
+
+# ========================================================
 # React/Recoil
 # ========================================================
 snippet	quickstart-atom

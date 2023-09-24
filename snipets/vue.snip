@@ -3,12 +3,14 @@ snippet     comment
 
 snippet     quick-start
 options     head
-	<template>
-		${1:TARGET}
-	</template>
 	<script setup lang="ts">
 		import { ref } from 'vue'
 	</script>
+
+	<template>
+		<slot />
+	</template>
+
 
 snippet     v-script
 options     head
