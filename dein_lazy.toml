@@ -181,6 +181,10 @@ require("formatter").setup {
     css = {
       require("formatter.filetypes.css").prettier
     },
+    python = {
+      require("formatter.filetypes.python").yapf,
+      require("formatter.filetypes.python").isort
+    },
     -- デフォルトフォーマッタ構成
     ["*"] = {
       require("formatter.filetypes.any").remove_trailing_whitespace
