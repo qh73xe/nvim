@@ -86,8 +86,16 @@ options	head
 snippet	v-emit
 abbr	|VUE-SETUP| EMITS
 	const emit = defineEmits<{
-		(e: '${1:#emit}', value: ${2:#value}): void
+		${1:#emit}: [${2:#key}: ${3:unknown}];
 	}>()
+snippet	v-props
+abbr	|VUE-SETUP| PROPS
+	export interface ${1:#PropType} {
+	  ${2:#prop}: ${3:unknown};
+	}
+	
+	const props = withDefaults(defineProps<$1>(), {});
+
 
 # ========================================================
 # ES-LINT

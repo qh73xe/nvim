@@ -185,6 +185,9 @@ require("formatter").setup {
       require("formatter.filetypes.python").yapf,
       require("formatter.filetypes.python").isort
     },
+    json = {
+      require("formatter.filetypes.json").prettier
+    },
     -- デフォルトフォーマッタ構成
     ["*"] = {
       require("formatter.filetypes.any").remove_trailing_whitespace
