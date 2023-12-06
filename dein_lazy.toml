@@ -52,13 +52,11 @@ lua_source = '''
       "denols",
       -- latex
       "ltex",
-      -- python
-      "pylsp",
     },
   })
 
   local nvim_lsp = require('lspconfig')
-  local capabilities = require("ddc_nvim_lsp").make_client_capabilities()
+  local capabilities = require("ddc_source_lsp").make_client_capabilities()
   require("mason-lspconfig").setup_handlers({
     function(server_name)
       local opts = {
