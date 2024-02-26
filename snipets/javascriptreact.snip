@@ -1,0 +1,30 @@
+snippet	quickstart
+abbr	|REACT| QUICKSTART
+options	head
+	import React from "react";
+
+	/** ${2:#:disc} */
+	const ${1:#app} = React.memo((props) => {
+		console.log(props);
+		return ();
+	});
+	$1.displayName = "$1";
+	export default $1;
+
+
+snippet	quickstart-story
+abbr	|STORYBOOK| QUICKSTART
+options	head
+	import ${2:#:Component} from "./${1:#:app}";
+	const meta = {
+	  component: $2,
+	  parameters: { fileName: __filename },
+	};
+	export default meta;
+
+	export const $2Story = {
+	  args: {
+		${3:#:args}
+	  },
+	};
+

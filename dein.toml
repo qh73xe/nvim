@@ -3,6 +3,10 @@
 # ====================================================
 [[plugins]]  # deno: 次世代暗黒系プラグラインの前提になりそう
 repo = 'vim-denops/denops.vim'
+hook_add = '''
+let g:denops_disable_version_check = 1
+let g:denops#debug = 1
+'''
 
 [[plugins]]  # プラグイン管理
 repo = 'Shougo/dein.vim'
