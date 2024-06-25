@@ -39,19 +39,24 @@ depends = ['nvim-lspconfig']
 lua_source = '''
   require("mason-lspconfig").setup({
     ensure_installed = {
+      -- docker, docker-compose
       "dockerls",
       "docker_compose_language_service",
-      "dotls",
-      "lua_ls",
-      "taplo", -- toml
-      "yamlls",
       -- react, vue, deno
       "eslint",
       "tsserver",
       "volar",
       "denols",
-      -- latex
-      "ltex",
+      -- python
+      "pyright",
+      "pylsp",
+      -- utils
+      "lua_ls", -- lua
+      "dotls", -- dotfile
+      "taplo", -- toml
+      "yamlls", -- yaml
+      "esbonio", -- rst
+      "ltex", -- latex
     },
   })
 
@@ -62,6 +67,13 @@ lua_source = '''
       local opts = {
         capabilities = capabilities,
       }
+      -- fileType が rst の場合 LTex を利用しない
+      if server_name == "ltex" then
+        if vim.bo.filetype == "rst" then
+          return
+        end
+      end
+
       -- JS 関連の LSP 選択
       local node_root_dir = nvim_lsp.util.root_pattern("package.json")
       local is_node_repo = node_root_dir(vim.api.nvim_buf_get_name(0)) ~= nil
@@ -151,7 +163,8 @@ on_source = 'nvim-lspconfig'
 depends = ['nvim-web-devicons']
 lua_source = '''
   require("trouble").setup {
-    use_diagnostic_signs = true
+    position = "bottom", -- position of the list can be: bottom, top, left, right
+    use_diagnostic_signs = true,
   }
   vim.keymap.set("n", "Q", function() require("trouble").open() end)
 '''

@@ -61,8 +61,8 @@ options	head
 	import type { Meta, StoryObj } from "@storybook/react";
 	import ${2:#:Component} from "./${1:#:app}";
 	const meta: Meta<typeof $2> = {
-	  component: $2,
-	  parameters: { fileName: __filename },
+		component: $2,
+		tags: ['autodocs'],
 	};
 	export default meta;
 
