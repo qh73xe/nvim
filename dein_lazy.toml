@@ -44,7 +44,7 @@ lua_source = '''
       "docker_compose_language_service",
       -- react, vue, deno
       "eslint",
-      "tsserver",
+      "ts_ls",
       "volar",
       "denols",
       -- python
@@ -97,8 +97,8 @@ lua_source = '''
           'vue',
           'json'
         }
-      -- App.vue がある場合には tsserver の処理を止める
-      elseif server_name == "tsserver" then
+      -- App.vue がある場合には ts_ls の処理を止める
+      elseif server_name == "ts_ls" then
         -- package.json 配下でなければ利用しない
        if not is_node_repo then
           return
@@ -166,6 +166,7 @@ lua_source = '''
     position = "bottom", -- position of the list can be: bottom, top, left, right
     use_diagnostic_signs = true,
   }
+  vim.keymap.set("n", "<leader><leader>", "<cmd>Trouble diagnostics toggle<cr>")
   vim.keymap.set("n", "Q", function() require("trouble").open() end)
 '''
 
