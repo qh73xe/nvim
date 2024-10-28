@@ -18,6 +18,24 @@ options	head
 	$1.displayName = "$1";
 	export default $1;
 
+snippet	quickstart-hook
+abbr	|REACT| QUICKSTARTHOOK
+options	head
+	import { useCallback } from "react";
+
+	interface ${1:#:appType} {
+	  ${2:#:func}: (${3:#:args}) => ${4:#:return};
+	}
+	interface $1Props {}
+	const ${5:#:app} = (props: $1Props): $1 => {
+	  const { } = props;
+	  const $2 = useCallback(
+	    ($3): $4 => {}, [],
+	  );
+	  return { $2 };
+	};
+	export default $5;
+
 
 snippet	comment-html
 abbr	|REACT| HTML-COMMENT
