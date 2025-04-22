@@ -39,24 +39,8 @@ depends = ['nvim-lspconfig']
 lua_source = '''
   require("mason-lspconfig").setup({
     ensure_installed = {
-      -- docker, docker-compose
-      "dockerls",
-      "docker_compose_language_service",
-      -- react, vue, deno
-      "eslint",
-      "ts_ls",
-      "volar",
       "denols",
-      -- python
-      "pyright",
-      "pylsp",
-      -- utils
       "lua_ls", -- lua
-      "dotls", -- dotfile
-      "taplo", -- toml
-      "yamlls", -- yaml
-      "esbonio", -- rst
-      "ltex", -- latex
     },
   })
 
