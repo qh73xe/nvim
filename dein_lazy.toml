@@ -18,7 +18,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 '''
 
 [[plugins]]
-repo ='williamboman/mason.nvim'
+repo = 'williamboman/mason.nvim'
 on_source = 'mason-lspconfig.nvim'
 lua_source = '''
 require('mason').setup({
@@ -33,96 +33,58 @@ require('mason').setup({
 '''
 
 [[plugins]]
-repo ='williamboman/mason-lspconfig.nvim'
+repo = 'williamboman/mason-lspconfig.nvim'
 on_source = 'nvim-lspconfig'
 depends = ['nvim-lspconfig']
 lua_source = '''
+  local nvim_lsp = require('lspconfig')
   require("mason-lspconfig").setup({
     ensure_installed = {
       "denols",
       "lua_ls", -- lua
+      "ts_ls", -- TypeScript
     },
-  })
+    handlers = {
+      function(server_name)
+        local opts = {
+          capabilities = require("ddc_source_lsp").make_client_capabilities(),
+          on_attach = function(client, bufnr)
+            local bufopts = { silent = true, buffer = bufnr }
+            -- カーソル下の変数の情報の取得
+            vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
 
-  local nvim_lsp = require('lspconfig')
-  local capabilities = require("ddc_source_lsp").make_client_capabilities()
-  require("mason-lspconfig").setup_handlers({
-    function(server_name)
-      local opts = {
-        capabilities = capabilities,
-      }
-      -- fileType が rst の場合 LTex を利用しない
-      if server_name == "ltex" then
-        if vim.bo.filetype == "rst" then
-          return
-        end
-      end
+            -- 定義ジャンプ
+            vim.keymap.set('n', '<C-n>', vim.lsp.buf.definition, bufopts)
+            vim.keymap.set('n', '<C-N>', vim.lsp.buf.implementation, bufopts)
 
-      -- JS 関連の LSP 選択
-      local node_root_dir = nvim_lsp.util.root_pattern("package.json")
-      local is_node_repo = node_root_dir(vim.api.nvim_buf_get_name(0)) ~= nil
+            -- 変数参照先の一覧を取得
+            vim.keymap.set('n', '<leader>r', vim.lsp.buf.references, bufopts)
 
-      local react_root_dir = nvim_lsp.util.root_pattern("main.tsx")
-      local is_react_repo = react_root_dir(vim.api.nvim_buf_get_name(0)) ~= nil
+            -- Error/Warning/Hint の実行可能な修正の候補を表示
+            vim.keymap.set('n', '<leader>h', vim.lsp.buf.code_action, bufopts)
 
-      if server_name == "volar" then
-        -- package.json 配下でなければ利用しない
-        if not is_node_repo then
-          return
-        -- main.tsx 配下では利用しない
-        elseif is_react_repo then
-          return
-        end
-        opts.filetypes = {
-          'typescript',
-          'javascript',
-          'javascriptreact',
-          'typescriptreact',
-          'vue',
-          'json'
+            -- フォーマットの実施
+            vim.keymap.set('n', '<leader><Enter>', vim.lsp.buf.format, bufopts)
+          end
         }
-      -- App.vue がある場合には ts_ls の処理を止める
-      elseif server_name == "ts_ls" then
-        -- package.json 配下でなければ利用しない
-       if not is_node_repo then
-          return
-        -- main.tsx 配下ではなければ利用しない
-        elseif not is_react_repo then
-          return
+
+        -- 特定のサーバーに対する設定を追加
+        if server_name == "denols" then
+          opts.filetypes = { 'ts' }
+          opts.root_markwers = {
+            'deno.json',
+            'deno.jsonc',
+            'deps.ts',
+          }
+          opts.workspace_required = true
         end
-      elseif server_name == "eslint" then
-        -- package.json 配下でなければ利用しない
-        if not is_node_repo then
-          return
+        if server_name == "ts_ls" then
+          opt.root_markers = { 'package.json' }
+          opts.workspace_required = true
         end
-      -- package.json 配下では利用しない
-      elseif server_name == "denols" then
-        if is_node_repo then
-          return
-        end
+        nvim_lsp[server_name].setup(opts)
       end
-      opts.on_attach = function(_, bufnr)
-        local bufopts = { silent = true, buffer = bufnr }
-
-        -- カーソル下の変数の情報の取得
-        vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-
-        -- 定義ジャンプ
-        vim.keymap.set('n', '<C-n>', vim.lsp.buf.definition, bufopts)
-        vim.keymap.set('n', '<C-N>', vim.lsp.buf.implementation, bufopts)
-
-        -- 変数参照先の一覧を取得
-        vim.keymap.set('n', '<leader>r', vim.lsp.buf.references, bufopts)
-
-        -- Error/Warning/Hint の実行可能な修正の候補を表示
-        vim.keymap.set('n', '<leader>h', vim.lsp.buf.code_action, bufopts)
-
-        -- フォーマットの実施
-        vim.keymap.set('n', '<leader><Enter>', vim.lsp.buf.format, bufopts)
-
-      end
-      nvim_lsp[server_name].setup(opts)
-    end
+    }
   })
 '''
 
@@ -142,7 +104,7 @@ call signature_help#enable()
 # 開発支援
 # ===================================================
 [[plugins]] # シンタッスクチェッカー
-repo ='folke/trouble.nvim'
+repo = 'folke/trouble.nvim'
 on_source = 'nvim-lspconfig'
 depends = ['nvim-web-devicons']
 lua_source = '''
@@ -234,8 +196,7 @@ hook_source = '''
 
 [[plugins]] # copilot
 repo = 'github/copilot.vim'
-on_event = 'FileType'  # filetype が特定された時に読み込む
-
+on_event = 'VimEnter'
 
 # ====================================================
 # git
@@ -280,9 +241,6 @@ require('gitsigns').setup {
     relative = 'cursor',
     row = 0,
     col = 1
-  },
-  yadm = {
-    enable = false
   },
   on_attach = function(bufnr)
     local gs = package.loaded.gitsigns

@@ -52,65 +52,65 @@ hook_source = '''
 # ===================================================
 # ハイライト
 # ===================================================
-[[plugins]] # 構文解析
-repo = 'nvim-treesitter/nvim-treesitter'
-on_event = 'FileType'
-hook_post_update = 'TSUpdate'
-lua_source = '''
-  require('nvim-treesitter.configs').setup {
-    ensure_installed = { 
-      "bash",
-      "csv",
-      "tsv",
-      "xml",
-      "diff",
-      "dot",
-      "ini",
-      "toml",
-      "jq",
-      "make",
-      "dockerfile",
-      -- vim
-      "vim",
-      "lua",
-      -- git
-      "git_config",
-      "git_rebase",
-      "gitattributes",
-      "gitcommit",
-      "gitignore",
-      "markdown",
-      -- python
-      "python",
-      "htmldjango",
-      "po",
-      "sql",
-      "rst",
-      "wgsl",
-      -- react, vue
-      "vue",
-      "javascript",
-      "html",
-      "typescript",
-      "tsx",
-      "css",
-      "scss",
-      "jsdoc",
-      "robot",
-      -- tex
-      "bibtex",
-      "latex",
-      -- matlab
-      "matlab",
-      "r",
-    },
-    sync_install = false,
-    auto_install = true,
-    highlight = {
-      enable = true,
-    },
-  }
-'''
+# [[plugins]] # 構文解析
+# repo = 'nvim-treesitter/nvim-treesitter'
+# on_event = 'FileType'
+# hook_post_update = 'TSUpdate'
+# lua_source = '''
+#   require('nvim-treesitter.configs').setup {
+#     ensure_installed = { 
+#       "bash",
+#       "csv",
+#       "tsv",
+#       "xml",
+#       "diff",
+#       "dot",
+#       "ini",
+#       "toml",
+#       "jq",
+#       "make",
+#       "dockerfile",
+#       -- vim
+#       "vim",
+#       "lua",
+#       -- git
+#       "git_config",
+#       "git_rebase",
+#       "gitattributes",
+#       "gitcommit",
+#       "gitignore",
+#       "markdown",
+#       -- python
+#       "python",
+#       "htmldjango",
+#       "po",
+#       "sql",
+#       "rst",
+#       "wgsl",
+#       -- react, vue
+#       "vue",
+#       "javascript",
+#       "html",
+#       "typescript",
+#       "tsx",
+#       "css",
+#       "scss",
+#       "jsdoc",
+#       "robot",
+#       -- tex
+#       "bibtex",
+#       "latex",
+#       -- matlab
+#       "matlab",
+#       "r",
+#     },
+#     sync_install = false,
+#     auto_install = true,
+#     highlight = {
+#       enable = true,
+#     },
+#   }
+# '''
 
 [[plugins]] # 全角強調
 repo = 'thinca/vim-zenspace'
