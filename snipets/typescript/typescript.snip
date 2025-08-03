@@ -81,6 +81,86 @@ options	head
 	export default $2Selector;
 
 # ========================================================
+# React/Redux
+# ========================================================
+snippet	quickstart-reducer
+abbr	|Redux| REDUCER:OBJECT
+options	head
+	import { createSlice } from "@reduxjs/toolkit";
+	import type { PayloadAction } from "@reduxjs/toolkit";
+
+	export interface ${1:#type} {
+		pk: string;
+	}
+
+	export const create$1 = (args: Partial<$1>): $1 => {
+		const { pk="" } = args;
+		return {pk};
+	};
+
+	const initialState: $1 = create$1({});
+
+	export const ${2:name} = createSlice({
+		name: "$2",
+		initialState: initialState,
+		reducers: {
+			set: (state, action: PayloadAction<Partial<$1>>) => create$1({...state, ...action.payload}),
+			clear: () => initialState;
+		},
+	});
+
+	export const { actions, reducer } = $2;
+	export default reducer;
+
+
+snippet	quickstart-list-reducer
+abbr	|Redux| REDUCER:LIST
+options	head
+	import { createSlice } from "@reduxjs/toolkit";
+	import type { PayloadAction } from "@reduxjs/toolkit";
+
+	export interface ${1:#type} {
+		pk: string;
+	}
+
+	export interface $1Props extends Partial<$1> {
+	  ${2: id}: string;
+	}
+
+	export const create$1 = (args: $1Props): $1 => {
+		const { $2 } = args;
+		return { $2 };
+	};
+
+	export type $1s = Record<string, $1>;
+	const initialState: $1s = {};
+
+	export const ${3:name} = createSlice({
+		name: "$3",
+		initialState: initialState,
+		reducers: {
+			set: (_, action: PayloadAction<$1s>) => action.payload,
+			update: (state, action: PayloadAction<$1Props>) => {
+				const { pk, ...others } = create$1(action.payload);
+				if (pk) {
+					const old = state[pk];
+					const newValue = { ...old, ...others, pk };
+					state[pk] = newValue;
+				}
+				return state;
+			},
+			delete: (state, action: PayloadAction<$1Props>) => {
+			  const { pk } = create$1(action.payload);
+			  if (pk) delete state[pk];
+			  return state;
+			},
+		},
+	});
+
+	export const { actions, reducer } = $3;
+	export default reducer;
+
+# ========================================================
 # VUE-SETUP
 # ========================================================
 snippet	v-emit
@@ -93,7 +173,7 @@ abbr	|VUE-SETUP| PROPS
 	export interface ${1:#PropType} {
 	  ${2:#prop}: ${3:unknown};
 	}
-	
+
 	const props = withDefaults(defineProps<$1>(), {});
 
 
